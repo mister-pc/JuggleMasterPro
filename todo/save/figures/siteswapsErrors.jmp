@@ -1,0 +1,45 @@
+#reverseSiteswap  = user ; OK ?
+#alternateColors  = user
+#defaults         = user ; OK ?
+
+
+;^
+;£
+;   @
+;   ^  max
+^4
+£18
+;£ aux
+£beginner
+;@118
+@beginner
+3
+#style = Faux
+{1,2,3}
+{1,2,3}
+*
+{rrr}
+*
+*
+{}
+*
+
+#style = Vrai
+{1}
+
+#style = Vide
+*
+{13}
+
+    "      444==555"
+&&&&
+[43]5,,,5
+(4,0)(0,3)
+542
+543
+/[Raccourci !]
+3
+{style sans nom}
+/[Encore ?]
+4
+5

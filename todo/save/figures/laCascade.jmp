@@ -1,0 +1,4289 @@
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                            La Cascade                                                                                           ;
+;                                                                                         par Arnaud BeLO.                                                                                        ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;  Chaque ligne du fichier peut avoir une des six significations suivantes :                                                                                                                      ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                      ;
+;  1.  ; <comment>                                                   : Commentaire dans ce fichier,                                                                                               ;
+;  2.  / <comment>                                                   : Commentaire apparaissant dans la liste des figures,                                                                        ;
+;  3.  / <[title]>                                                   : Titre de chapitre apparaissant dans les listes des figures et des raccourcis,                                              ;
+;  4.  <siteswap> [<pattern name>]                                   : Figure mémorisée dans la liste avec les paramètres en cours,                                                               ;
+;  5.  # <name> = <value>                                            : Réglage d'un paramètre,                                                                                                    ;
+;  6.  {x, y, [=|-|+|#]z, [=|-|+|#]t} {x, y, [=|-|+|#]z, [=|-|+|#]t} : Définition d'un style.                                                                                                     ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;  Des abrévations sont permises pour écrire les syntaxes les plus courantes :                                                                                                                    ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                    ;
+;  -   % <name>                        : Nom de style                   - équivalent à #style  = <name>,                                                                                          ;
+;  -   ^ <value>                       : Réglage de la hauteur          - équivalent à #height = <value>,                                                                                         ;
+;  -   @ <value>                       : Réglage du pourcentage en main - équivalent à #dwell  = <value>,                                                                                         ;
+;  -   $ <values>                      : Réglage des couleurs           - équivalent à #colors = <values>,                                                                                        ;
+;  -   £ <value>                       : Réglage du niveau              - équivalent à #skill  = <value>.                                                                                         ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 1. Il est même possible de commencer un commentaire en milieu de ligne, à la suite de données.                                                                                                  ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 2. C'est pour créer un chapitre de figures dans la liste.                                                                                                                                       ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 3. C'est pour créer un chapitre de figures dans la liste, mais aussi un lien rapide vers ce chapitre.                                                                                           ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 4. Les siteswaps sont en accord avec la nomenclature habituellement usitée : caractères alphanumériques, crochets, virgule, étoile et parenthèses.                                              ;
+;    Des espaces peuvent être insérés dans le siteswap de façon à marquer des séparations entre des lancés. Le "siteswap" sera alors entouré de doubles-guillemets.                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                                                                              ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                              ;
+;    #startPattern†    =                   true*        |  false                                                                                                                                  ;
+;    #mirror           = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #siteswap         = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #siteswapThrows   = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #reverseSiteswap  = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #daySiteswap      = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (F00 | user)*                                     ;
+;    #nightSiteswap    = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (F22 | user)*                                     ;
+;                                                                                                                                                                                                 ;
+;    #style            = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #style°           =                                                   <name>                     | <inner style>*                                                                            ;
+;    #FX               = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #reverseStyle     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #balls            = global*| local | (true | user)*|  false         | <trail length 0*..50>      |  user*                          |      trail                                              ;
+;    #currentThrows    = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #juggler          = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #jugglerTrail     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #dayJuggler       = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #nightJuggler     = global*| local |  true         | (false | user)*| (phantom | user)*|  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #juggler          = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF>                                                           ;
+;    #dayJuggler       = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (444 | user)*                                     ;
+;    #nightJuggler     = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (CCC | user)*                                     ;
+;    #dayBackground    = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (FFF | user)*                                     ;
+;    #nightBackground  = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (000 | user)*                                     ;
+;    #background       = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF>              | user *                                     ;
+;                                                                                                                                                                                                 ;
+;    #colors           = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #colors°          =          local*                                 | <color sequence>                                             |         (7 | user)*                                     ;
+;    #randomColors     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #alternateColors  = global*| local |  true         | (false | user)*| [/]<period 9..1>                                             | (catch | 0 | user)* | (count      | [/]T)               ;
+;                                                                                                                                                                                                 ;
+;    #defaults         = global*| local |  true         | (false | user)*|    <number 1..9>                                             |         (1 | user)*                                     ;
+;    #relativeDefaults = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #strobe           = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;    #robot            = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;    #flash            = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;                                                                                                                                                                                                 ;
+;    #sounds           = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #catchSounds      = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #throwSounds      = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #metronome        = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #light            = global*| local | (true | user)*|  false                                                                                                                                  ;
+;                                                                                                                                                                                                 ;
+;    #height           = global | local*                |                  <number  1..50 >                  | <float 0.01..0.50>      |         (12 | user)*                                     ;
+;    #speed            = global*| local | (true | user)*|  false         | <float 0.1..3.0>                                            |        (1.5 | user)*                                     ;
+;    #dwell            = global | local*                                 | <number  1..99 >                  | <float 0.01..0.99>      |         (70 | user)*                                     ;
+;    #fluency          = global*| local | (true | user)*|  false         | <number  1..99 >                                            |         (99 | user)*                                     ;
+;                                                                                                                                                                                                 ;
+;    #warnings         = global*| local | (true | user)*| false                                                                                                                                   ;
+;    #errors           = global*| local | (true | user)*| false                                                                                                                                   ;
+;    #skill°           =                                                   (beginner | 0)   | (amateur | 1 | user)* | (confirmed | 2)  |        (pro | 3)     | (impossible | 4)                  ;
+;    #edition          = global | local*| (true | user)*| false                                                                                                                                   ;
+;                                                                                                                                                                                                 ;
+;    Les valeurs par défaut sont indiquées par un '*'.                                                                                                                                            ;
+;    La valeur 'local' rend le paramètre propre à la figure, et permet donc de définir des valeurs différentes suivant les figures,                                                               ;
+;    et les paramètres marqués d'un '°' sont toujours définis de façon 'local'(e).                                                                                                                ;
+;    Le paramètre marqué d'un '†' (#startPattern) ne s'applique uniquement qu'à la figure qui le suit immédiatement.                                                                              ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une séquence de couleurs est constituée d'une suite d'entiers et/ou de lettres qui affectent à chacune des balles du siteswap une couleur :                                                  ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                  ;
+;        0 ou K [blacK]    : Noir,                                                                                                                                                                ;
+;        1 ou R [Red]      : Rouge,                                                                                                                                                               ;
+;        2 ou O [Orange]   : Orange,                                                                                                                                                              ;
+;        3 ou Y [Yellow]   : Jaune,                                                                                                                                                               ;
+;        4 ou G [Green]    : Vert,                                                                                                                                                                ;
+;        5 ou B [Blue]     : Bleu,                                                                                                                                                                ;
+;        6 ou P [Purple]   : Violet,                                                                                                                                                              ;
+;        7 ou D [Dark red] : Bordeaux,                                                                                                                                                            ;
+;        8 ou M [Maroon]   : Marron,                                                                                                                                                              ;
+;        9 ou W [White]    : Blanc.                                                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 6. Un style est appelé en mentionnant son nom : #style = <name>, ou plus simplement % <name>. S'il n'existe pas, sa définition est donnée à sa suite.                                           ;
+;    Elle est réalisée par une série de lignes fournissant à chaque étape les coordonnées spatiales de la rattrape r et du lancé l sous la forme :                                                ;
+;                                                                                                                                                                                                 ;
+;              { [Xr] [(,| ) [Yr] [(,| ) [=|-|+|#][Zr][_|@|×] [(,| ) [=|-|+|#][Br][_|@|×]  ]]] } [{ [Xl] [(,| ) [Yl] [(,| ) [=|-|+|#][Zl][_|@|×] [(,| ) [=|-|+|#][Bl][_|@|×]  ]]] }]              ;
+;                                                                                                                                                                                                 ;
+;              avec :  -128  <=  Xr, Xl  <=  127,                                                                                                                                                 ;
+;                      -128  <=  Yr, Yl  <=  127,                                                                                                                                                 ;
+;                         0  <=  Zr, Zl  <=  127,                                                                                                                                                 ;
+;                         0  <=  Br, Bl  <=  127.                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une abscisse Xn ou une ordonnée Yn non précisées valent 0 (balle au centre, face au nombril du jongleur).                                                                                    ;
+;    Il est préférable de fournir des valeurs respectant les réglages initiaux du constructeur (Ken MATSUOKA),                                                                                    ;
+;    au risque d'avoir sinon un jongleur avec de très grands bras :                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;                       -30  <=  Xr, Xl  <=   30,                                                                                                                                                 ;
+;                       -10  <=  Yr, Yl  <=   20.                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) fait référence à la position des bras et mains par rapport au jongleur (resp. aux balles).                                                                            ;
+;    Une cote Zn non précisée vaut 0, une cote Bn reprend quant à elle la valeur de la cote Zn la précédant.                                                                                      ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) peut être préfixée par un des signes '=', '-', '+' ou '#', pour préciser :                                                                                            ;
+;        - la position de la main par rapport au bras et celle du bras par rapport au jongleur,                                                                                                   ;
+;        - resp. la position de la balle par rapport aux bras et au jongleur.                                                                                                                     ;
+;        Pour les bras et mains (Zn) :                                                                                                                                                            ;
+;                          -        '=' (double '-') : la main est derrière le bras qui est derrière le jongleur,                                                                                 ;
+;                          -        '-'              : la main est devant le bras qui est derrière le jongleur,                                                                                   ;
+;                          -        '+'              : la main est derrière le bras qui est devant le jongleur,                                                                                   ;
+;                          -        '#' (double '+') : la main est devant le bras qui est devant le jongleur.                                                                                     ;
+;        Resp. pour les balles (Bn) :                                                                                                                                                             ;
+;                          -        '=' (double '-') : la balle est derrière les bras et le jongleur,                                                                                             ;
+;                          -        '-'              : la balle est devant les bras et derrière le jongleur,                                                                                      ;
+;                          -        '+'              : la balle est derrière les bras et devant le jongleur,                                                                                      ;
+;                          -        '#' (double '+') : la balle est devant les bras et le jongleur.                                                                                               ;
+;        Le préfixe '#' est celui considéré par défaut, il provoque le dessin de la balle par dessus les bras et le bras par dessus le jongleur.                                                  ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) peut être suffixée par un des signes '_', '@', ou '×' pour préciser la visibilité momentanée du bras et/ou de la main du jongleur (resp. de la balle).                ;
+;        Pour le bras et la main (Zn) :                                                                                                                                                           ;
+;                          -        '_' : le bras reste visible (mais la main devient invisible),                                                                                                 ;
+;                          -        '@' : la main reste visible (mais le bras devient invisible),                                                                                                 ;
+;                          -        '×' : le bras et la main sont invisibles.                                                                                                                     ;
+;        Resp. pour la balle (Bn) :                                                                                                                                                               ;
+;                          -        '_' ou '@' : la balle reste visible,                                                                                                                          ;
+;                          -        '×'        : la balle devient invisible.                                                                                                                      ;
+;        En l'absence de suffixe, bras, mains et balles restent visibles.                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Exemple exhaustif :                                                                                                                                                                          ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                                                                          ;
+;              %Exemple exhaustif de style                                                                                                                                                        ;
+;              {0, 1       }{ ,2,=3     }                                                                                                                                                         ;
+;              { ,-4,#5,  ×}{6, ,  _,-7 }                                                                                                                                                         ;
+;              {           }{8, , 9@    }                                                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    est équivalent à :                                                                                                                                                                           ;
+;                                                                                                                                                                                                 ;
+;              #style = Exemple exhaustif de style    ; déclaration du style par son nom suivie de sa définition :                                                                                ;
+;              {0, 1,#0,#0 }{0,2,=3 ,=3 }             ; { 0,  1, #0  : main devant le bras devant le jongleur    , #0  : balle devant les bras devant le jongleur                   }             ;
+;                                                     ; { 0,  2, =3  : main derrière le bras derrière le jongleur, =3  : balle derrière la main et le bras                          }             ;
+;              {0,-4,#5,#0×}{6,0,#0_,-7 }             ; { 0, -4, #5  : main devant le bras devant le jongleur    , #0× : balle invisible                                            }             ;
+;                                                     ; { 6,  0, #0_ : bras devant le jongleur et main invisible , -7  : balle devant la main et le bras, mais derrière le jongleur }             ;
+;              {0, 0,#0,#0 }{8,0,#9@,#9@}             ; { 0,  0, #0  : main devant le bras devant le jongleur    , #0  : balle devant les bras devant le jongleur                   }             ;
+;                                                       { 8,  0, #9@ : main devant le jongleur, bras invisible   , #9@ : balle devant la main et devant le jongleur                 }             ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Dans le cas des siteswaps synchros - de la forme (<left 1>, <right 2>) ... (<left (n-1)>, <right n>) -, les lignes de style sont interprétées de la façon suivante :                         ;
+;         la première   ligne : {Xr1    , Yr1    , Zr1    , Br1    } {Xl1    , Yl1    , Zl1    , Bl1    }    correspond à    <right 2    >,                                                       ;
+;         la deuxième   ligne : {Xr2    , Yr2    , Zr2    , Br2    } {Xl2    , Yl2    , Zl2    , Bl2    }    correspond à    <left  1    >,                                                       ;
+;         ...                                                                                                                                                                                     ;
+;         la (n-1)-ième ligne : {Xr(n-1), Yr(n-1), Zr(n-1), Br(n-1)} {Xl(n-1), Yl(n-1), Zl(n-1), Bl(n-1)}    correspond à    <right n    >,                                                       ;
+;         la  n   -ième ligne : {Xrn    , Yrn    , Zrn    , Brn    } {Xln    , Yln    , Zln    , Bln    }    correspond à    <left  (n-1)>.                                                       ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Pour définir plus rapidement des styles correspondant à des siteswaps synchros symétriques, il est possible de faire suivre la première série de lignes de définitions                       ;
+;    par une ligne comportant uniquement un '*', qui duplique les lignes déjà renseignées en les permutant deux à deux :                                                                          ;
+;                                                                                                                                                                                                 ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         *                                                                                                                                                                                       ;
+;                                                                                                                                                                                                 ;
+;    est équivalent à :                                                                                                                                                                           ;
+;                                                                                                                                                                                                 ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;#reverseSiteswap  = false
+
+#style            = true
+#FX               = false
+#reverseStyle     = false
+
+#balls            = local
+#balls            = true
+#nightJuggler     = false
+#nightJuggler     = phantom
+#dayJuggler       = true
+#juggler          = true
+                  
+#colors           = true
+#alternateColors  = local
+#alternateColors  = false
+#alternateColors  = catch
+#randomColors     = local
+#randomColors     = false
+
+#defaults         = true
+#defaults         = 1
+#relativeDefaults = false
+#flash            = false
+#robot            = false
+
+#metronome        = false
+#light            = true
+                  
+#skill            = amateur
+#errors           = true
+#warnings         = true
+#startPattern     = true
+#edition          = true
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+%441 Intérieurs
+{ 9,4}{ 9}
+{-3, }{ 7}
+{15, }{-9}
+
+%441 Extérieurs
+{9,4}{ 9}
+{ , }{ 9}
+{ ,2}{-9}
+
+%441 Binaire
+{ 3,-3}{11,-3}
+{ 3,-3}{11,-3}
+{11,  }{11,  }
+{ 3,  }{ 3,  }
+{11,  }{11, 6}
+{ 3,  }{ 3,  }
+*
+
+%531 Renversé
+{  , }{ , }
+{ 9,9}{9, }
+{13, }{4, }
+{  , }{9,9}
+*
+
+%66314
+{13,3}{ 4, }
+{13, }{ 4, }
+{13, }{ 4,2}
+{13, }{13, }
+{13, }{ 4, }
+
+%714
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{  }
+{13, }{ 1}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{13}
+{13, }{ 4}
+
+%741
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 1}
+{13, }{ 1}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{13}
+{13, }{ 4}
+{13, }{ 4}
+
+%771
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{-4}
+{13, }{ 1}
+{13, }{ 1}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{13}
+{13, }{ 4}
+{13, }{ 4}
+
+;===================================================================================================================================================================;
+
+%Boite
+{8}{8}
+
+%Boite Anticipée Flappée
+{7}{ 7}
+{7}{ 7}
+{7}{12}
+{7}{ 7}
+{7}{ 7}
+{7}{ 7}
+{7}{ 7}
+{7}{ 7}
+{7}{12}
+{7}{ 7}
+*
+
+%Boite Avancée b
+{ 6}{ 6}
+{11}{11}
+{11}{11}
+{ 6}{ 6}
+{ 6}{ 6}
+{ 6}{ 6}
+*
+
+%Boite Binaire À 3
+{ 4}{ 4,  }
+{ 4}{ 4,  }
+{11}{11,  }
+{11}{11,  }
+{11}{11,10}
+{11}{11,  }
+*
+
+%Boite Binaire À 4
+{ 4, }{ 4,  }
+{ 4, }{ 4,  }
+{11, }{11,  }
+{11, }{11,  }
+{11, }{11,10}
+{13,8}{15,-2}
+*
+
+%Boite Colonnes a
+{ 4}{ 4}
+{12}{12}
+{12}{12}
+{ 4}{ 4}
+{ 4}{ 4}
+{ 4}{ 4}
+*
+
+%Boite Colonnes b
+{9, }{9, }
+{ ,3}{ ,3}
+*
+
+%Boite Colonnes c
+{9, }{9, }
+{ , }{ , }
+{ , }{ , }
+{9, }{9, }
+{9, }{9, }
+{ ,6}{ ,6}
+{ ,6}{ ,6}
+{9, }{9, }
+
+%Boite Contortionnée
+{-9,,-}{-9,,-}
+{22,, }{22,, }
+
+%Boite Contortionnée Alternée
+{10,,  }{10,,  }
+{10,,--}{10,,--}
+*
+
+%Boite Coupée
+{ 6,-6}{ 6,  }
+{12, 1}{12, 4}
+*
+
+%Boite Coupée Croquée Synchro
+{ 6,-6}{ 6,-6}
+{20, 3}{20, 3}
+*
+
+%Boite Coupée Croquée Asynchro
+{ 7, }{ 7, }
+{30,1}{28,1}
+{ 7, }{ 7, }
+
+%Boite Croisée 2T
+{-13,-3, }{-13,-3, }
+{  4,  ,2}{  4,  ,2}
+{  8,  , }{  8,  , }
+{  4,-2,2}{  4,-2,2}
+
+%Boite Croisée 2T Alternée
+{-14,-2, }{  7,-2, }
+{  7,  ,2}{  7,  ,2}
+{  7,  ,2}{  7,  ,2}
+{  7,-2, }{-14,-2, }
+{  7,-2, }{  7,-2, }
+{  7,  , }{  7,  , }
+*
+
+%Boite Croisée 2T Étendue
+{-13,-3}{13, 1}
+{  8, 1}{ 8, 1}
+{  8, 1}{ 8,-2}
+{  8,-1}{ 8, 1}
+*
+
+%Boite Croisée 2T Étendue Balancée
+{ 7, 2, }{  7, 2, }
+{ 7, 1, }{  7,-1, }
+{ 7,-1, }{ -7,-1, }
+{12, 1,2}{-12, 2,2}
+*
+
+%Boite Croisée 2T Étendue Inversée
+{ 8, 1}{  8,-1}
+{ 8,-2}{  8, 1}
+{ 8, 1}{  8, 1}
+{13, 1}{-13,-3}
+*
+
+%Boite Croisée 2T Étendue Alternée
+{ 12, 1, }{ 12,3, }
+{  5,  , }{  5, , }
+{  5,  , }{  5, , }
+{ 12,  , }{ 12, , }
+{  5,  ,2}{  5,1,2}
+{-12,-3, }{-12, , }
+*
+
+%Boite Croisée 1T
+{-12,-2}{-12,-2, }
+{  7, 1}{  7, 1,2}
+*
+
+%Boite Croquée
+{ 6, }{ 6,-9}
+{15,2}{15, 2}
+*
+
+%Boite Étendue À 3 a
+{14}{14}
+{  }{  }
+{14}{  }
+{  }{14}
+*
+
+%Boite Étendue À 3 b
+{ 5}{ 5}
+{14}{14}
+{14}{14}
+{ 5}{ 5}
+{14}{14}
+{ 5}{ 5}
+*
+
+%Boite Étendue À 4 a
+{ 5}{ 5}
+{14}{14}
+{14}{14}
+{ 5}{ 5}
+{14}{14}
+{ 5}{ 5}
+*
+
+%Boite Étendue À 4 b
+{14}{14}
+{ 5}{ 5}
+{14}{14}
+{ 5}{ 5}
+{14}{14}
+{ 5}{ 5}
+*
+
+%Boite Étendue À 4 c
+{14}{14}
+{ 5}{ 5}
+{14}{14}
+{ 5}{ 5}
+*
+
+%Boite Étendue À 4 d
+{ 2}{ 2}
+{13}{13}
+{13}{13}
+{13}{ 2}
+{13}{13}
+{ 2}{ 2}
+{13}{13}
+{ 2}{ 2}
+*
+
+%Boite Étendue Avancée À 3 a
+{10}{10}
+{  }{  }
+{10}{10}
+{  }{  }
+{10}{  }
+{  }{10}
+{  }{  }
+{10}{10}
+*
+
+%Boite Étendue Avancée À 3 b
+{10}{10}
+{  }{  }
+{10}{10}
+{  }{  }
+{10}{  }
+{  }{10}
+{  }{  }
+{10}{10}
+*
+
+%Boite Étendue Avancée À 4 a
+{10}{10}
+{  }{  }
+{10}{  }
+{  }{10}
+{10}{  }
+{10}{10}
+*
+
+%Boite Étendue Avancée À 4 b
+{10}{10}
+{  }{  }
+{10}{10}
+{  }{  }
+{10}{  }
+{  }{10}
+{  }{  }
+{10}{10}
+*
+
+%Boite Étendue Avancée À 4 c
+{11, }{11, }
+{  , }{  , }
+{11, }{  ,2}
+{  ,2}{11, }
+*
+
+%Boite Étendue Avancée À 4 d
+{10}{ 0}
+{ 0}{10}
+{10}{ 0}
+{10}{10}
+{10}{ 0}
+{10}{10}
+*
+
+%Boite Étendue Avancée À 4 e
+{10}{10}
+{10}{10}
+{ 0}{10}
+{10}{ 0}
+{10}{ 0}
+{ 0}{10}
+*
+
+%Boite Étendue Contorsionnée
+{ 9,,--}{22,,  }
+{ 9,,- }{-9,,--}
+{22,,  }{22,,  }
+{-9,,- }{-9,,- }
+{22,,  }{ 9,,- }
+{-9,,- }{ 9,,--}
+*
+
+%Boite Faux-Semblants Inférieure
+{ 8, 1, }{ 8,  , }
+{ 8,-2, }{ 8,  , }
+{ 8,  , }{ 8,-2, }
+{ 8, 1, }{ 8, 1, }
+{-8,-2, }{-8,-2, }
+{-8, 1,2}{-8, 1,2}
+*
+
+%Boite Faux-Semblants Supérieure
+{ 8,1, }{ 8,1, }
+{ 8,2, }{ 8, , }
+{ 8, , }{ 8,2, }
+{ 8,1, }{ 8,1, }
+{-8,2,2}{-8,2,2}
+{-8,1, }{-8,1, }
+*
+
+%Boite Fermée
+{ 5, }{ 5, }
+{11,9}{11, }
+{11, }{11,9}
+{ 5, }{ 5, }
+
+%Boite Fermée Back-Back
+{ 5, ,  }{ 5, }
+{11,9,#-}{11, }
+{11, ,  }{11,9}
+{ 5, ,  }{ 5, }
+
+%Boite Fermée Contortionnée
+{ 5, ,  }{ 5, }
+{11,9,  }{11, }
+{11, ,#-}{11,9}
+{ 5, ,  }{ 5, }
+
+%Boite Fermée Back-Back Contortionnée
+{ 5, ,  }{ 5, }
+{11,9,#-}{11, }
+{11, ,#-}{11,9}
+{ 5, ,  }{ 5, }
+
+%Boite Flappée À 3
+{8, 1}{8,  }
+{8,-1}{8,  }
+{8,  }{8, 1}
+{8,  }{8,-1}
+*
+
+%Boite Flappée À 4
+{ 5, 1}{ 5, 1}
+{ 5,-1}{ 5,-1}
+{11, 1}{11, 1}
+{11,-1}{11,-1}
+*
+
+%Boite Front-Back
+{5,  ,  }{ 5, ,99}
+{8,10,-7}{17,4, 8}
+*
+
+%Boite Front-Back Shintée
+{-5,  ,  }{-5, ,99}
+{ 8,10,-7}{17,4, 8}
+*
+
+%Boite En H
+{8, 9}{8, 9,#+}
+{8,-1}{8,11}
+*
+
+%Boite Loupée 3T
+{ 8,  , }{ 8,  , }
+{ 8,-2, }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{  ,-3, }{  ,-3, }
+{  ,  ,2}{  ,  ,2}
+{-8,  , }{-8,-3, }
+{-8,  ,2}{-8,  ,2}
+{  ,-4, }{  ,-4, }
+{  ,  , }{  ,  , }
+*
+
+%Boite Loupée 2T
+{ 8,  , }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{  ,-3, }{  ,-3, }
+{  ,  , }{  ,  , }
+{-8,  , }{-8,-3, }
+{-8,  ,2}{-8,  ,2}
+{  ,-4, }{  ,-4, }
+{  ,  , }{  ,  , }
+
+%Boite Loupée 2T Alternée
+{ 8,  , }{ 8,  , }
+{ 8,  , }{ 8,  , }
+{  ,-3, }{  ,-3, }
+{  ,  , }{  ,  , }
+{-8,  , }{-8,-3, }
+{-8,  ,2}{-8,  ,2}
+{  ,-4, }{  ,-4, }
+{  ,  , }{  ,  , }
+*
+
+%Boite Martelée 441 Décroisée
+{10}{10}
+{ 6}{ 4}
+{10}{ 6}
+{ 6}{10}
+{10}{10}
+
+%Boite En Pi
+{9,-2}{9,-2}
+{9, 9}{9, 9,#+}
+*
+
+% Boite Semi-Renversée 3T
+{ 7, }{ 7, }
+{13, }{13, }
+{13, }{13, }
+{ 7, }{ 7, }
+{-7,7}{-7,8}
+{13, }{13, }
+*
+
+%Boite Renversée 3T a
+{ 13,  , }{ 13, , }
+{  7,-1, }{  7,1, }
+{-13,  ,2}{-13, ,2}
+{  7, 7, }{  7,7, }
+{  7, 7,2}{  7,8,2}
+{-13,  , }{-13, , }
+*
+
+%Boite Renversée 3T b
+{13, }{13, }
+{ 7, }{ 7, }
+{-7,7}{-7,7}
+{13, }{13, }
+{13, }{13, }
+{-7,7}{-7,7}
+*
+
+%Boite Renversée 1T a
+{ 9,8,2}{ 9,8, }
+{-9, , }{-9, ,2}
+*
+
+%Boite Renversée 1T b
+{-9,8,2}{-9,8, }
+{ 9, , }{ 9, ,2}
+*
+
+%Boite Shintée
+{12,-1}{12,-1}
+{-4,  }{-4,-1}
+*
+
+%Boite Shintée Coupée
+{12,2}{12, 2}
+{-4,3}{-4,-4}
+*
+
+%Boite Shintée Croquée
+{12, 2}{12, 2}
+{-4,-3}{-4, 3}
+*
+
+%Boite Shintée Coupée Croquée
+{12, 2}{12, 2}
+{-4,-3}{-4,-3}
+*
+
+;===================================================================================================================================================================;
+
+%Carré Renversé a
+{ 13,  , }{ 13,  , }
+{  7,-1, }{  7, 1, }
+{-13,  ,2}{-13,  ,2}
+{  7, 7, }{  7, 7, }
+{  7, 7,2}{  7, 8,2}
+{-13,  , }{-13,  , }
+{  7, 1, }{  7,-1, }
+{ 13,  , }{ 13,  , }
+
+%Carré Renversé b
+{ 7, }{ 7, }
+{13, }{13, }
+{13, }{13, }
+{ 7, }{ 7, }
+{-7,7}{-7,7}
+{13, }{13, }
+{13, }{13, }
+{-7,7}{-7,7}
+
+%Carré Renversé c
+{-9, ,2}{-9, ,2}
+{ 9,8, }{ 9,8, }
+{ 9,8,2}{ 9,8,2}
+{-9, , }{-9, , }
+
+%Carré Renversé d
+{ 9, , }{ 9, , }
+{ 9, ,2}{ 9, ,2}
+{-9,8, }{-9,8, }
+{-9,8,2}{-9,8,2}
+
+%Cascade
+{8}{8}
+{8}{8}
+
+%Cascade <-> Grue
+{ 3,  }{12,  }
+{10,  }{ 9,  }
+{ 3,  }{12,  }
+{10,  }{ 9,  }
+{ 3,  }{12,  }
+{10, 4}{ 9, 4}
+{ 3,  }{12,  }
+{10, 8}{ 9, 8}
+{ 3,  }{12,  }
+{10,12}{ 9,12}
+{ 3,  }{12,  }
+{10,16}{ 9,16}
+{ 3,  }{12,  }
+{10,20}{ 9,20}
+{ 3,  }{12,  }
+{10,20}{ 9,20}
+{ 3,  }{12,  }
+{10,20}{ 9,16}
+{ 3,  }{12,  }
+{10,16}{ 9,12}
+{ 3,  }{12,  }
+{10,12}{ 9, 8}
+{ 3,  }{12,  }
+{10, 8}{ 9, 4}
+{ 3,  }{12,  }
+{10, 4}{ 9,  }
+{ 3,  }{12,  }
+{10,  }{ 9,  }
+
+%Cascade Alternée
+{ 6,  }{10, 1}
+{ 8,  }{ 8,  }
+{ 6,  }{10,  }
+{ 8,  }{ 8,  }
+{ 6,-1}{10,  }
+{ 8, 2}{ 8,  }
+{10,  }{10,  }
+{ 6,  }{ 6,  }
+{10,  }{10,  }
+{ 6,  }{ 6,  }
+{10,  }{10,  }
+{ 6,  }{ 6,  }
+{10,  }{10,-1}
+{ 6,  }{11, 2}
+*
+
+%Cascade Binaire
+{ 4, }{ 4, }
+{ 4, }{ 4, }
+{ 4, }{ 4, }
+{13,7}{13, }
+{13, }{13,7}
+{ 4, }{ 4, }
+
+%Cascade Contorsionnée
+{-9,,-}{-9,,-}
+{22,, }{22,, }
+
+%Cascade Semi-Croisée
+{  4,-2,1}{  4,-2,1}
+{  8,  , }{  8,  , }
+{  4,  ,1}{  4,  ,1}
+{-14,-3, }{ 10,-2, }
+
+%Cascade Semi-Croisée Inversée
+{  8,  , }{  8,  , }
+{  4,-2,1}{  4,-2,1}
+{ 10,-2, }{-14,-3, }
+{  4,  ,1}{  4,  ,1}
+
+%Cascade Croisée
+{  5,  }{ 5,3}
+{-12,-3}{12, }
+
+%Cascade Croisée Inversée
+{12, }{-12,-3}
+{ 5,3}{  5,  }
+
+%Cascade Croisée Colonnes
+{   ,-5, }{  0, , }
+{ 10,  ,2}{ 10,5,2}
+{ 10,-5, }{ 10, , }
+{ 10,  ,2}{  0,5,2}
+{-10,-5, }{   , , }
+{   ,  ,2}{-10,5,2}
+
+%Cascade Croisée Colonnes Inversée
+{   , ,2}{   ,  ,2}
+{ 10, , }{ 10,-5, }
+{ 10,5,2}{ 10,  ,2}
+{ 10, , }{   ,  , }
+{-10,5,2}{   ,  ,2}
+{   , , }{-10,-5, }
+
+%Cascade Coulée
+{-19,  }{-9, 6,  }
+{ 30,19}{29,16,#+}
+
+%Cascade Coupée
+{10, 2}{12, }
+{ 6,-4}{12,4}
+
+%Cascade Coupée Croquée
+{15, 3}{ 5,-4}
+{ 5,-4}{15, 3}
+
+%Cascade Croquée
+{15,2}{ 5,-4}
+{10, }{10, 2}
+
+%Cascade Doublée À 3
+{9}{9}
+{3}{3}
+{3}{3}
+{9}{9}
+*
+
+%Cascade Doublée À 5
+{ 5}{ 5}
+{11}{11}
+{11}{11}
+{11}{11}
+*
+
+%Cascade Front-Back
+{8,10,-1}{10,-2,99}
+{9,  , 1}{17, 4, 1}
+
+%Cascade Montée À 3 a
+{ 8, }{13}
+{13,3}{ 4}
+{ 8, }{ 8}
+{13, }{13}
+
+%Cascade Montée À 3 b
+{13}{13, }
+{13}{13, }
+{ 3}{13,3}
+{13}{ 8, }
+
+%Cascade Montée À 4
+{13, }{13}
+{13,3}{ 3}
+{ 3,3}{13}
+{13, }{13}
+
+%Cascade Montée Fontaine À 4
+{13}{ 9}
+{ 9}{ 9}
+{ 9}{ 9}
+{ 9}{13}
+
+%Cascade Montée Fontaine À 5 a
+{ 7,-2}{13, 1}
+{13, 1}{13, 1}
+{13, 1}{13, 1}
+{13, 1}{ 7,-2}
+
+%Cascade Montée Fontaine À 5 b
+{ 7,-2}{13, 2}
+{13, 2}{ 7,-2}
+{ 8, 1}{13, 2}
+{13, 2}{13, 2}
+{13, 2}{13, 2}
+{13, 2}{ 8, 1}
+
+%Cascade Montée Fontaine Multiplexée
+{12,-2}{12, 3}
+{12, 3}{ 8,-2}
+{12,-2}{12,-2}
+{12,-2}{ 8,-2}
+
+%Cascade Multiplexée
+{10}{10}
+{10}{-1}
+{10}{10}
+{10}{10}
+
+%Cascade Sous-Flappée
+{10, 1}{10, 1}
+{10,-2}{10, 1}
+{10, 1}{10,-2}
+{10, 1}{10, 1}
+
+%Cascade Sur-Flappée
+{10, }{10,3}
+{10,3}{10, }
+
+%Cascade Semi-Shintée
+{12,-3}{12, 1}
+{-2, 1}{12,-3}
+{ 2,-3}{ 2, 1}
+{12, 1}{ 2,-3}
+
+%Cascade Semi-Shintée Coupée
+{11,-2}{11,-6}
+{-3,-1}{14, 4}
+{ 2, 2}{ 2,-6}
+{11,-2}{ 3, 0}
+
+%Cascade Semi-Shintée Croquée
+{11, 0}{10,-6}
+{-3,-4}{ 7, 1}
+{14, 1}{ 1, 0}
+{11,-2}{11, 0}
+
+%Cascade Semi-Shintée Coupée Croquée
+{11, 3}{11,-6}
+{-3,-1}{14, 4}
+{14, 4}{ 2,-6}
+{11,-2}{11, 3}
+
+%Cascade Shintée
+{-7,1}{15}
+{15, }{-7}
+
+%Cascade Shintée Coupée
+{-7,2}{15, 6}
+{15,0}{-7,-2}
+
+%Cascade Shintée Croquée
+{-7,-5}{15,1}
+{15, 1}{-7,2}
+
+%Cascade Shintée Coupée Croquée
+{-7,-2}{15, 4}
+{15, 4}{-7,-2}
+
+%Cascade Tour De Tête
+{14, ,  }{18,5,--}
+{18,5,--}{14, ,--}
+
+%Cascade Tour De Tête Contorsionnée
+{10, ,--}{18,5,--}
+{18,5,--}{10, ,--}
+
+%Centre
+{13}
+{13}
+
+%Croix
+{10}{ 3}
+{11}{11}
+{10}{10}
+{11}{13}
+*
+
+%Croix Multiplexée À 4
+{13}{ 4}
+{ 4}{ 4}
+{13}{ 4}
+{13}{13}
+*
+
+%Croix 4T
+{16}{ 1}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{16}
+*
+
+%Croix 3T
+{16}{ 1}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{ 3}
+{16}{16}
+*
+
+%Croix 2T À 4 a
+{13}{ 4}
+{13}{13}
+{13}{ 4}
+{13}{13}
+*
+
+%Croix 2T À 4 b
+{13}{4}
+{13}{4}
+{13}{4}
+{13}{4}
+{13}{4}
+{13}{13}
+*
+
+%Croix 2T À 4 c
+{13}{ 2}
+{13}{13}
+{ 2}{ 2}
+{13}{13}
+*
+
+%Croix 2T À 5 a
+{13}{ 4}
+{ 4}{ 4}
+{13}{ 4}
+{13}{13}
+*
+
+%Croix 2T À 5 b
+{15}{ 3}
+{15}{ 3}
+{15}{15}
+{15}{ 3}
+*
+
+%Croix 2T À 5 c
+{15}{ 6}
+{15}{15}
+{ 6}{ 6}
+{15}{ 6}
+*
+
+%Croix 2T À 5 d
+{11}{11}
+{11}{ 5}
+{11}{11}
+{11}{ 5}
+*
+
+%Croix 2T Multiplexée À 5
+{11}{ 4}
+{11}{ 4}
+{11}{ 4}
+{11}{11}
+*
+
+%Croix 1T Intérieure À 4
+{13}{ 4}
+{13}{13}
+*
+
+%Croix 1T Extérieure À 4
+{ 4}{13}
+{13}{13}
+*
+
+%Croix 1T Intérieure À 5
+{13}{ 4}
+{10}{10}
+*
+
+%Croix 1T Extérieure À 5
+{ 4}{13}
+{10}{10}
+*
+
+%Croix Anticipée
+{12,2}{12,2}
+{ 7, }{ 7, }
+{ 7, }{ 7, }
+{ 7, }{ 7, }
+*
+
+%Croix Anticipée Flappée
+{ 8,  }{5, 1}
+{ 8,  }{8,  }
+{ 8,  }{8,  }
+{ 8,  }{5,-1}
+{ 8,  }{8,  }
+{11,-1}{8,  }
+{ 8, 1}{8,  }
+{ 8,  }{8,  }
+*
+
+%Croix Avancée À 4 a
+{11,2}{ 4, }
+{11, }{11, }
+{ 4, }{ 4,2}
+{11,2}{11,2}
+*
+
+%Croix Avancée À 4 b
+{ 4, }{ 4}
+{11, }{11}
+{11,3}{11}
+{11, }{ 4}
+*
+
+%Croix Avancée À 4 c
+{8, 4}{8,-4}
+{8,-2}{8,-2}
+{8,-2}{8,-2}
+{8,  }{8,-1}
+*
+
+%Croix Étendue Avancée a
+{8,-1}{7,-1}
+{8, 1}{3,  }
+{8, 1}{8,-1}
+{8,  }{8,-1}
+{8,-1}{8,-1}
+{8, 1}{8,-1}
+*
+
+%Croix Étendue Avancée b
+{9, }{9}
+{3, }{3}
+{6,2}{6}
+{6, }{6}
+*
+
+%Croix Colonnes
+{ 7}{-7}
+{14}{14}
+{  }{  }
+{14}{14}
+*
+
+%Croix Colonnes Coupée
+{ 7,-4}{-7, }
+{14, 1}{14,1}
+{  ,-6}{  ,2}
+{14, 1}{14,4}
+*
+
+%Croix Colonnes Coupée Multiplexée
+{ 7,-3}{ 7,-3}
+{14, 1}{ 5,-1}
+{ 7,-3}{  , 2}
+{14,-3}{14, 5}
+*
+
+%Croix Colonnes Croquée
+{ 7, }{-7,  }
+{14,3}{14, 3}
+{  ,5}{  ,-5}
+{14,3}{14, 3}
+*
+
+%Croix Colonnes Croquée Multiplexée
+{14, }{  ,  }
+{14,3}{14, 3}
+{  ,3}{  ,-5}
+{ 8,3}{ 8, 3}
+*
+
+%Croix Colonnes Coupée Croquée
+{ 7,-5}{-7, 1}
+{14, 4}{14, 4}
+{  ,-2}{  ,-2}
+{14, 4}{14, 4}
+*
+
+%Croix Colonnes Coupée Croquée Multiplexée
+{ 7,-3}{ 7,-3}
+{14, 5}{ 3,-1}
+{ 7,-3}{  ,-2}
+{14,-3}{14, 5}
+*
+
+%Croix Croisée 2T
+{-13,-2}{13,2}
+{  7,  }{ 7, }
+{  9,  }{ 9, }
+{  7,  }{ 9, }
+*
+
+%Croix Croisée 2T Multiplexée
+{-16,-3}{6,-2}
+{  6,  }{6,  }
+{  6,  }{6,  }
+{  6,  }{6,  }
+*
+
+%Croix Croisée 2T Inversée
+{ 7,1}{  7, 1}
+{ 9, }{  9,  }
+{ 7,1}{  7, 1}
+{13,2}{-13,-4}
+*
+
+%Croix Croisée 2T Inversée Multiplexée
+{ 8,1}{  8, 1}
+{ 5, }{  5,  }
+{ 5,1}{  5, 1}
+{ 5,1}{-13,-4}
+*
+
+%Croix Croisée 1T
+{-16,-3}{7, }
+{  8, 1}{8,1}
+*
+
+%Croix Croisée 1T Inversée
+{7, }{-16,-3}
+{8,1}{  8, 1}
+*
+
+%Croix Croisée 1T Étendue
+{  7, 1}{ 7,3}
+{-15,-3}{ 7,1}
+{  7, 1}{ 7,1}
+{  7,  }{ 7, }
+*
+
+%Croix Croisée 1T Étendue Multiplexée
+{  7, 1}{ 5,3}
+{-17,-3}{ 7,1}
+{  7, 1}{ 7,1}
+{  7, 1}{ 7, }
+*
+
+%Croix Croisée 1T Étendue Inversée
+{ 7,1}{  7, 1}
+{ 7, }{  7,  }
+{ 7,3}{  7, 1}
+{ 7,1}{-15,-3}
+*
+
+%Croix Croisée 1T Étendue Inversée Multiplexée
+{ 7,1}{  7, 1}
+{ 7,1}{  7,  }
+{ 7,3}{  7, 1}
+{ 7,1}{-17,-3}
+*
+
+%Croix Coupée
+{10,-2}{ 4, }
+{12, 2}{12,2}
+{10,  }{10, }
+{12, 2}{15,5}
+*
+
+%Croix Coupée Multiplexée
+{ 6,  }{13, }
+{13,  }{13,6}
+{ 6, 2}{ 6,2}
+{ 6,-2}{ 6, }
+*
+
+%Croix Croquée
+{10,  }{ 3,-5}
+{12, 1}{12, 1}
+{12, 1}{12, 1}
+{14,-2}{ 4,-2}
+*
+
+%Croix Croquée Multiplexée
+{ 6, 3}{ 6,-6}
+{ 6, 3}{ 6, 2}
+{13, 2}{13,-2}
+{13,  }{ 6,  }
+*
+
+%Croix Coupée Croquée
+{10,-2}{ 3,-5}
+{12, 1}{15, 3}
+{12, 1}{12, 1}
+{14,-5}{ 4,-2}
+*
+
+%Croix Coupée Croquée Multiplexée
+{ 6, 1}{  ,-4}
+{13, 1}{13, 4}
+{13, 2}{ 6, 2}
+{ 6,-4}{ 6,-4}
+*
+
+%Croix Flappée
+{10,-1}{ 8,  }
+{ 8, 1}{ 8, 1}
+{13,  }{13,  }
+{ 8,  }{ 8,  }
+{10,  }{10,-1}
+{10,  }{10, 1}
+*
+
+%Croix Front-Back
+{10,-2,  }{  , 2,  }
+{ 8,10,-1}{ 8,10,99}
+{10,  ,  }{ 6,  ,99}
+{17, 4,  }{17, 4, 1}
+*
+
+%Croix Martelée a
+{11}{ 5}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+*
+
+%Croix Martelée b
+{11}{ 5}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+{11}{11}
+*
+
+%Croix Martelée c
+{11}{ 5}
+{ 7}{ 7}
+{11}{ 5}
+{11}{11}
+{11}{11}
+{11}{11}
+{ 7}{ 7}
+{11}{11}
+*
+
+%Croix Martelée Fontaine
+{ 7,-2}{15,-3}
+{13,  }{ 9, 3}
+{ 4,  }{ 4,  }
+{13,  }{13,  }
+{ 7, 1}{ 7, 1}
+{13,  }{13, 2}
+*
+
+%Croix Martelée Fontaine Coupée
+{ 6,-6}{ 6,-4}
+{12,-3}{12,-1}
+{12, 2}{12, 2}
+{12, 2}{12, 2}
+{ 2,-2}{ 6,-4}
+{12, 2}{12,-4}
+*
+
+%Croix Montée 3T À 3
+{13,  }{ 4,  }
+{ 2,-2}{ 2,  }
+{ 2,-2}{ 2,-2}
+{13,  }{13,-2}
+{ 2,-2}{ 2,-2}
+{13,  }{ 4,  }
+*
+
+%Croix Montée 3T Inversée À 3
+{ 4,  }{13,  }
+{ 2,  }{ 8,-2}
+{ 4,  }{13,  }
+{ 8,-2}{ 8,  }
+{ 8,  }{13,  }
+{ 4,  }{ 4,  }
+*
+
+%Croix Montée 3T À 4
+{13,  }{ 4,  }
+{13,-2}{ 4,  }
+{13,  }{ 4,  }
+{13,  }{13,-2}
+{13,-2}{13,-2}
+{13,  }{ 4,  }
+*
+
+%Croix Montée 2T À 3 a
+{11,  }{ 6,  }
+{ 6,-2}{ 6,  }
+{ 6,-2}{ 6,-2}
+{13,  }{13,-2}
+*
+
+%Croix Montée 2T À 3 b
+{13,  }{ 6,  }
+{ 6,-2}{ 6,  }
+{13,  }{ 6,  }
+{13,  }{13,-2}
+*
+
+%Croix Montée 2T À 3 c
+{ 3, 1}{12, 1}
+{ 3,-2}{ 3, 1}
+{ 3,-2}{ 3,-2}
+{12, 1}{12,-2}
+*
+
+%Croix Montée 2T À 3 d
+{12, 1}{12, 1}
+{12,-2}{12, 1}
+{12, 1}{ 3, 1}
+{ 3, 1}{ 3,-2}
+*
+
+%Croix Montée 2T À 4 a
+{13}{ 6}
+{13}{ 6}
+{13}{ 6}
+{13}{13}
+{ 4}{ 4}
+{13}{ 4}
+*
+
+%Croix Montée 2T À 4 a'
+{13,  }{ 6,  }
+{ 6,-2}{ 6,  }
+{13,  }{ 6,  }
+{13,  }{13,-2}
+*
+
+%Croix Montée 2T À 4 b
+{13,  }{ 4,  }
+{ 4,-2}{ 4,  }
+{15,  }{ 4,  }
+{13,  }{13,-2}
+*
+
+%Croix Montée 2T À 4 b'
+{ 7, 1}{14, 1}
+{ 7,-2}{ 7, 1}
+{  , 1}{  , 1}
+{14, 1}{14,-2}
+*
+
+%Croix Montée 2T À 4 c
+{ 7, 1}{ 7, 1}
+{12,-2}{12, 1}
+{12, 1}{12, 1}
+{ 3, 1}{ 3,-2}
+*
+
+%Croix Montée 2T À 4 c'
+{  , 1}{  , 1}
+{14,-2}{14, 1}
+{14, 1}{ 7, 1}
+{ 7, 1}{ 7,-2}
+*
+
+%Croix Montée 2T À 4 d
+{13,  }{ 4,  }
+{ 4,-2}{ 4,  }
+{13,  }{ 4,  }
+{13,  }{13,-2}
+*
+
+%Croix Semi-Croisée 1T Inférieure
+{  8,  }{  5,  }
+{  8,  }{  8,  }
+{  8,  }{  8,  }
+{-13,-3}{-13,-3}
+{-13,-3}{-13,-3}
+{  8,  }{  5,  }
+{  8,  }{  8,  }
+{  5,  }{  5,  }
+
+%Croix Semi-Croisée 1T Supérieure
+{13,3, }{13,3}
+{ 8, , }{ 8, }
+{ 8, , }{ 8, }
+{-8,3, }{-8,3}
+{-8,3, }{-8,3}
+{ 8, ,1}{ 8, }
+{ 8, , }{ 8, }
+{13,3, }{13,3}
+
+%Croix Shintée
+{15, }{15, }
+{ 7, }{-7,1}
+{  , }{  ,1}
+{15, }{15, }
+*
+
+%Croix Shintée Multiplexée
+{10}{15, }
+{ 7}{-7,1}
+{  }{ 7,1}
+{10}{  ,1}
+*
+
+%Croix Shintée Coupée
+{15,1}{15, 1}
+{ 7,4}{-7,-5}
+{  ,1}{  ,-2}
+{15,1}{15, 1}
+*
+
+%Croix Shintée Coupée Multiplexée
+{13, }{ 17, 1}
+{10, }{-10,-5}
+{  ,1}{ 10,  }
+{10,1}{   ,-5}
+*
+
+%Croix Shintée Croquée
+{15, 1}{15,1}
+{ 7,-2}{-7,2}
+{  ,-5}{  ,4}
+{15, 1}{15,1}
+*
+
+%Croix Shintée Croquée Multiplexée
+{10,-2}{15,2}
+{ 7,-2}{-7,3}
+{-1,-4}{ 7,1}
+{10, 2}{-1,5}
+*
+
+%Croix Shintée Coupée Croquée
+{15, 1}{15, 1}
+{ 7, 1}{-7,-4}
+{  ,-6}{  , 3}
+{15, 1}{15, 1}
+*
+
+%Croix Shintée Coupée Croquée Multiplexée
+{10, 2}{15, 1}
+{ 8, 2}{-8,-6}
+{-1,-6}{ 7, 0}
+{10, 1}{-1, 2}
+*
+
+%Croix Triplex Anticipée À 4
+{8}{12}
+{8}{ 4}
+{8}{ 8}
+{8}{ 8}
+{8}{ 8}
+{8}{ 8}
+*
+
+;===================================================================================================================================================================;
+
+%Demi-Cascade Interne À 3
+{10}{10}
+{10}{10}
+{  }{  }
+{10}{10}
+
+%Demi-Cascade Externe À 3 a
+{8, }{8,  }
+{8, }{8,  }
+{8,2}{8,-2}
+{8, }{8,  }
+
+%Demi-Cascade Externe À 3 b
+{8,  }{8, }
+{8,-2}{8,2}
+{8,  }{8, }
+{8,  }{8, }
+
+%Demi-Cascade À 4
+{  }{  }
+{11}{11}
+{11}{11}
+{11}{11}
+
+%Demi-Cascade À 5
+{ 2}{13}
+{13}{13}
+{ 2}{-2}
+{13}{13}
+
+%Demi-Cascade Montée
+{ 6,-2}{12, 3}
+{12, 3}{ 6,-2}
+{ 6,-2}{12, 3}
+{12, 3}{ 6,-2}
+
+%Demi-Sablier
+{9, 2}{9,-2}
+{9,-1}{9,-1}
+{9,11}{9,11}
+{9,  }{9,  }
+
+%Douche 2T À 2
+{4,5}{4,1}
+{4,5}{-2,1}
+
+%Douche 2T Alternée À 2
+{ , }{ , }
+{8,4}{8, }
+{8, }{8, }
+{ ,3}{ ,3}
+{8, }{8, }
+
+%Douche 2T À 3
+{6,4}{ 6}
+{6, }{-6}
+
+%Douche 2T Contorsionnée À 3
+{11,,-=}{ 11,,- }
+{13,,- }{-11,,--}
+
+%Douche 2T Semi-Contorsionnée Alternée À 3
+{9,,- }{9,,- }
+{9,,- }{9,,- }
+{9,,- }{9,,- }
+{9,,- }{9,,- }
+{9,,--}{9,,--}
+{9,,--}{9,,--}
+
+%Douche 2T Contorsionnée Alternée À 3
+{9,,-}{9,,-}
+{9,,--}{9,,--}
+{9,,--}{9,,--}
+
+%Douche 3T
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{-4}
+
+%Douche 4T
+{ 6,4}{ 6}
+{10,4}{ 6}
+{10,4}{ 6}
+{10,4}{-6}
+
+%Douche 5T
+{ 4,4}{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{ 4}
+{13, }{-4}
+
+;===================================================================================================================================================================;
+
+%Extérieurs
+{4}{13}
+{4}{13}
+
+%Extincteurs
+{ 8,-2}{12, 3}
+{12, 3}{ 8,-2}
+
+;===================================================================================================================================================================;
+
+%Grue Croisée
+{6,  }{-10,  }
+{4,19}{   ,17}
+
+%Grue Croisée Back-Front
+{11,  ,-#}{-5,  ,--}
+{14,19,#-}{ 2,17,#-}
+
+%Grue Décroisée
+{ 3,  }{12, 4}
+{10,19}{ 9,16}
+
+%Grue Décroisée Alternée
+{ 14,  }{  7, 4}
+{  6, 8}{ 10,16}
+{ 17,  }{  7, 4}
+{ 10,16}{ 10,16}
+{-10,  }{-10,  }
+{ 10,16}{ 10,16}
+{-10, 4}{  5,  }
+{ 10,16}{ 10,16}
+*
+
+%Grue Décroisée Frontback Alternée
+{ 17,  ,  }{  7, 4,  }
+{ 10,16,  }{ 10,16,  }
+{ 17,  ,  }{  7, 4,  }
+{ 10,16,  }{ 10,16,  }
+{-10, 4,-1}{  5,  ,-1}
+{ 10,16,  }{ 10,16,  }
+*
+
+%Grue Décroisée Croisée
+{ 9,  }{1,  }
+{10,20}{9,15}
+
+%Grue Décroisée Croisée / Décroisée
+{ 9,  }{9,  }
+{10,20}{9,15}
+{ 1,  }{1,  }
+{10,20}{9,15}
+
+;===================================================================================================================================================================;
+
+%Intérieurs
+{13}{4}
+{13}{4}
+
+%Intérieurs Hauts Flappés
+{11, 1}{ 4,  }
+{11,-1}{11,-1}
+{11, 1}{11, 1}
+{11,-1}{11,-1}
+*
+
+%Intérieurs Larges
+{29,2}{29,4}
+{29,2}{29,4}
+
+;===================================================================================================================================================================;
+
+%Multiplex Cascadé
+{ 5}{13}
+{13}{ 4}
+{13}{ 4}
+{13}{ 4}
+{13}{ 4}
+{13}{ 4}
+{13}{ 4}
+{13}{13}
+{13}{13}
+{13}{ 4}
+{ 5}{ 5}
+{13}{ 4}
+
+;===================================================================================================================================================================;
+
+%Sablier
+{9, 9}{9, 9}
+{9,-2}{9, 2}
+{9,-2}{9, 2}
+{9,-1}{9,-1}
+{9,-1}{9,-1}
+{9, 2}{9,-2}
+{9, 2}{9,-2}
+{9, 9}{9, 9}
+
+%Sablier Rubensteiné
+{ 8,  }{  ,11}
+{ 8,-3}{-8,  }
+{-8, 3}{-8, 3}
+{ 8,-2}{ 8,-1}
+{ 8, 9}{19, 4}
+{-8,  }{-8, 2}
+*
+
+%Sablier Rubensteiné Inversé
+{19,  4}{ 8,  9}
+{-8,  2}{-8,  0}
+{-8,  3}{-8,  3}
+{ 8, -1}{ 8, -2}
+{ 0, 11}{ 8,  0}
+{-8,  0}{ 8, -3}
+*
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/[Bases]
+/¯¯¯¯¯¯¯¯
+
+#balls  = 1
+#randomColors = true
+
+#height = 9
+#dwell  = 75
+#skill  = beginner
+$72
+#style  = Cascade
+"(2×, 4×) (0, 4×) (2×, 0) " Cascade ; 2
+
+#startPattern = 1
+
+#height = 9
+#dwell  = 75
+#skill  = amateur
+$273
+#style  = Cascade
+"(2×, 4×) " Cascade ; 3
+
+#startPattern = 0
+#randomColors = false
+
+;===================================================================================================================================================================;
+
+#height = 8
+#dwell  = 65
+#skill  = amateur
+$344
+#style  = Multiplex Cascadé
+"(2,6×)([22],0) ([66×],0) (2×,0)(0,6×)(2,2)" Multiplex Cascadé ; 3
+
+#height = 10
+#dwell  = 75
+#skill  = amateur
+$2255
+#style  = Cascade Multiplexée
+"(4, 2) (2×, [44×]) " Cascade Multiplexée ; 4
+
+;===================================================================================================================================================================;
+
+#randomColors = true
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$273
+#style  = Cascade Contorsionnée
+"(2×, 4×) " Cascade Contorsionnée ; 3
+
+#height = 6
+#dwell  = 70
+#skill  = pro
+$723
+#style  = Cascade Tour De Tête
+"(2×, 4×) " Cascade Tour De Tête ; 3
+
+#height = 6
+#dwell  = 70
+#skill  = pro
+$723
+#style  = Cascade Tour De Tête Contorsionnée
+"(2×, 4×) " Cascade Tour De Tête Contorsionnée ; 3
+
+#randomColors = false
+
+;===================================================================================================================================================================;
+/
+
+#height = 10
+#dwell  = 60
+#skill  = amateur
+$311
+#style  = Croix
+%Croix
+"(2,4×)(2×,4×) *" Croix ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = amateur
+$8884
+#style  = Croix Multiplexée À 4
+"(4,2)(2×,[44×]) *" Croix Multiplexée ; 4
+
+#height = 10
+#dwell  = 60
+#skill  = amateur
+$123
+#style  = Croix Colonnes
+%Croix Colonnes
+"(2,4×)(2×,4×) *" Croix Colonnes ; 3
+
+;===================================================================================================================================================================;
+/
+
+#alternateColors = true
+
+#height = 7
+#dwell  = 60
+#skill  = confirmed
+$448
+#style  = Cascade
+"(8,0)(0,2×)(2×,0) *" Boite ; 2
+
+#alternateColors = false
+
+#height = 11
+#dwell  = 65
+#skill  = amateur
+$442
+#style  = Demi-Cascade Interne À 3
+"(2, 4×) (2×, 4) " Demi-Cascade Interne ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$557
+#style  = Demi-Cascade Externe À 3 a
+"(2, 4×) (2×, 4) " Demi-Cascade Externe a ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$577
+#style  = Demi-Cascade Externe À 3 b
+"(4, 2) (2×, 4×) " Demi-Cascade Externe b ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$434
+#style  = Boite
+"(2×,4×)(2×,4) *" Boite Cascadée ; 3
+
+;===================================================================================================================================================================;
+/
+
+#height = 8
+#dwell  = 65
+#skill  = amateur
+$422
+#style  = Boite Colonnes a
+"(2×,4)(4,4)(0,4) *" Boite Colonnes a ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$355
+#style  = Boite
+"(2×,4) *" Boite ; 3
+
+#randomColors = true
+#height = 08
+#dwell  = 65
+#skill  = confirmed
+$123
+#style  = Boite Colonnes b ; 3
+"(2×,4) *" Boite Colonnes b ; 3
+
+#height = 09
+#dwell  = 65
+#skill  = confirmed
+$123
+#style  = Boite Colonnes c ; 3
+"(2×,4)(4,2×) (2×,4)(4,2×) " Boite Colonnes c ; 3
+
+#randomColors = false
+#height = 09
+#dwell  = 70
+#skill  = confirmed
+$422
+#style  = Boite Contortionnée
+"(2×,4) *" Boite Contortionnée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$355
+#style  = Boite Contortionnée Alternée
+"(2×,4) *" Boite Contortionnée Alternée ; 3
+
+;===================================================================================================================================================================;
+
+#balls  = 2
+
+#height = 10
+#dwell  = 60
+#skill  = amateur
+$388
+#style  = Boite Étendue À 3 a
+"(4×,2×)(4,2×) *" Boite Étendue a ; 3
+
+#height = 09
+#dwell  = 80
+#skill  = pro
+$434
+#style  = Boite Étendue Contorsionnée
+"(2×,4) (4×,2×)(4×,2×)*" Boite Étendue Contortionnée ; 3
+
+#balls  = 1
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$322
+#style  = Boite Faux-Semblants Inférieure
+"(2×,4×)(4,2)(4×,2) *" Boite Faux-Semblants Inférieure ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$233
+#style  = Boite Faux-Semblants Supérieure
+"(2×,4×)(4,2)(4×,2) *" Boite Faux-Semblants Supérieure ; 3
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[La Douche]
+/¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 4
+#dwell  = 70
+#skill  = beginner
+#randomColors = true
+$31
+#style  = Douche 2T À 2
+"3 1 " Douche ; 2
+
+#balls  = 2
+
+#height = 6
+#dwell  = 75
+#skill  = beginner
+$42
+#style  = Douche 2T Alternée À 2
+"51400 *" Douche Alternée ; 2
+
+#balls  = 1
+
+#height = 15
+#dwell  = 70
+#skill  = amateur
+$312
+#style  = Douche 2T À 3
+"5 1 " Douche ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+#randomColors = false
+$424
+#style  = Cascade
+"612 *" Douche Alternée ; 3
+
+#randomColors = true
+
+#height = 18
+#dwell  = 70
+#skill  = amateur
+$312
+#style  = Douche 2T Contorsionnée À 3
+"5 1 " Douche Contorsionnée ; 3
+
+#randomColors = false
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$242
+#style  = Douche 2T Semi-Contorsionnée Alternée À 3
+"612 612 " Douche Semi-Contorsionnée Alternée ; 3
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$424
+#style  = Douche 2T Contorsionnée Alternée À 3
+"612 *" Douche Contorsionnée Alternée ; 3
+
+;===================================================================================================================================================================;
+/
+
+#alternateColors = true
+#randomColors = true
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$7771
+#style  = 441 Intérieurs
+"441 *" 441 Intérieurs ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$5556
+#style  = 441 Extérieurs
+"441 *" 441 Extérieurs ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;===================================================================================================================================================================;
+
+#height = 17
+#dwell  = 70
+#skill  = amateur
+$525
+#style  = Douche 3T
+"531 *" 531 ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$225
+#style  = 531 Renversé
+"(6×,0)(2×,4×) *" 531 Renversé ; 3
+
+#alternateColors = true
+#randomColors = true
+
+#height = 15
+#dwell  = 70
+#skill  = amateur
+$44448
+#style  = Douche 4T
+"555 1 " 5551 ; 4
+
+#alternateColors = false
+#randomColors = false
+
+#height = 15
+#dwell  = 70
+#skill  = amateur
+$2444
+#style  = Douche 5T
+"4 555 1*" 5551 Alterné ; 4
+
+;===================================================================================================================================================================;
+
+#balls  = 2
+
+#height = 17
+#dwell  = 70
+#skill  = confirmed
+$5552
+#style  = 66314
+"66314 *" 66314 ; 4
+
+#alternateColors = true
+#randomColors = true
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$888883
+#style  = Douche 5T
+"66661 *" 66661 ; 5
+
+;===================================================================================================================================================================;
+
+#height = 18
+#dwell  = 70
+#skill  = confirmed
+$55552
+#style  = 741
+"4444 5 741 741 741 741 741 741 741 741 741 741 741 741 744 0 44" 741 ; 4
+
+#height = 18
+#dwell  = 70
+#skill  = confirmed
+$44446
+#style  = 714
+"44444 734 714 714 714 714 714 714 714 714 714 714 714 2 4" 714 ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$38888
+#style  = 771
+"5556 6 771 771 771 771 771 771 771 771 771 774 0 55" 771 ; 5
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Les Grues]
+/¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#alternateColors = false
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$231
+#style  = Cascade <-> Grue
+"(2×, 4×) " Cascade <-> Grue ; 3
+
+#height = 12
+#dwell  = 50
+#skill  = amateur
+$843
+#style  = Grue Décroisée
+"3 3 " Grue Décroisée Classique ; 3
+
+#height = 9
+#dwell  = 52
+#skill  = confirmed
+$348
+#style  = Cascade Coulée
+"3 3 " Cascade Coulée ; 3
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+
+#alternateColors = true
+
+#height = 13
+#dwell  = 60
+#skill  = amateur
+$4446
+#style  = Grue Décroisée Croisée
+"3 3 " Grue Décroisée Croisée ; 3
+
+#height = 13
+#dwell  = 60
+#skill  = amateur
+$5556
+#style  = Grue Décroisée Croisée / Décroisée
+"3 3 " Grue Décroisée Croisée / Décroisée ; 3
+
+#alternateColors = false
+#randomColors = false
+#balls  = 2
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$3172
+#style  = Grue Décroisée
+"5 3 " Grue Décroisée Classique ; 4
+
+#height = 16
+#dwell  = 50
+#skill  = confirmed
+$3555
+#style  = Grue Décroisée
+"(2×,6×)(2×,6×)(2×,6×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,6×)(2×,6×)(2×,6×)(2×,6×)" Grue Décroisée Haute / Basse a ; 4
+
+#height = 16
+#dwell  = 50
+#skill  = confirmed
+$5535
+#style  = Grue Décroisée
+"(2×,6×) (2×,8×) (2×,4×) " Grue Décroisée Haute / Basse b ; 4
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+/
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$655
+#style  = Grue Décroisée Alternée
+"(2,6×)(2,8×)(2×,0)(2,2) *" Grue Décroisée Alternée ; 3
+
+#height = 17
+#dwell  = 70
+#skill  = pro
+$566
+#style = Grue Décroisée Frontback Alternée
+"(2,4×)(2×,6×)(2,2) *" Grue Décroisée Frontback Alternée ; 3
+
+#randomColors = true
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$483
+#style  = Grue Croisée
+"3 3 " Grue Croisée ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = pro
+$483
+#style  = Grue Croisée Back-Front
+"3 3 " Grue Croisée Back-Front ; 3
+
+#randomColors = false
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Binaires & Flappées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$337
+#style  = Cascade Binaire
+"(6, 6) (2×, 0) (0, 4×) " Cascade Binaire ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+$337
+#style  = 441 Binaire
+"(6,6)(2×,0)(0,4) *" 441 Binaire ; 3
+
+;===================================================================================================================================================================;
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$337
+#style  = Boite Binaire À 3
+"(6,6)(2×,0)(0,4) *" Boite Binaire ; 3
+
+#balls  = 2
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$2237
+#style  = Boite Binaire À 4
+"(6,6)(2×,0)(6×,4) *" Boite Binaire ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 13
+#dwell  = 70
+#skill  = amateur
+$633
+#style  = Cascade Sous-Flappée
+"(2×,6×) (2×,2×) " Cascade Sous-Flappée ; 3
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$366
+#style  = Cascade Sur-Flappée
+"(2×,6×) (2×,2×) " Cascade Sur-Flappée ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = amateur
+$633
+#style  = Intérieurs Hauts Flappés
+"(2,6×)(2×,2×) *" Intérieurs Hauts Flappés ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = amateur
+$338
+#style  = Croix Flappée
+"(2,4×)(2×,6×)(2×,2×) *" Croix Flappée ; 3
+
+#balls  = 1
+#alternateColors = true
+#randomColors = true
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$7771
+#style  = Boite Flappée À 3
+"(2×,6)(2×,2×) *" Boite Flappée ; 3
+
+#alternateColors = false
+
+#height = 13
+#dwell  = 60
+#skill  = confirmed
+$5533
+#style  = Boite Flappée À 4
+"(6,6)(2×,2×) *" Boite Flappée ; 4
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Coupées & Croquées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 12
+#dwell  = 75
+#skill  = confirmed
+$132
+#style  = Cascade Coupée
+"(2×, 4×) " Cascade Coupée ; 3
+
+#height = 12
+#dwell  = 82
+#skill  = confirmed
+$321
+#style  = Cascade Croquée
+"(2×, 4×) " Cascade Croquée ; 3
+
+#height = 14
+#dwell  = 82
+#skill  = pro
+$123
+#style  = Cascade Coupée Croquée
+"(2×, 4×) " Cascade Coupée Croquée ; 3
+
+;===================================================================================================================================================================;
+/
+
+#randomColors = false
+
+#height = 13
+#dwell  = 87
+#skill  = amateur
+$255
+#style  = Croix Coupée
+"(2,4×)(2×,4×) *" Croix Coupée ; 3
+
+#height = 11
+#dwell  = 80
+#skill  = amateur
+$5552
+#style  = Croix Coupée Multiplexée
+"(2×,[44×])(2,4) *" Croix Coupée Multiplexée ; 4
+
+#height = 12
+#dwell  = 85
+#skill  = confirmed
+$488
+#style  = Croix Croquée
+"(2×,4×)(4×,2) *" Croix Croquée ; 3
+
+#height = 11
+#dwell  = 80
+#skill  = confirmed
+$4448
+#style  = Croix Croquée Multiplexée
+"(2×,[44×])(2,4) *" Croix Croquée Multiplexée ; 4
+
+#height = 12
+#dwell  = 85
+#skill  = confirmed
+$844
+#style  = Croix Coupée Croquée
+"(2×,4×)(4×,2) *" Croix Coupée Croquée ; 3
+
+#height = 11
+#dwell  = 85
+#skill  = confirmed
+$8884
+#style  = Croix Coupée Croquée Multiplexée
+"(2×,[44×])(2,4) *" Croix Coupée Croquée Multiplexée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#randomColors = true
+#height = 10
+#dwell  = 75
+#skill  = amateur
+$123
+#style  = Croix Colonnes Coupée
+"(2,4×)(2×,4×) *" Croix Colonnes Coupée ; 3
+#randomColors = false
+
+#height = 10
+#dwell  = 75
+#skill  = amateur
+$123
+#style  = Croix Colonnes Coupée Multiplexée
+"(4,2)(2×,[44×]) *" Croix Colonnes Coupée Multiplexée ; 4
+
+#randomColors = true
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$843
+#style  = Croix Colonnes Croquée
+"(2,4×)(2×,4×) *" Croix Colonnes Croquée ; 3
+#randomColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$4448
+#style  = Croix Colonnes Croquée Multiplexée
+"(4,2)(2×,[44×]) *" Croix Colonnes Croquée Multiplexée ; 4
+
+#randomColors = true
+#height = 10
+#dwell  = 60
+#skill  = confirmed
+$862
+#style  = Croix Colonnes Coupée Croquée
+"(2,4×)(2×,4×) *" Croix Colonnes Coupée Croquée ; 3
+#randomColors = false
+
+#height = 10
+#dwell  = 60
+#skill  = confirmed
+$6662
+#style  = Croix Colonnes Coupée Croquée Multiplexée
+"(4,2)(2×,[44×]) *" Croix Colonnes Coupée Croquée Multiplexée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 15
+#dwell  = 84
+#skill  = confirmed
+$244
+#style  = Boite Coupée
+"(2×,4) *" Boite Coupée ; 3
+
+#height = 14
+#dwell  = 74
+#skill  = confirmed
+$522
+#style  = Boite Croquée
+"(2×,4) *" Boite Croquée ; 3
+
+#height = 11
+#dwell  = 75
+#skill  = confirmed
+$272
+#style  = Boite Coupée Croquée Asynchro
+"234 *" Boite Coupée Croquée Asynchro ; 3
+
+#height = 16
+#dwell  = 75
+#skill  = pro
+$722
+#style  = Boite Coupée Croquée Synchro
+"(2×,4) *" Boite Coupée Croquée Synchro ; 3
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Anticipées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 12
+#dwell  = 75
+#skill  = confirmed
+$63
+#style  = Boite
+"(2×,0) (0,[4×2])*" Croix Anticipée ; 2
+
+#height = 8
+#dwell  = 60
+#skill  = pro
+$213
+#style  = Croix Anticipée
+"(2×,4×) (0,[4×2])*" Croix Anticipée a ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = pro
+$554
+#style  = Boite
+"(4,2) (4×,2×)([4×2],0)*" Croix Anticipée b ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = impossible
+$244
+#style  = Boite
+"([22×],0) (2,[24])(2×,4×)*" Croix Anticipée c ; 3
+
+;===================================================================================================================================================================;
+/
+
+#height = 16
+#dwell  = 80
+#skill  = pro
+$12
+#style  = Boite
+"(2×,0) (0,[8×2])(0,2×)(2×,0)*" Croix Anticipée Flappée ; 2
+
+#height = 20
+#dwell  = 60
+#skill  = impossible
+$123
+#style  = Boite
+"(2×,4×) (0,[8×2])(4,2×)(2×,0)*" Croix Anticipée Flappée a ; 3
+
+#height = 20
+#dwell  = 60
+#skill  = impossible
+$123
+#style  = Boite
+"(2×,0) (4×,[8×2])(0,2×)(2×,4)*" Croix Anticipée Flappée b ; 3
+
+#height = 20
+#dwell  = 60
+#skill  = impossible
+$1223
+#style  = Croix Anticipée Flappée
+"(2×,4×) (4×,[8×2])(4,2×)(2×,4)*" Croix Anticipée Flappée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 10
+#dwell  = 75
+#skill  = amateur
+$45
+#style  = Boite
+"([22×],0) (2,4)(2×,0)*" Boite Anticipée ; 2
+
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$227
+#style  = Boite
+"(0,[22×]) ([22],4)*" Boite Anticipée ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = pro
+$3221
+#style  = Boite
+"(4×,[22×]) ([22],4)*" Boite Anticipée ; 4
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$45
+#style  = Boite
+"([22×],0) (2,8)(2×,0)(0,2×)(2×,0)*" Boite Anticipée Flappée ; 2
+
+#height = 25
+#dwell  = 75
+#skill  = impossible
+$3122
+#style  = Boite Anticipée Flappée
+"([22×],4) ([24],8)(2×,4)(4,2×)(2×,4)*" Boite Anticipée Flappée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 20
+#dwell  = 75
+#skill  = impossible
+$123
+#style  = Boite
+"(0,2×) ([6×22],0)([4×2],0)*" Croix Triplex Anticipée a ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = impossible
+$413
+#style  = Boite
+"(0,[222]) (0,[4×22])(0,[42])(4,4×)(0,2×) *" Croix Triplex Anticipée b ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = impossible
+$4224
+#style  = Croix Triplex Anticipée À 4
+"(4×,4)(2×,2)(0,[4×42×2])*" Croix Triplex Anticipée ; 4
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Cascades Shintées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+#alternateColors = true
+
+#height = 6
+#dwell  = 70
+#skill  = confirmed
+$7774
+#style  = Cascade Semi-Shintée
+"(2×,4×) (2×,4×) " Cascade Semi-Shintée ; 3
+
+#randomColors = true
+#height = 9
+#dwell  = 70
+#skill  = pro
+$1112
+#style  = Cascade Semi-Shintée Coupée
+"(2×,4×) (2×,4×) " Cascade Semi-Shintée Coupée ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = pro
+$4443
+#style  = Cascade Semi-Shintée Croquée
+"(2×,4×) (2×,4×) " Cascade Semi-Shintée Croquée ; 3
+
+#alternateColors = false
+
+#height = 8
+#dwell  = 70
+#skill  = pro
+$132
+#style  = Cascade Semi-Shintée Coupée Croquée
+"(2×,4×) (2×,4×) " Cascade Semi-Shintée Coupée Croquée ; 3
+
+;===================================================================================================================================================================;
+/
+
+#alternateColors = true
+
+#height = 10
+#dwell  = 60
+#skill  = pro
+$1113
+#style  = Cascade Shintée
+"(4×, 2×) " Cascade Shintée ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = pro
+$2224
+#style  = Cascade Shintée Coupée
+"(4×, 2×) " Cascade Shintée Coupée ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = pro
+$2226
+#style  = Cascade Shintée Croquée
+"(4×, 2×) " Cascade Shintée Croquée ; 3
+
+#alternateColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$321
+#style  = Cascade Shintée Coupée Croquée
+"(4×, 2×) " Cascade Shintée Coupée Croquée ; 3
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Boites & Croix Shintées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$234
+#style  = Croix Shintée
+"(4×,2×)(2,4×) *" Croix Shintée ; 3
+
+#randomColors = false
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$2223
+#style  = Croix Shintée Multiplexée
+"([44×],2×)(4,2) *" Croix Shintée Multiplexée ; 4
+
+#randomColors = true
+#height = 10
+#dwell  = 70
+#skill  = pro
+$234
+#style  = Croix Shintée Coupée
+"(4×,2×)(2,4×) *" Croix Shintée Coupée ; 3
+
+#randomColors = false
+#height = 11
+#dwell  = 70
+#skill  = pro
+$3332
+#style  = Croix Shintée Coupée Multiplexée
+"([44×],2×)(4,2) *" Croix Shintée Coupée Multiplexée ; 4
+
+#randomColors = true
+#height = 10
+#dwell  = 80
+#skill  = pro
+$234
+#style  = Croix Shintée Croquée
+"(4×,2×)(2,4×) *" Croix Shintée Croquée ; 3
+
+#randomColors = false
+#height = 10
+#dwell  = 70
+#skill  = pro
+$4443
+#style  = Croix Shintée Croquée Multiplexée
+"([44×],2×)(4,2) *" Croix Shintée Croquée Multiplexée ; 4
+
+#randomColors = true
+#height = 9
+#dwell  = 70
+#skill  = pro
+$234
+#style  = Croix Shintée Coupée Croquée
+"(4×,2×)(2,4×) *" Croix Shintée Coupée Croquée ; 3
+
+#randomColors = false
+#height = 10
+#dwell  = 70
+#skill  = pro
+$3334
+#style  = Croix Shintée Coupée Croquée Multiplexée
+"([44×],2×)(4,2) *" Croix Shintée Coupée Croquée Multiplexée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$757
+#style  = Boite Shintée
+"(4,2×) *" Boite Shintée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$242
+#style  = Boite Shintée Coupée
+"(4,2×) *" Boite Shintée Coupée ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$525
+#style  = Boite Shintée Croquée
+"(4,2×) *" Boite Shintée Croquée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = pro
+$757
+#style  = Boite Shintée Coupée Croquée
+"(4,2×) *" Boite Shintée Coupée Croquée ; 3
+
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Renversées]
+/¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 1
+
+#dwell  = 70
+#height = 16
+#skill  = confirmed
+$737
+#style  = Boite En H
+"(4,2×) *" Boite En H ; 3
+
+#height = 6
+#dwell  = 70
+#skill  = confirmed
+$722
+#style  = Boite En Pi
+"(2×,4) *" Boite En Pi ; 3
+
+;===================================================================================================================================================================;
+
+#balls  = 2
+
+#height = 6
+#dwell  = 70
+#skill  = confirmed
+$344
+#style  = Demi-Sablier
+"(2×, 4) *" Demi-Sablier ; 3
+
+#height = 6
+#dwell  = 70
+#skill  = confirmed
+$434
+#style  = Sablier
+"(4, 2×) (2×, 4) (4, 2×) (2×, 4) " Sablier ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$424
+#style  = Sablier Rubensteiné
+"(4,2) (2×,4×)(4×,2)*" Sablier Rubensteiné ; 3
+
+#dwell  = 70
+#height = 10
+#skill  = pro
+$224
+#style  = Sablier Rubensteiné Inversé
+"(4,2×) (4×,2)(2,4×)*" Sablier Rubensteiné Inversé ; 3
+
+;===================================================================================================================================================================;
+/
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$533
+#style  = Boite Fermée
+"(2×,4) *" Boite Fermée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$244
+#style  = Boite Fermée Back-Back
+"(2×,4) *" Boite Fermée Back-Back ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$466
+#style  = Boite Fermée Contortionnée
+"(2×,4) *" Boite Fermée Contortionnée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = impossible
+$622
+#style  = Boite Fermée Back-Back Contortionnée
+"(2×,4) *" Boite Fermée Back-Back Contortionnée ; 3
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+/
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$525
+#style  = Boite Semi-Renversée 3T
+"(4,2×) (2×,4)(4,2×) *" Boite Semi-Renversée 3T ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$833
+#style  = Boite Renversée 3T a
+"(2,4×)(2×,4×)(4,2) *" Boite Renversée 3T a ; 3
+
+#height = 10
+#dwell  = 75
+#skill  = pro
+$388
+#style  = Boite Renversée 3T b
+"(2×,4)(4,2×)(2×,4) *" Boite Renversée 3T b ; 3
+
+;===================================================================================================================================================================;
+
+#dwell  = 70
+#height = 10
+#skill  = pro
+$455
+#style  = Carré Renversé a
+"(2,4×)(2×,4×) *" Carré Renversé a ; 3
+
+#height = 10
+#dwell  = 75
+#skill  = pro
+$454
+#style  = Carré Renversé b
+"(4,2×)(2×,4) (4,2×)(2×,4) " Carré Renversé b ; 3
+
+;===================================================================================================================================================================;
+/
+
+#dwell  = 70
+#height = 10
+#skill  = pro
+$515
+#style  = Boite Renversée 1T a
+"(4,2×) *" Boite Renversée 1T a ; 3
+
+#dwell  = 70
+#height = 11
+#skill  = impossible
+$151
+#style  = Boite Renversée 1T b
+"(4,2×) *" Boite Renversée 1T b ; 3
+
+;===================================================================================================================================================================;
+
+#balls  = 2
+#randomColors = true
+
+#height = 1
+#dwell  = 90
+#skill  = impossible
+$123
+#style = Carré Renversé c
+"33 33 " Carré Renversé c
+
+#height = 1
+#dwell  = 90
+#skill  = impossible
+$123
+#style = Carré Renversé d
+"33 33 " Carré Renversé d
+
+#balls  = 1
+#randomColors = false
+
+;===================================================================================================================================================================;
+/
+
+#height = 09
+#dwell  = 60
+#skill  = pro
+$511
+#style  = Croix Front-Back
+"(2,4×)(2×,4×) *" Croix Front-Back ; 3
+
+#randomColors = true
+#height = 08
+#dwell  = 60
+#skill  = pro
+$327
+#style  = Cascade Front-Back
+"(2×, 4×) " Cascade Front-Back ; 3
+#randomColors = false
+
+#height = 08
+#dwell  = 60
+#skill  = impossible
+$422
+#style  = Boite Front-Back
+"(2×,4) *" Boite Front-Back ; 3
+
+#height = 08
+#dwell  = 60
+#skill  = impossible
+$244
+#style  = Boite Front-Back Shintée
+"(2×,4) *" Boite Front-Back Shintée ; 3
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Cascades & Croix Croisées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$1114
+#style  = Cascade Semi-Croisée
+"(2×,4×) (2×,4×) " Cascade Semi-Croisée ; 3
+
+#height = 10
+#dwell  = 60
+#skill  = confirmed
+$4448
+#style  = Cascade Semi-Croisée Inversée
+"(2×,4×) (2×,4×) " Cascade Semi-Croisée Inversée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$1118
+#style  = Cascade Croisée
+"(2×, 4×) " Cascade Croisée ; 3
+
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$4441
+#style  = Cascade Croisée Inversée
+"(2×, 4×) " Cascade Croisée Inversée ; 3
+
+#alternateColors = false
+
+; #height=0.08
+; #dwell=0.45
+; #skill  = 
+; %Cascade Croisée Croquée Inversée
+; {17,-3}{17, 1}
+; { 1, 1}{17,-3}
+; { 1,-3}{ 1, 1}
+; {17, 1}{ 1,-3}
+; "(2×,4×) (2×,4×) " Cascade Croisée Croquée Inversée identique à la Cascade Croisée Croquée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$123
+#style  = Cascade Croisée Colonnes
+"(4×,2×) (4×,2×) (4×,2×) " Cascade Croisée Colonnes ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$321
+#style  = Cascade Croisée Colonnes Inversée
+"(4×,2×) (4×,2×) (4×,2×) " Cascade Croisée Colonnes Inversée ; 3
+
+;===================================================================================================================================================================;
+/
+
+#randomColors = true
+
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$432
+#style  = Croix Croisée 2T
+"(2,4×)(2×,4×) *" Croix Croisée 2T ; 3
+
+#randomColors = false
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$5552
+#style  = Croix Croisée 2T Multiplexée
+"(4,2)(2×,[44×]) *" Croix Croisée 2T Multiplexée ; 4
+
+#randomColors = true
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$324
+#style  = Croix Croisée 2T Inversée
+"(4×,2)(4×,2×) *" Croix Croisée 2T Inversée ; 3
+
+#randomColors = false
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$2225
+#style  = Croix Croisée 2T Inversée Multiplexée
+"(2,4)([44×],2×) *" Croix Croisée 2T Inversée Multiplexée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 08
+#dwell  = 75
+#skill  = confirmed
+$533
+#style  = Croix Semi-Croisée 1T Supérieure
+"(2×,4) (4,2×) (2×,4) (4,2×) " Croix Semi-Croisée 1T Supérieure ; 3
+
+#height = 08
+#dwell  = 60
+#skill  = confirmed
+$533
+#style  = Croix Semi-Croisée 1T Inférieure
+"(2×,4) (4,2×) (2×,4) (4,2×) " Croix Semi-Croisée 1T Inférieure ; 3
+
+#height = 13
+#dwell  = 75
+#skill  = confirmed
+$422
+#style  = Croix Croisée 1T
+"(2×,4) *" Croix Croisée 1T ; 3
+
+#height = 13
+#dwell  = 75
+#skill  = confirmed
+$477
+#style  = Croix Croisée 1T Inversée
+"(2×,4) *" Croix Croisée 1T Inversée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$557
+#style  = Croix Croisée 1T Étendue
+"(2×,4)(4×,2×) *" Croix Croisée 1T Étendue ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$7775
+#style  = Croix Croisée 1T Étendue Multiplexée
+"(2,4)([44×],2×) *" Croix Croisée 1T Étendue Multiplexée ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$577
+#style  = Croix Croisée 1T Étendue Inversée
+"(4×,2×)(4,2×) *" Croix Croisée 1T Étendue Inversée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$5557
+#style  = Croix Croisée 1T Étendue Inversée Multiplexée
+"([44×],2×)(4,2) *" Croix Croisée 1T Étendue Inversée Multiplexée ; 4
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Boites Croisées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 10
+#dwell  = 65
+#skill  = confirmed
+$312
+#style  = Boite Croisée 2T
+"(2×,4) *" Boite Croisée 2T ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$433
+#style  = Boite Croisée 2T Alternée
+"(2×,4)(4,2×)(2×,4) *" Boite Croisée 2T Alternée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$757
+#style  = Boite Croisée 2T Étendue
+"(2×,4×)(2×,4) *" Boite Croisée 2T Étendue ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$443
+#style  = Boite Croisée 2T Étendue Balancée
+"(2×,4) (4×,2×)*" Boite Croisée 2T Étendue Balancée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$557
+#style  = Boite Croisée 2T Étendue Inversée
+"(2×,4)(4×,2×) *" Boite Croisée 2T Étendue Inversée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$344
+#style  = Boite Croisée 2T Étendue Alternée
+"(2×,4×)(2×,4)(4×,2×) *" Boite Croisée 2T Étendue Alternée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 13
+#dwell  = 75
+#skill  = pro
+$533
+#style  = Boite Croisée 1T
+"(2×,4) *" Boite Croisée 1T ; 3
+
+;===================================================================================================================================================================;
+/
+
+#balls  = 2
+
+#height = 6
+#dwell  = 75
+#skill  = confirmed
+$144
+#style  = Boite Loupée 3T
+"(4×,8×)(0,0)(8,4)(0,0)(8×,2)(0,2) *" Boite Loupée 3T ; 3
+
+#height = 6
+#dwell  = 75
+#skill  = confirmed
+$414
+#style  = Boite Loupée 2T
+"(8, 4) (0, 0) (8, 2) (0, 2) " Boite Loupée 2T ; 3
+
+#height = 6
+#dwell  = 75
+#skill  = pro
+$114
+#style  = Boite Loupée 2T Alternée
+"(8,4)(0,0)(8×,2)(0,2) *" Boite Loupée 2T Alternée ; 3
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Montées À 3]
+/¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$355
+#style  = Cascade Montée À 3 a
+"(4, 6×) (2×, 0) " Cascade Montée a ; 3
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$335
+#style  = Cascade Montée À 3 b
+"(0, 6×) (2×, 4) " Cascade Montée b ; 3
+
+;===================================================================================================================================================================;
+/
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$262
+#style  = Croix Montée 3T À 3
+"(4,6×)(2×,0)(4×,2) *" Croix Montée 3T ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$626
+#style  = Croix Montée 3T Inversée À 3
+"(2,6×)(2×,4)(0,4×) *" Croix Montée 3T Inversée ; 3
+
+;===================================================================================================================================================================;
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$414
+#style  = Croix Montée 2T À 3 a
+"(6×,4×)(2×,0) *" Croix Montée 2T a ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$441
+#style  = Croix Montée 2T À 3 b
+"(6×,0)(2×,4×) *" Croix Montée 2T b ; 3
+
+#alternateColors = true
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$8883
+#style  = Croix Montée 2T À 3 c
+"(4,6)(2×,0) *" Croix Montée 2T c ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$4445
+#style  = Croix Montée 2T À 3 d
+"(6,0)(2×,4) *" Croix Montée 2T d ; 3
+
+#alternateColors = false
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Montées À 4 Et 5]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$6226
+#style  = Cascade Montée À 4
+"(4, 6×) (2×, 4) " Cascade Montée ; 4
+
+#height = 15
+#dwell  = 70
+#skill  = pro
+$32447
+#style  = Demi-Cascade Montée
+"(4×,8×)(4,4) " Demi-Cascade Montée ; 5
+
+;===================================================================================================================================================================;
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$2233
+#style  = Cascade Montée Fontaine À 4
+"(2×, 4×) (6×, 4×) " Cascade Montée Fontaine ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = pro
+$73373
+#style  = Cascade Montée Fontaine À 5 a
+"(2×, 6×) (6×, 6×) " Cascade Montée Fontaine a ; 5
+
+#height = 14
+#dwell  = 75
+#skill  = pro
+$33777
+#style  = Cascade Montée Fontaine À 5 b
+"(6×, 6×) (2×, 6×) (4×, 6×) " Cascade Montée Fontaine b ; 5
+
+#height = 14
+#dwell  = 75
+#skill  = pro
+$77733
+#style  = Cascade Montée Fontaine Multiplexée
+"[75]125" Cascade Montée Fontaine Multiplexée ; 5
+
+; #height = 12
+; #dwell  = 60
+; #style  = Intérieurs
+; "(A×, 4×) (2×, 4×) " Cascade Montée Fontaine c ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$4343
+#style  = Croix Montée 3T À 4
+"(4,6×)(2×,6×)(4×,2) *" Croix Montée 3T ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$3535
+#style  = Croix Montée 2T À 4 a
+"(6×,4×)(2×,4×)(4,4) *" Croix Montée 2T a ; 4
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$5353
+#style  = Croix Montée 2T À 4 a'
+"(6×,4×)(2×,4×) *" Croix Montée 2T a' ; 4
+
+;===================================================================================================================================================================;
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$4443
+#style  = Croix Montée 2T À 4 b
+"(4,6)(2×,4×) *" Croix Montée 2T b ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = pro
+$3334
+#style  = Croix Montée 2T À 4 b'
+"(4,6)(2×,4×) *" Croix Montée 2T b' ; 4
+
+;===================================================================================================================================================================;
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$5255
+#style  = Croix Montée 2T À 4 c
+"(6,4×)(2×,4) *" Croix Montée 2T c ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = pro
+$2522
+#style  = Croix Montée 2T À 4 c'
+"(6,4×)(2×,4) *" Croix Montée 2T c' ; 4
+
+;===================================================================================================================================================================;
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$5775
+#style  = Croix Montée 2T À 4 d
+"(4,6×)(2×,4) *" Croix Montée 2T d ; 4
+
+#balls  = 1
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[Martelées]
+/¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$4433
+#style  = Cascade
+"(2×, [6×4×]) (2×, 2) " Cascade Martelée ; 4
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$77722
+#style  = Cascade
+"(2×, [8×6×]) (2×, 2) " Cascade Martelée a ; 5
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$77222
+#style  = Cascade
+"(2×, [8×6×]) (2×, 8×) (2×, 2) " Cascade Martelée b ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$3727
+#style  = Croix Martelée a
+"(2,[6×4×])(2×,6×)(2,2) *" Croix Martelée Croisée a ; 4
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$5444
+#style  = Croix Martelée b
+"(2,[6×4×])(2×,6×)(2×,6×)(2,2) *" Croix Martelée Croisée b ; 4
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$4555
+#style  = Croix Martelée c
+"(0,[6×4×])(0,6×)(2×,6×)(2,6×) *" Croix Martelée Croisée c ; 4
+
+#height = 12
+#dwell  = 70
+#skill  = confirmed
+$6622
+#style  = Croix Martelée Fontaine
+"([6×4×],6×)(0,2×)(4,2) *" Croix Martelée Fontaine ; 4
+
+#height = 12
+#dwell  = 70
+#skill  = pro
+$6622
+#style  = Croix Martelée Fontaine Coupée
+"([6×4×],6×)(0,2×)(4,2) *" Croix Martelée Fontaine Coupée ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$2525
+#style  = Cascade
+"(2×,6×)(2×,2)(2×,[64]) *" Croix Martelée Décroisée ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 16
+#dwell  = 70
+#skill  = pro
+$2277
+#style  = Boite
+"(2×,[46])(2,2×) *" Boite Martelée Décroisée ; 4
+
+#height = 13
+#dwell  = 75
+#skill  = pro
+$37272
+#style  = Boite
+"(2×,[86])(2,2) *" Boite Martelée Décroisée ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 16
+#dwell  = 70
+#skill  = pro
+$22277
+#style  = Boite Martelée 441 Décroisée
+"[22]2 [64][62]1 *" Boite Martelée 441 Décroisée a ; 5
+
+#height = 16
+#dwell  = 70
+#skill  = pro
+$22773
+#style  = Boite Martelée 441 Décroisée
+"22 [62][64][21] *" Boite Martelée 441 Décroisée b ; 5
+
+#height = 16
+#dwell  = 70
+#skill  = pro
+$77722
+#style  = Boite Martelée 441 Décroisée
+"22 [64][64]1 *" Boite Martelée 441 Décroisée c ; 5
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[À Hauteur De 6]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 17
+#dwell  = 70
+#skill  = amateur
+$321
+#style  = Cascade
+"(2×,4×)(2×,4×) (2×,6×)(2×,6×)(0,6×)(2×,0) (2×,6×)(2×,6×)(0,6×)(2×,0) (2×,6×)(2×,6×)(0,6×)(2×,0) (2×,6×)(2×,6×)(0,6×)(2×,0) (2×,6×)(2×,6×)(0,6×)(2×,0) (2×,4×)" Cascade Flashée ; 3
+
+#height = 17
+#dwell  = 70
+#skill  = confirmed
+$7312
+#style  = Cascade
+"(2×, 6×) " Cascade ; 4
+
+#height = 17
+#dwell  = 70
+#skill  = confirmed
+$1273
+#style  = Cascade Alternée
+"(0,6×)(0,6×)(2×,6×)(2×,6×)(2×,6×)(2×,6×)(6×,6×) (6×,0)(6×,0)(6×,2×)(6×,2×)(6×,2×)(6×,2×)(6×,6×) " Cascade Alternée ; 4
+
+#height = 17
+#dwell  = 70
+#skill  = confirmed
+$1327
+#style = Demi-Cascade À 4
+"(2×,6×) (2,6) " Demi-Cascade ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$3712
+#style  = Croix 3T
+"(2,6×)(2,6×)(2×,6×) *" Croix 3T ; 4
+
+#height = 16
+#dwell  = 75
+#skill  = pro
+$723323
+#style  = Croix 3T
+"(2,[6×2])([22],[66×])([22×],6×) *" Croix 3T ; 6
+
+;===================================================================================================================================================================;
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$5111
+#style  = Croix 2T À 4 a
+"(2,6×)(2×,6) *" Croix 2T a ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$1255
+#style  = Croix 2T À 4 b
+"([44×],2)(4,6)(2×,2) *" Croix 2T b ; 4
+
+#height = 15
+#dwell  = 75
+#skill  = confirmed
+$6262
+#style  = Croix 2T À 4 c
+"(2×,2)(0,[66×]) *" Croix 2T c ; 4
+
+#alternateColors = true
+#randomColors = true
+
+#height = 15
+#dwell  = 75
+#skill  = pro
+$111112
+#style  = Croix 2T À 5 a
+"(6,6)(2×,6) *" Croix 2T a ; 5
+
+#alternateColors = false
+#randomColors = false
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$223733
+#style  = Croix 2T À 4 a
+"(2,[66×])([22×],6) *" Croix 2T ; 6
+
+;===================================================================================================================================================================;
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$2444
+#style  = Croix 1T Intérieure À 4
+"(2×,6×) *" Croix 1T Intérieure ; 4
+
+#height = 16
+#dwell  = 75
+#skill  = confirmed
+$4222
+#style  = Croix 1T Extérieure À 4
+"(2×,6×) *" Croix 1T Extérieure ; 4
+
+;===================================================================================================================================================================;
+/
+
+#alternateColors = true
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$5552
+#style  = Boite Étendue À 3 b
+"(2×,0)(2×,6)(2×,6) *" Boite Étendue b ; 3
+
+#alternateColors = false
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$5255
+#style  = Boite Étendue À 4 a
+"(2×,6×)(2×,6)(2×,6) *" Boite Étendue a ; 4
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$4224
+#style  = Boite Étendue À 4 b
+"(2×,6)(2×,6)(2,6) *" Boite Étendue b ; 4
+
+#height = 17
+#dwell  = 75
+#skill  = confirmed
+$4477
+#style  = Boite Étendue À 4 c
+"(2×,6)(2×,6) *" Boite Étendue c ; 4
+
+#height = 25
+#dwell  = 75
+#skill  = pro
+$7123
+#style  = Boite Étendue À 4 d
+"(8,2×) (2×,0)(2×,8)(2×,8)*" Boite Étendue d ; 4
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[À Hauteur De 8 Et Plus]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 17
+#dwell  = 70
+#skill  = pro
+$03712
+#style  = Cascade
+"(2×, 8×) " Cascade ; 5
+
+#height = 17
+#dwell  = 70
+#skill  = pro
+$15151
+#style = Demi-Cascade À 5
+"(2×,8) (2,8×) " Demi-Cascade ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$3712
+#style  = Croix 4T
+"(2,8×)(2,8×)(2,8×)(2×,0) *" Croix 4T ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$47123
+#style  = Croix 4T
+"(2,8×)(2,8×)(2,8×)(2×,8×) *" Croix 4T ; 5
+
+#height = 20
+#dwell  = 70
+#skill  = impossible
+$4334444
+#style  = Croix 4T
+"(2,[8×2])([22],[88×])([22],8×)([22×],8×) *" Croix 4T a ; 7
+
+#height = 20
+#dwell  = 70
+#skill  = impossible
+$3334433
+#style  = Croix 4T
+"(2,[8×2])(2,[8×2])(2,[8×2])([22×],[88×]) *" Croix 4T b ; 7
+
+;===================================================================================================================================================================;
+/
+
+#height = 17
+#dwell  = 70
+#skill  = pro
+$52544
+#style  = Croix 2T À 5 b
+"(8,2)(8,2×) *" Croix 2T b ; 5
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$73210
+#style  = Croix 2T À 5 c
+"(2×,8×)(2,8×) *" Croix 2T c ; 5
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$44422
+#style  = Croix 2T Multiplexée À 5
+"([8×6×],2)(2×,2) *" Croix 2T Multiplexée ; 5
+
+#height = 22
+#dwell  = 75
+#skill  = impossible
+$62644
+#style  = Croix 2T À 5 d
+"(A,2)(6,2×) *" Croix 2T d ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 17
+#dwell  = 75
+#skill  = pro
+$42222
+#style  = Croix 1T Intérieure À 5
+"(2×,8) *" Croix 1T Intérieure ; 5
+
+#height = 17
+#dwell  = 75
+#skill  = pro
+$24444
+#style  = Croix 1T Extérieure À 5
+"(2×,8) *" Croix 1T Extérieure ; 5
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$244444
+#style  = Croix 1T Intérieure À 4
+"(2×,A×) *" Croix 1T Intérieure ; 6
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$422222
+#style  = Croix 1T Extérieure À 4
+"(2×,A×) *" Croix 1T Extérieure ; 6
+
+;===================================================================================================================================================================;
+/
+
+#alternateColors = true
+#randomColors = true
+
+#height = 17
+#dwell  = 75
+#skill  = confirmed
+$1114
+#style  = Cascade Doublée À 3
+"(8×,2×)(2×,0) *" Cascade Doublée ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 18
+#dwell  = 75
+#skill  = pro
+$11414
+#style  = Cascade Doublée À 5
+"(8×,2×)(2×,8) *" Cascade Doublée ; 5
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+/
+/
+/[À Hauteurs Variables]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#balls  = 2
+
+#height = 14
+#dwell  = 70
+#skill  = amateur
+$337
+#style  = Cascade Sur-Flappée
+"(2×, 6×) (2×, 2×) (2×, 4×) " Cascade Haute / Basse ; 3
+
+;===================================================================================================================================================================;
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$3271
+#style  = Cascade
+"(2×,6×)(2×,6×) (2×,8×)(2×,8×)(2×,8×)(0,8×)(2×,0) (2×,6×)(2×,6×)" Cascade Flashée ; 4
+
+#alternateColors = true
+
+#height = 18
+#dwell  = 70
+#skill  = confirmed
+$55553
+#style  = Cascade
+"(2×,6×)(2×,6×)(2×,6×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,8×)(2×,4×) (2×,6×)(2×,6×)" Cascade Avancée a ; 4
+
+#alternateColors = false
+
+#height = 18
+#dwell  = 75
+#skill  = confirmed
+$4484
+#style  = Cascade
+"(2×, 6×) (2×, 8×) (2×, 4×) " Cascade Avancée b ; 4
+
+#height = 22
+#dwell  = 75
+#skill  = pro
+$41144
+#style  = Cascade
+"(2×, 6×) (2×, A×) " Cascade Avancée a ; 5
+
+#height = 22
+#dwell  = 75
+#skill  = pro
+$44343
+#style  = Cascade
+"(2×, 6×) (2×, 8×) (2×, A×) " Cascade Avancée b ; 5
+
+#height = 28
+#dwell  = 75
+#skill  = impossible
+$11311
+#style  = Cascade
+"(2×, 4×) (2×, 6×) (2×, 8×) (2×, A×) (2×, C×) " Cascade Avancée c ; 5
+
+;===================================================================================================================================================================;
+/
+
+#height = 20
+#dwell  = 70
+#skill  = confirmed
+$6633
+#style  = Croix Avancée À 4 a
+"(2×,8×)(2,4) *" Croix Avancée a ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = confirmed
+$6622
+#style  = Croix Avancée À 4 b
+"(2,8×)(4,2×) *" Croix Avancée b ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$4848
+#style  = Croix Avancée À 4 c
+"(2×,8)(4×,2) *" Croix Avancée c ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$4411
+#style  = Croix Étendue Avancée a
+"(8×,4×)(2×,4)(4,2×) *" Croix Étendue Avancée a ; 4
+
+#height = 20
+#dwell  = 75
+#skill  = pro
+$7737
+#style  = Croix Étendue Avancée b
+"(8×,2×)(2×,4×) *" Croix Étendue Avancée b ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$213
+#style  = Boite
+"(2×,8)(2×,4)(0,2×) *" Boite Avancée ; 3
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$7474
+#style  = Boite
+"(2×,8)(2×,4) *" Boite Avancée a ; 4
+
+#height = 20
+#dwell  = 70
+#skill  = pro
+$1661
+#style  = Boite Avancée b
+"(8,4)(4,2×)(2×,4) *" Boite Avancée b ; 4
+
+;===================================================================================================================================================================;
+/
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$433
+#style  = Boite Étendue Avancée À 3 a
+"(8×,2×)(4×,2)(0,2×)(4,2×) *" Boite Étendue Avancée a ; 3
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$344
+#style  = Boite Étendue Avancée À 3 b
+"(8×,2×)(4×,0)(0,2×)(6,2×) *" Boite Étendue Avancée b ; 3
+
+;===================================================================================================================================================================;
+/
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$3515
+#style  = Boite Étendue Avancée À 4 a
+"(6×,2×)(8,2×)(4,2×) *" Boite Étendue Avancée a ; 4
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$3155
+#style  = Boite Étendue Avancée À 4 b
+"(8×,2×)(4×,2×)(8,2×)(4,2×) *" Boite Étendue Avancée b ; 4
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$1515
+#style  = Boite Étendue Avancée À 4 c
+"(2×,8)(2×,4) *" Boite Étendue Avancée c ; 4
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$5515
+#style = Boite Étendue Avancée À 4 d
+"(2,6)(8,2×)(4,2×) *" Boite Étendue Avancée d ; 4
+
+#dwell  = 70
+#height = 18
+#skill  = pro
+$5155
+#style = Boite Étendue Avancée À 4 e
+"(2,4)(6,2×)(8,2×) *" Boite Étendue Avancée e ; 4
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;

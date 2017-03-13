@@ -1,0 +1,172 @@
+JuggleMaster Pro 4.3.0 - © 1998-2017 Arnaud BeLO. (jugglemaster@free.fr)
+01/03/2017 -- 20:34.917
+
+01:00:00.277 -- JugglePreferences (ROM, RAM) :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+bolGtooltips               = (true , true )
+bolGmenusTooltips          = (true , true )
+bolGbuttonsToolTips        = (true , true )
+bolGfieldsToolTips         = (true , true )
+bolGnewFileInformation     = (true , true )
+bolGfileExportInformation  = (true , true )
+bolGfileAccessErrors       = (true , true )
+bolGscreenPlayInformation  = (true , true )
+bolGballsNumber            = (false, false)
+bolGskill                  = (false, false)
+bolGmark                   = (false, false)
+bolGinvalidPatterns        = (true , true )
+bolGclipboardInformation   = (false, false)
+bolGnavigatorConfiguration = (true , true )
+bolLedition                = (true , true )
+bolLmirror                 = (false, false)
+bolLsiteswap               = (false, false)
+bolLsiteswapThrows         = (false, false)
+bolLreverseSiteswap        = (false, false)
+bolLstyle                  = (true , true )
+bolLfX                     = (false, false)
+bolLreverseStyle           = (false, false)
+bolLballs                  = (true , true )
+bolLcurrentThrows          = (false, false)
+bolLjuggler                = (true , true )
+bolLjugglerTrail           = (false, false)
+bolLcolors                 = (true , true )
+bolLrandomColors           = (false, false)
+bolLalternateColors        = (false, false)
+bolLdefaults               = (false, false)
+bolLrandomDefaults         = (false, false)
+bolLflash                  = (false, false)
+bolLrobot                  = (false, false)
+bolLsounds                 = (true , true )
+bolLcatchSounds            = (false, false)
+bolLthrowSounds            = (false, false)
+bolLmetronome              = (false, false)
+bolLlight                  = (true , true )
+bolLspeed                  = (true , true )
+bolLfluidity               = (true , true )
+bolLinfo                   = (true , true )
+bolLwarnings               = (true , true )
+bolLerrors                 = (true , true )
+bytGlowBallsNumber         = (03, 03)
+bytGhighBallsNumber        = (05, 05)
+bytGlowSkill               = (02, 02)
+bytGhighSkill              = (03, 03)
+bytGlowMark                = (02, 02)
+bytGhighMark               = (04, 04)
+bytGgammaCorrection        = (10, 10)
+bytLballsTrail             = (00, 00)
+bytLdayJuggler             = (03, 03)
+bytLnightJuggler           = (00, 00)
+bytLalternateColors        = (00, 00)
+bytLdefaults               = (01, 01)
+bytLstrobe                 = (09, 09)
+bytLheight                 = (12, 12)
+bytLdwell                  = (70, 70)
+bytLspeed                  = (10, 10)
+bytLskill                  = (01, 01)
+bytLmark                   = (02, 02)
+bytLrelativeSpeed          = (10, 10)
+bytLfluidity               = (99, 99)
+strGlanguage               = ("", "")
+strLpattern                = ("", "")
+strLstyle                  = (" ", " ")
+strLcolors                 = ("R", "R")
+strLreverseColors          = ("R", "R")
+strLdayJugglerColor        = ("444", "444")
+strLnightJugglerColor      = ("CCC", "CCC")
+strLdayBackground          = ("FFF", "FFF")
+strLsiteswap               = ("0", "0")
+strLreverseSiteswap        = ("0", "0")
+strLdaySiteswapColor       = ("F00", "F00")
+strLnightSiteswapColor     = ("F22", "F22")
+strLtooltip                = ("", "")
+strLnightBackground        = ("000", "000")
+
+01:00:07.985 -- Largeur composant : -4
+01:00:07.987 -- Texte (0) = 
+01:00:07.988 -- Animation paused... Refreshing ball colors
+01:00:07.989 -- Largeur composant : -4
+01:00:07.990 -- Texte (7) = R
+01:00:07.990 -- Largeur composant : -4
+01:00:07.994 -- Texte (7) = R
+01:00:08.855 -- 
+
+Pattern              : ()
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+Siteswap (C)         :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+Status             : Playable (Synchro)
+Siteswap string    : '2,2(6,2(,2(,6(2(2(6,6()()2,6(2(6(,6()2'
+Well-formed string : '(2,2)(6,2)(0,2)(0,6)(2,0)(2,0)(6,6)(0,0)(0,0)(2,6)(2,0)(6,0)(0,6)(0,0)(2,0)'
+Throw number       : 30 (theoric : 30)
+Ball number        : 2
+Symmetric          : false
+Sequence 1/1       : '(2,2)(6,2)(0,2)(0,6)(2,0)(2,0)(6,6)(0,0)(0,0)(2,6)(2,0)(6,0)(0,6)(0,0)(2,0)' (375)
+
+Reverse Siteswap (C) :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+Status             : Playable (Synchro)
+Siteswap string    : '(0,6)(0,0)(6,0)(0,2)(0,2)(6,6)(0,0)(0,0)(6,2)(0,2)(0,6)(2,0)(2,0)(2,2)(6,2)'
+Throw number       : 30 (theoric : 30)
+Ball number        : 2
+Symmetric          : false
+Sequence 1/1       : '(0,6)(0,0)(6,0)(0,2)(0,2)(6,6)(0,0)(0,0)(6,2)(0,2)(0,6)(2,0)(2,0)(2,2)(6,2)' (375)
+
+objL<property>            = (<initial>, <current> [<fileDefined>][<userDefined>]) <range> :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+strLpattern                = ("", "" FU) Local    
+strLstyle                  = ("JM", "JM" FU) Local    
+strLcolors                 = ("RW", "RW"  U) Local    
+strLreverseColors          = ("WR", "RW"  U) Local   *
+strLdayJugglerColor        = ("444", "444"   ) Global   
+strLnightJugglerColor      = ("FFF", "FFF"   ) Global   
+strLdayBackground          = ("FFF", "FFF"   ) Global   
+strLsiteswap               = ("2,2(6,2(,2(,6(2(2(6,6()()2,6(2(6(,6()2", "2,2(6,2(,2(,6(2(2(6,6()()2,6(2(6(,6()2" FU) Local    
+strLreverseSiteswap        = ("(,6()6(,2(,2(6,6()()6,2(,2(,6(2(2(2,2(6,2", "(0,6)(0,0)(6,0)(0,2)(0,2)(6,6)(0,0)(0,0)(6,2)(0,2)(0,6)(2,0)(2,0)(2,2)(6,2)" FU) Local   *
+strLdaySiteswapColor       = ("F00", "F00"   ) Global   
+strLnightSiteswapColor     = ("F00", "F00"   ) Global   
+strLtooltip                = ("", ""   ) Global   
+strLnightBackground        = ("000", "000"   ) Global   
+bolLedition                = (false, false   ) Global   
+bolLmirror                 = (false, false   ) Global   
+bolLsiteswap               = (false, false   ) Global   
+bolLsiteswapThrows         = (false, false   ) Global   
+bolLreverseSiteswap        = (false, false   ) Global   
+bolLstyle                  = (true , true    ) Global   
+bolLfX                     = (false, false   ) Global   
+bolLreverseStyle           = (false, false   ) Global   
+bolLballs                  = (true , true    ) Global   
+bolLcurrentThrows          = (false, false   ) Global   
+bolLjuggler                = (false, false   ) Global   
+bolLjugglerTrail           = (false, false   ) Global   
+bolLcolors                 = (true , true    ) Global   
+bolLrandomColors           = (false, false   ) Global   
+bolLalternateColors        = (false, false   ) Global   
+bolLdefaults               = (false, false   ) Global   
+bolLrandomDefaults         = (false, false   ) Global   
+bolLflash                  = (false, false   ) Global   
+bolLrobot                  = (false, false   ) Global   
+bolLsounds                 = (false, false   ) Global   
+bolLcatchSounds            = (false, false   ) Global   
+bolLthrowSounds            = (false, false   ) Global   
+bolLmetronome              = (false, false   ) Global   
+bolLlight                  = (false, false   ) Global   
+bolLspeed                  = (false, false   ) Global   
+bolLfluidity               = (false, false   ) Global   
+bolLinfo                   = (false, false   ) Global   
+bolLwarnings               = (false, false   ) Global   
+bolLerrors                 = (false, false   ) Global   
+bytLballsTrail             = (51 , 51    ) Global   
+bytLdayJuggler             = (0  , 0     ) Global   
+bytLnightJuggler           = (0  , 0     ) Global   
+bytLalternateColors        = (0  , 0     ) Global   
+bytLdefaults               = (1  , 1     ) Global   
+bytLstrobe                 = (1  , 1     ) Global   
+bytLheight                 = (6  , 6     ) Local    
+bytLdwell                  = (99 , 99    ) Local    
+bytLspeed                  = (10 , 10    ) Global   
+bytLskill                  = (4  , 4     ) Local    
+bytLmark                   = (4  , 4     ) Local    
+bytLrelativeSpeed          = (10 , 10    ) Local    
+bytLfluidity               = (99 , 99    ) Global   
+

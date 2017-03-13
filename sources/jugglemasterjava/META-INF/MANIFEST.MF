@@ -1,0 +1,42 @@
+Manifest-Version: 1.0
+
+Name: Arm.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: 3MUlpzSQat8OuTSfytovww0n/lY=
+MD5-Digest: 018+FIDYeLIAgQH7UzoKSQ==
+
+Name: Ball.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: 4aIyI3jvLwfazjexJDXT2XvXZQQ=
+MD5-Digest: YBxTjRtJzgKsrpRJ81LiyQ==
+
+Name: Jmj$ImageFrame.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: Yujb28xDNoxVsuau0304wXTQS0s=
+MD5-Digest: j+uqM1yez2s0A7PgrkLSlg==
+
+Name: Jmj.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: We8uXJ9DQ2nWFRr1bOlXn7INbg8=
+MD5-Digest: h/Qhxc0taOFHTrWVO5igeQ==
+
+Name: JmjController$JmjDialog.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: +Bns0V28Rhi0m9UfuUtigGbeAfw=
+MD5-Digest: yAMxNEDabPTp3EAlB1pjEw==
+
+Name: JmjController.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: N44IeWUT81oj1F1PdYCs4GDnQ4I=
+MD5-Digest: e3VsrxTRc7KEnbiLRTgS6Q==
+
+Name: PatternHolder$Piece.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: 8Pax2ZSLmqVUNwBUp4U0UIw+cHE=
+MD5-Digest: Cll6wmSvXJokbhgCW6ogUQ==
+
+Name: PatternHolder.class
+Digest-Algorithms: SHA MD5 
+SHA-Digest: zV/+5SyVwXXdwsQfRTSjjj8vBts=
+MD5-Digest: XgvqWQRjzxlPHFHjgFPSyA==
+

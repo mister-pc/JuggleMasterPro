@@ -1,0 +1,2299 @@
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;                                                            Orbites & Chops                                                             ;
+;                                                            par Arnaud BeLO.                                                            ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Chaque ligne du fichier peut avoir une des six significations suivantes :                                                             ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                             ;
+;  1.  ; <comment>                    : Commentaire dans ce fichier,                                                                     ;
+;  2.  / <comment>                    : Commentaire apparaissant dans la liste des figures,                                              ;
+;  3.  / <[title]>                    : Titre de chapitre apparaissant dans les listes des figures et des raccourcis,                    ;
+;  4.  <siteswap> [<pattern name>]    : Figure mémorisée dans la liste avec les paramètres en cours,                                     ;
+;  5.  # <name> = <value>             : Réglage d'un paramètre,                                                                          ;
+;  6.  {x, y, [=|-|+|#]z, [=|-|+|#]t}                                                                                                    ;
+;      {x, y, [=|-|+|#]z, [=|-|+|#]t} : Définition d'un style.                                                                           ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Des abrévations sont permises pour écrire les syntaxes les plus courantes :                                                           ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                           ;
+;  -   % <name>                       : Nom de style                   - équivalent à #style  = <name>,                                  ;
+;  -   ^ <value>                      : Réglage de la hauteur          - équivalent à #height = <value>,                                 ;
+;  -   @ <value>                      : Réglage du pourcentage en main - équivalent à #dwell  = <value>,                                 ;
+;  -   $ <values>                     : Réglage des couleurs           - équivalent à #colors = <values>,                                ;
+;  -   £ <value>                      : Réglage du niveau              - équivalent à #skill  = <value>.                                 ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 1. Il est même possible de commencer un commentaire en milieu de ligne, à la suite de données.                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 2. C'est pour créer un chapitre de figures dans la liste.                                                                              ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 3. C'est pour créer un chapitre de figures dans la liste, mais aussi un lien rapide vers ce chapitre.                                  ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 4. Les siteswaps sont en accord avec la nomenclature habituellement usitée :                                                           ;
+;    caractères alphanumériques, crochets, virgule, étoile et parenthèses.                                                               ;
+;    Des espaces peuvent être insérés dans le siteswap de façon à marquer des séparations entre des lancés.                              ;
+;    Le "siteswap" sera alors entouré de doubles-guillemets.                                                                             ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
+;    #tooltip            =  global*                                          | <tooltip text>                                            ;
+;    #startPattern†      =                    true*         |  false                                                                     ;
+;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #siteswap           =  global*| local |  true          | (false | user)*                                                            ;
+;    #siteswapThrows     =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseSiteswap    =  global*| local |  true          | (false | user)*                                                            ;
+;    #daySiteswapColor   =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F00 | user)*      ;
+;    #nightSiteswapColor =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F22 | user)*      ;
+;                                                                                                                                        ;
+;    #style              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #style°             =                           <name> | <inner style>*                                                             ;
+;    #FX                 =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseStyle       =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #balls              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #balls              =  global*| local                                   | <trail length 0*..50>          |      trail | user*       ;
+;    #currentThrows      =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #juggler            =  global*| local | (true  | user)*|  false                                                                     ;
+;    #jugglerTrail       =  global*| local |  true          | (false | user)*                                                            ;
+;    #dayJuggler         =  global*| local | (true  | user)*|  false                                                                     ;
+;    #nightJuggler       =  global*| local |  true          | (false | user)*                                                            ;
+;    #juggler            =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #dayJuggler         =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #nightJuggler       =  global*| local |       (phantom |  user)*        |  hands &| arms &| head         |   (visible | user)*      ;
+;                                                                                                                                        ;
+;    #dayJugglerColor    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (444 | user)*      ;
+;    #nightJugglerColor  =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (CCC | user)*      ;
+;    #dayBackground      =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (FFF | user)*      ;
+;    #nightBackground    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (000 | user)*      ;
+;    #background         =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF>              | user *      ;
+;                                                                                                                                        ;
+;    #colors             =  global*| local | (true  | user)*|  false                                                                     ;
+;    #colors°            =           local*                                  | <color sequence>               |         (7 | user)*      ;
+;    #randomColors       =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |                [/]<period 9..1> | (catch | 0 | user)* | (count   | [/]T)                    ;
+;                                                                                                                                        ;
+;    #defaults           =  global*| local |  true          | (false | user)*                                                            ;
+;    #defaults           =  global*| local |  <number 1..9>                  |         (1 | user)*                                       ;
+;    #randomDefaults     =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #strobe             =  global*| local |  true                                                                                       ;
+;    #strobe             =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #robot              =  global*| local |  true          | (false | user)*                                                            ;
+;    #robot              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #flash              =  global*| local |  true          | (false | user)*                                                            ;
+;    #flash              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;                                                                                                                                        ;
+;    #sounds             =  global*| local | (true | user)* |   false                                                                    ;
+;    #catchSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #throwSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #metronome          =  global*| local |  true          | (false | user)*                                                            ;
+;    #light              =  global*| local | (true | user)* |  false                                                                     ;
+;                                                                                                                                        ;
+;    #height             =  global | local*| <number  1..50 >                |             <float 0.01..0.50> |        (12 | user)*      ;
+;    #speed              =  global*| local | (true | user)* |  false                                                                     ;
+;    #speed              =  global*| local                                   |             <float  0.1..3.0 > |       (1.5 | user)*      ;
+;    #dwell              =  global | local*| <number  1..99 >                |             <float 0.01..0.99> |        (70 | user)*      ;
+;    #fluency            =  global*| local | (true | user)* |  false                                                                     ;
+;    #fluency            =  global*| local |                                                 <number  1..99 > |        (99 | user)*      ;
+;                                                                                                                                        ;
+;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
+;    #errors             =  global*| local | (true | user)* | false                                                                      ;
+;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
+;    #mark°              =                    1..5 | 3*                                                                                  ;
+;    #edition            =  global | local*| (true | user)* | false                                                                      ;
+;                                                                                                                                        ;
+;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
+;    La valeur 'local' rend le paramètre propre à la figure, et permet donc de définir des valeurs différentes suivant les figures,      ;
+;    et les paramètres marqués d'un '°' sont toujours définis de façon 'local'(e).                                                       ;
+;    Le paramètre marqué d'un '†' (#startPattern) ne s'applique uniquement qu'à la figure qui le suit immédiatement.                     ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une séquence de couleurs est constituée d'une suite de lettres qui affectent à chacune des balles du siteswap une couleur.          ;
+;    Il est possible de suffixer une lettre par un chiffre de 1 (clair) à 9 (foncé),                                                     ;
+;    pour affiner l'intensité de la couleur (à 5 par défaut) :                                                                           ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                           ;
+;        A [Aqua]        : Mer,                                                                                                          ;
+;        B [Blue]        : Bleu,                                                                                                         ;
+;        C [Cyan]        : Cyan,                                                                                                         ;
+;        D [Dark]        : Noir,                                                                                                         ;
+;        E [Emerald]     : Émeraude,                                                                                                     ;
+;        F [Fuchsia]     : Fuchsia,                                                                                                      ;
+;        G [Green]       : Vert,                                                                                                         ;
+;        H [Honey]       : Miel,                                                                                                         ;
+;        I [Indigo]      : Indigo,                                                                                                       ;
+;        K [Khaki]       : Kaki,                                                                                                         ;
+;        L [Lavender]    : Lavande,                                                                                                      ;
+;        M [Maroon]      : Marron,                                                                                                       ;
+;        N [Night]       : Nuit,                                                                                                         ;
+;        O [Orange]      : Orange,                                                                                                       ;
+;        P [Pink]        : Rose,                                                                                                         ;
+;        Q [Quartz]      : Quartz,                                                                                                       ;
+;        R [Red]         : Rouge,                                                                                                        ;
+;        S [Saffron]     : Safran,                                                                                                       ;
+;        T [Tan]         : Bronzé,                                                                                                       ;
+;        U [UltraMarine] : Outremer,                                                                                                     ;
+;        V [Vermilion]   : Vermilion,                                                                                                    ;
+;        W [White]       : Blanc,                                                                                                        ;
+;        X [Crystal]     : Cristal,                                                                                                      ;
+;        Y [Yellow]      : Jaune,                                                                                                        ;
+;        Z [Zinc]        : Zinc.                                                                                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 6. Un style est appelé en mentionnant son nom : #style = <name>, ou plus simplement % <name>.                                          ;
+;    S'il n'existe pas, sa définition est donnée à sa suite.                                                                             ;
+;    Elle est réalisée par une série de lignes fournissant à chaque étape les coordonnées spatiales de la rattrape r et du lancé l       ;
+;    sous la forme :                                                                                                                     ;
+;                                                                                                                                        ;
+;        { [Xr] [(,| ) [Yr] [(,| ) [=|-|+|#][Zr][_|@|×] [(,| ) [=|-|+|#][Br][_|@|×]  ]]] }                                               ;
+;                                   [{ [Xl] [(,| ) [Yl] [(,| ) [=|-|+|#][Zl][_|@|×] [(,| ) [=|-|+|#][Bl][_|@|×]  ]]] }]                  ;
+;                                                                                                                                        ;
+;              avec :  -128  <=  Xr, Xl  <=  127,                                                                                        ;
+;                      -128  <=  Yr, Yl  <=  127,                                                                                        ;
+;                         0  <=  Zr, Zl  <=  127,                                                                                        ;
+;                         0  <=  Br, Bl  <=  127.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une abscisse Xn ou une ordonnée Yn non précisées valent 0 (balle au centre, face au nombril du jongleur).                           ;
+;    Il est préférable de fournir des valeurs respectant les réglages initiaux du constructeur (Ken MATSUOKA),                           ;
+;    au risque d'avoir sinon un jongleur avec de très grands bras :                                                                      ;
+;                                                                                                                                        ;
+;                       -30  <=  Xr, Xl  <=   30,                                                                                        ;
+;                       -10  <=  Yr, Yl  <=   20.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) fait référence à la position des bras et mains par rapport au jongleur (resp. aux balles).                   ;
+;    Une cote Zn non précisée vaut 0, une cote Bn reprend quant à elle la valeur de la cote Zn la précédant.                             ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être préfixée par un des signes '=', '-', '+' ou '#', pour préciser :                                   ;
+;        - la position de la main par rapport au bras et celle du bras par rapport au jongleur,                                          ;
+;        - resp. la position de la balle par rapport aux bras et au jongleur.                                                            ;
+;        Pour les bras et mains (Zn) :                                                                                                   ;
+;                          -        '=' (double '-') : la main est derrière le bras qui est derrière le jongleur,                        ;
+;                          -        '-'              : la main est devant le bras qui est derrière le jongleur,                          ;
+;                          -        '+'              : la main est derrière le bras qui est devant le jongleur,                          ;
+;                          -        '#' (double '+') : la main est devant le bras qui est devant le jongleur.                            ;
+;        Resp. pour les balles (Bn) :                                                                                                    ;
+;                          -        '=' (double '-') : la balle est derrière les bras et le jongleur,                                    ;
+;                          -        '-'              : la balle est devant les bras et derrière le jongleur,                             ;
+;                          -        '+'              : la balle est derrière les bras et devant le jongleur,                             ;
+;                          -        '#' (double '+') : la balle est devant les bras et le jongleur.                                      ;
+;        Le préfixe '#' est celui considéré par défaut.                                                                                  ;
+;        Il provoque le dessin de la balle par dessus les bras et le bras par dessus le jongleur.                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être suffixée par un des signes '_', '@', ou '×'                                                        ;
+;    pour préciser la visibilité momentanée du bras et/ou de la main du jongleur (resp. de la balle).                                    ;
+;        Pour le bras et la main (Zn) :                                                                                                  ;
+;                          -        '_' : le bras reste visible (mais la main devient invisible),                                        ;
+;                          -        '@' : la main reste visible (mais le bras devient invisible),                                        ;
+;                          -        '×' : le bras et la main sont invisibles.                                                            ;
+;        Resp. pour la balle (Bn) :                                                                                                      ;
+;                          -        '_' ou '@' : la balle reste visible,                                                                 ;
+;                          -        '×'        : la balle devient invisible.                                                             ;
+;        En l'absence de suffixe, bras, mains et balles restent visibles.                                                                ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Exemple exhaustif :                                                                                                                 ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                 ;
+;              %Exemple exhaustif de style                                                                                               ;
+;              {0, 1       }{ ,2,=3     }                                                                                                ;
+;              { ,-4,#5,  ×}{6, ,  _,-7 }                                                                                                ;
+;              {           }{8, , 9@    }                                                                                                ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;              #style = Exemple exhaustif de style    ; déclaration du style par son nom, et suivie de sa définition :                   ;
+;              {0, 1,#0,#0 }{0,2,=3 ,=3 }             ; { 0,  1, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                     ;          #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 0,  2, =3  : main derrière le bras derrière le jongleur,                       ;
+;                                                     ;          =3  : balle derrière la main et le bras                          }      ;
+;              {0,-4,#5,#0×}{6,0,#0_,-7 }             ; { 0, -4, #5  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0× : balle invisible                                            }      ;
+;                                                     ; { 6,  0, #0_ : bras devant le jongleur et main invisible ,                       ;
+;                                                                -7  : balle devant la main et le bras, mais derrière le jongleur }      ;
+;              {0, 0,#0,#0 }{8,0,#9@,#9@}             ; { 0,  0, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 8,  0, #9@ : main devant le jongleur, bras invisible   ,                       ;
+;                                                                #9@ : balle devant la main et devant le jongleur                 }      ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Dans le cas des siteswaps synchros - de la forme (<left 1>, <right 2>) ... (<left (n-1)>, <right n>) -,                             ;
+;    les lignes de style sont interprétées de la façon suivante :                                                                        ;
+;         la première   ligne : {Xr1    , Yr1    , Zr1    , Br1    } {Xl1    , Yl1    , Zl1    , Bl1    } correspond à    <right 2    >, ;
+;         la deuxième   ligne : {Xr2    , Yr2    , Zr2    , Br2    } {Xl2    , Yl2    , Zl2    , Bl2    } correspond à    <left  1    >, ;
+;         ...                                                                                                                            ;
+;         la (n-1)-ième ligne : {Xr(n-1), Yr(n-1), Zr(n-1), Br(n-1)} {Xl(n-1), Yl(n-1), Zl(n-1), Bl(n-1)} correspond à    <right n    >, ;
+;         la  n   -ième ligne : {Xrn    , Yrn    , Zrn    , Brn    } {Xln    , Yln    , Zln    , Bln    } correspond à    <left  (n-1)>. ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Pour définir plus rapidement des styles correspondant à des siteswaps synchros symétriques,                                         ;
+;    il est possible de faire suivre la première série de lignes de définitions par une ligne comportant uniquement un '*',              ;
+;    qui duplique les lignes déjà renseignées en les permutant deux à deux :                                                             ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         *                                                                                                                              ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+
+#siteswap         = local
+#reverseSiteswap  = false
+
+#style            = true
+#FX               = false
+#reverseStyle     = false
+#tooltip          = Orbites & Chops
+
+
+#balls            = true
+#balls            = 1
+#nightJuggler     = false
+#nightJuggler     = phantom
+#dayJuggler       = true
+#juggler          = true
+                  
+#colors           = true
+#alternateColors  = local
+#alternateColors  = false
+#alternateColors  = catch
+#randomColors     = local
+#randomColors     = false
+
+#defaults         = true
+#defaults         = 1
+#randomDefaults   = false
+#flash            = false
+#robot            = false
+
+#metronome        = false
+#light            = true
+                  
+#skill            = amateur
+#errors           = true
+#warnings         = true
+#startPattern     = true
+#edition          = true
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+%Adidas
+{11,2}{4,-1}
+{14,4}{2,-2}
+*
+
+;========================================================================================================================================; 
+
+%Barbelés
+{ -3,-2, }{-3,-2,2}
+{ 12, 8, }{11,-1, }
+{-15, 1,2}{-7, 8,2}
+{ -6,-5, }{-9, 3, }
+*
+
+%Barbelés Inversés
+{-1,-4,2}{ -1,  , }
+{11,-3, }{  8, 7, }
+{-6, 2, }{ -8,-6, }
+{-7, 8,2}{-15,  ,2}
+*
+
+%Barrage De Burke 3T a
+{-12,-1, }{ -6, 8, }
+{  2,-1, }{ 11,-2, }
+{  9, 6, }{ 12,-1, }
+{  2,-1, }{ 12,  , }
+{   ,-3, }{-12,  , }
+{ -8, 1,2}{ -8, 1,2}
+*
+
+%Barrage De Burke Inversé 3T a
+{-12,   , }{   , -3, }
+{ -8,  1,2}{ -8,  1,2}
+{ 12, -1, }{  9,  6, }
+{ 12,   , }{  2, -1, }
+{ -6,  8,2}{-12, -1,2}
+{ 11, -2, }{  2, -1, }
+*
+
+%Barrage De Burke 3T b
+{13,  , }{ -5, 1, }
+{11, 1, }{ 13,  , }
+{-5, 1,2}{-11, 8,2}
+{-4,-1, }{ -4,-1, }
+{11,10, }{ 21, 1, }
+{-1,  , }{ 13,  , }
+*
+
+%Barrage De Burke 3T Multiplexé b
+{13,  , }{ -5, 1, }
+{11, 1, }{ 13,  , }
+{-5, 1,2}{-11, 8,2}
+{-4, 1, }{ -4,-1, }
+{11,10, }{ 21, 1, }
+{-1,  , }{ 13,  , }
+*
+
+%Barrage De Burke 3T c
+{ 3, 1}{ 15, 4, }
+{ 8, 6}{ 20,  , }
+{15, 1}{  3, 3, }
+{ 9, 1}{ 18,  , }
+{ 3, 3}{-11, 6,2}
+{ 3,-1}{ -8,-1, }
+*
+
+%Barrage De Burke Inversé 3T c
+{-11,  6,2}{ 3,  3}
+{ -8, -1, }{ 3, -1}
+{  3,  3, }{15,  1}
+{ 18,   , }{ 9,  1}
+{ 15,  4, }{ 3,  1}
+{ 20,   , }{ 8,  6}
+*
+
+%Barrage De Burke 2T Intérieur À 3
+{  , 1}{-11, 8,2}
+{  ,-5}{ -8,-1, }
+{11,10}{ 17,  , }
+{ 6,  }{  9,  , }
+*
+
+%Barrage De Burke 2T Extérieur À 3
+{  , 1}{-9,8}
+{13, 1}{13, }
+{ 9,10}{13, }
+{ 4,  }{12,1}
+*
+
+%Barrage De Burke 2T Colonnes À 3
+{12,9}{-6,-5}
+{-6,2}{-6, 9}
+{ 0,2}{ 0, 5}
+
+%Barrage De Burke 2T À 4
+{15,11, }{-5,-3,2}
+{-9, 3,2}{-4,14, }
+{  , 4, }{ 3,-1, }
+
+%Barrage De Burke Croisé À 3
+{  3, 9}{ 7,  , }
+{  6, 1}{ 6, 1, }
+{  7,  }{ 7,  , }
+{  6, 3}{13,  , }
+{  2,-3}{-4,-2, }
+{  4, 2}{ 8, 2, }
+{-13, 2}{13,  , }
+{ -4, 3}{-9, 8,2}
+*
+
+%Barrage De Burke Croisé À 4
+{  6, , }{ 7, 1}
+{  3,6, }{-2,-4}
+{ -4,3,2}{-9, 8}
+{-13,3, }{13,  }
+*
+
+%Barrage De Burke Cascadé a
+{ 5, }{-9,8}
+{13,1}{13, }
+{ 7,9}{13, }
+{ 4, }{12,1}
+*
+
+%Barrage de Burke Cascadé b
+{  8,-1}{1,-2}
+{  8,-2}{8,-2}
+{  5, 6}{8,-1}
+{-14,-2}{8,-2}
+*
+
+%Barrage De Burke Photoné
+{ 8,  }{8,-1}
+{ 8,  }{8,  }
+{ 8, 5}{8,10}
+{  , 6}{3,13}
+{ 8,10}{8, 5}
+{16,11}{ ,  }
+*
+
+%Barrage De Burke Photoné Multiplexé
+{18,12}{ 8,  }
+{  ,  }{  ,  }
+{12,  }{  ,  }
+{  ,  }{12,  }
+{  ,  }{  ,  }
+{-2, 6}{ 3,13}
+*
+
+%Barrage De Burke Zippé À 3
+{   , 4, }{-17, 3,2}
+{-10,-2, }{-10,-2, }
+{-11, 7,2}{ 17, 4, }
+{  5,  , }{ 12, 2, }
+*
+
+%Barrage De Burke Zippé À 4
+{  5,  , }{ 12,-2, }
+{-11, 9,2}{ 17, 4, }
+{   , 4, }{-17, 3,2}
+{-10,-3, }{-10, 3, }
+*
+
+;========================================================================================================================================; 
+
+%Cassiopée
+{ 3,-3}{ 3,-3}
+{15,14}{15,14}
+{10, 5}{13,14}
+
+%Croix Piochée
+{17,-1}{  5, 6}
+{ 6,-2}{-14,-2}
+{ 1,-2}{ 13,-1}
+{ 7,-2}{  8,-2}
+*
+
+%Croix Piochée Coupée
+{13,-1}{ 5, 6}
+{ 2,-2}{-9,-2}
+{-1,-2}{15, 6}
+{ 7,-2}{ 8,-2}
+*
+
+;========================================================================================================================================; 
+
+%Double Boucle
+{13, }{ 1, }
+{  , }{13, }
+{ 8,8}{ 8,8}
+{ 1, }{13, }
+{12,4}{14, }
+{-1, }{13, }
+*
+
+%Double Loop
+{14, }{12,4}
+{13, }{-1, }
+{ 8,8}{ 8,8}
+{13, }{ 1, }
+{ 1, }{13, }
+{13, }{  , }
+*
+
+;========================================================================================================================================; 
+
+%Extérieurs
+{4}{13}
+{4}{13}
+
+;========================================================================================================================================; 
+
+%Fleur À 3
+{-5,2}{  ,9}
+{ 9,9}{17,2}
+*
+
+%Fleur À 4
+{15,12}{18,-3}
+{15,12}{18,-3}
+{ 4, 3}{ 7,12}
+{ 4, 3}{ 7,12}
+
+%Fleur À 5
+{-5,2}{ 5,11}
+{14,2}{17, 2}
+*
+
+%Fleur Collée
+{13, 2}{-13,-5}
+{13, 2}{ 13, 2}
+{-8,13}{  8,13}
+{17, 2}{ 17, 2}
+*
+
+%Fleur Doublée
+{-4,3}{-10, 8}
+{11,8}{ 15,-3}
+{ 2,4}{-12, 8}
+{ 4, }{ 13,  }
+*
+
+;========================================================================================================================================; 
+
+%Huit Montant
+{ 15,9}{  ,8}
+{  5, }{ 5, }
+{-15,9}{  ,8}
+{ -5, }{-5, }
+
+%Huit Montant Alterné
+{  7,-5, }{  7,-5, }
+{-14, 1,2}{-14, 1,2}
+{  1, 6, }{-10, 3, }
+{  5, 2,2}{-12,-7, }
+*
+
+%Huit Descendant
+{ 6,4,2}{ 12,8,2}
+{-5, , }{ -5, , }
+{-6,4,2}{-12,8,2}
+{ 5, , }{  5, , }
+
+%Huit Descendant Alterné
+{  , , }{  4,9, }
+{10,2, }{ 14, , }
+{-9,3,2}{ -9,9,2}
+{ 1, , }{-15, , }
+*
+
+; %Huit Descendant Alterné Inversé
+; { -9,9}{-9,3}
+; {-15, }{ 1, }
+; {  4,9}{  , }
+; { 14, }{10,2}
+; *
+
+;========================================================================================================================================; 
+
+%Intérieurs
+{13}{4}
+{13}{4}
+
+;========================================================================================================================================; 
+
+%Lune À 3
+{10, , }{ -9, 6}
+{18,4, }{-11,-2}
+{-9,6,2}{  1,12}
+{-6, , }{ -6,  }
+*
+
+%Lune À 4
+{10,2, }{ -9, 6}
+{18,6, }{-11,-2}
+{-9,6,2}{  1,12}
+{-6, , }{ -6,-2}
+*
+
+%Lune Inversée À 3
+{ -9, 6}{10, , }
+{-11,-2}{16,2, }
+{ -6,  }{-6, , }
+{  1,13}{-9,6,2}
+*
+
+%Lune Inversée À 4
+{ -9, 6}{10, , }
+{-11,-4}{16,6, }
+{ -6,-1}{-4,2, }
+{  1,13}{-9,6,2}
+*
+
+;========================================================================================================================================; 
+
+%Moissonneuse
+{  2,-1}{ 12,  }
+{  3, 5}{ 12, 2}
+{-10, 4}{ -2, 7}
+{   ,-3}{-12,  }
+{  8, 1}{ -6, 5}
+{  2,-1}{ 11,-6}
+*
+
+%Multiplex Pagayé À 3
+{-6,  }{-13, }
+{-9, 9}{ -9,9}
+{ 4,-1}{ 13,4}
+{ 2,  }{ 13, }
+{-9, 9}{ -9,9}
+{  ,  }{ 10, }
+*
+
+%Multiplex Pagayé À 4
+{-6,  }{-13, }
+{-9, 9}{ -9,9}
+{  ,-1}{ 13,4}
+{  , 2}{ 13, }
+{-9, 9}{ -9,9}
+{  ,  }{ 10, }
+*
+
+;========================================================================================================================================; 
+
+%Onde À 3
+{  7,-3, }{-5,-4}
+{  7,12, }{12,-2}
+{-15, 4,2}{-9,12}
+{  7,-3, }{ 7,-3}
+*
+
+%Onde À 4
+{  7,-3, }{-5,-4}
+{  7,12, }{12,-2}
+{-15, 4,2}{-9,12}
+{  7,-3, }{12,-3}
+*
+
+%Onde Inversée À 3
+{ 7,-3}{  7,-3, }
+{-9,12}{-15, 4,2}
+{12,-2}{  7,12, }
+{-5,-4}{  7,-3, }
+*
+
+%Onde Inversée À 4
+{-9,12}{-15, 4,2}
+{12,-3}{  7,-3, }
+{-5,-4}{  7,-3, }
+{12,-2}{  7,12, }
+*
+
+%Onde Inversée Multiplexée
+{ 7,-3}{ 7,-3}
+{-6,12}{-3, 4}
+{ 7,-3}{ 7,12}
+{  ,-4}{ 7,-3}
+*
+
+;========================================================================================================================================; 
+
+%Pagaie
+{16,12}{  6,15}
+{  ,  }{-12,-1}
+{-8, 4}{ 10,-2}
+{-2,  }{ 16,-5}
+*
+
+%Pagaie Intérieure Multiplexée
+{ 7,11}{ 4,15}
+{  ,-3}{-9,-8}
+{-1,-4}{10,-5}
+{10,-4}{10,-4}
+*
+
+%Pagaie Extérieure Multiplexée
+{16,12}{  6,15}
+{  ,  }{-12,-1}
+{-8, 4}{ 10,-2}
+{-2,  }{ 16,-5}
+*
+
+%Pete Townshend
+{30, 2}{ 18,17}
+{23,-2}{ 23,-2}
+{-7,16}{-17, 8}
+{17, 3}{ 17, 2}
+{-8,-4}{ 14,-7}
+{17, 2}{ 17, 3}
+
+%Photon À 3
+{13,  }{  ,-4}
+{14,12}{ 5,  }
+{-9, 4}{-3,12}
+{13,  }{13,  }
+*
+
+%Photon Inversé À 3
+{  ,-4}{13,  }
+{ 5,  }{14,12}
+{13,  }{13,  }
+{-3,12}{-9, 4}
+*
+
+%Photon À 4
+{17,-2}{  ,-4}
+{14,12}{ 5,  }
+{-9, 4}{-3,12}
+{13,  }{ 7, 2}
+*
+
+%Photon Inversé À 4
+{-3,12}{-9, 4}
+{ 7, 2}{13,  }
+{  ,-4}{17,-2}
+{ 5,  }{14,12}
+*
+
+%Pioches Intérieures À 3
+{12, 6}{  4,12}
+{ 6,-5}{-10,-5}
+{-2, 3}{  8,-5}
+{ 5,-5}{  5,-5}
+
+%Pioches Intérieures Alternées À 2
+{12,-3}{12, 3}
+{-6, 3}{-6,-3}
+*
+
+%Pioches Intérieures Alternées À 3
+{10, 6}{  7,10}
+{ 1,10}{-10,-5}
+*
+
+%Pioches Intérieures Backfront À 3
+{10, 9,   }{ 24,12,  }
+{ 5,-4, -1}{-10,-6,-1}
+{32,-3,   }{ 18,-1, 9}
+{-3,-3,-12}{ -3,-3,-1}
+
+%Pioches Extérieures À 3
+{-13, 8,2}{-13, 8,2}
+{ 10,-5, }{ 10,-5, }
+{ -5, 2, }{ 15,-5, }
+{ 17, 6, }{   ,12, }
+*
+
+%Pioches Extérieures Inversées À 3
+{ 10,-5, }{ 10,-5, }
+{-13, 8,2}{-13, 8,2}
+{ 15,-5, }{ -5, 2, }
+{   ,12, }{ 17, 6, }
+*
+
+%Pioches À 4
+{12, 3}{ 12, 3}
+{ 6,-5}{-10,-5}
+{-2,-1}{  8,-4}
+{ 5,-7}{  5,-7}
+
+%Pioches Alternées À 4
+{ 6,12}{ 3,-3}
+{ 6,12}{ 3,-3}
+{17, 3}{14,12}
+{17, 3}{14,12}
+
+%Pioches Extérieures Alternées À 4
+{ 3,-1}{  , 4, }
+{-4,14}{-9, 3,2}
+{-5,-3}{15,11, }
+
+%Pioches Intérieures À 5
+{12, 3}{  7,12}
+{ 8,-5}{-12,-5}
+{-4, 3}{  6,-5}
+{ 8,-5}{  8,-5}
+
+%Pioches Intérieures Alternées À 5
+{10, 6}{  7,14}
+{ 1, 6}{-10,-5}
+*
+
+%Pioches Burkées À 3
+{  6, 2}{-9, 5}
+{ 11,-2}{  ,-2}
+{ 11, 8}{ 7, 2}
+{  6,-2}{ 6,-2}
+{ 13, 2}{ 1, 8}
+{  6,-2}{ 6,-2}
+{-11, 4}{13, 2}
+{ 11,-2}{11,-2}
+
+%Pioches Burkées À 4 a
+{ 3,12}{  ,-3}
+{15,12}{18,-3}
+{14, 3}{11,12}
+{ 4, 3}{ 7,12}
+
+%Pioches Burkées À 4 b
+{27,12}{10,  }
+{27,12}{10,  }
+{20, 6}{14,13}
+{20, 6}{14,13}
+{ 3,12}{20,  }
+{ 3,12}{20,  }
+{10, 6}{16,13}
+{10, 6}{16,13}
+
+%Pioches Burkées À 4 c
+{20,12}{ 3,  }
+{-4,12}{13,  }
+{13, 6}{ 7,13}
+{ 3, 6}{ 9,13}
+*
+
+%Pioches Doublées
+{12,  }{  5, 9}
+{-7,-3}{-13,-2}
+{  , 2}{ 13, 4}
+{10,  }{-10,-2}
+{ 5, 9}{ -4,-2}
+{12, 1}{ 12, 1}
+*
+
+%Pioches Lunées
+{  6, 4}{-9, 6}
+{  6,  }{ 6,-2}
+{  9, 8}{ 5, 1}
+{ -6,-4}{-6,-4}
+{ 13, 2}{ 1, 8}
+{  6,-4}{ 6,  }
+{-11, 4}{13, 4}
+{ 13,-1}{13,-1}
+*
+
+%Pioche Médusée
+{10,-2, }{  8,-2, }
+{ 8, 3, }{-12,-1, }
+{ 8, 5,2}{ -4,-4,2}
+
+;========================================================================================================================================; 
+
+%Revanche De Rubenstein 3T À 3
+{  ,  ,2}{ 13, 6,2}
+{-3,-3, }{-11,-3, }
+{ 3, 5,2}{-12, 2,2}
+{-1,  , }{ 12, 2, }
+{-2, 2, }{-10,  , }
+
+%Revanche De Rubenstein 3T À 4
+{ 1, 7,2}{-14, 6,2}
+{-3, 0, }{ 12, 5, }
+{-2, 5, }{-10, 0, }
+{ 2, 3,2}{ 15, 6,2}
+{-4,-3, }{-15,-5, }
+
+%Revanche De Rubenstein 3T Multiplexée À 4 a
+{ 1,  ,2}{ 14, 6,2}
+{-3,-3, }{-11,-3, }
+{ 3, 5, }{-12, 2,2}
+{-1,  , }{ 12, 2, }
+{-2, 2, }{-10,  , }
+
+%Revanche De Rubenstein 3T Multiplexée À 4 b
+{-1,-1,2}{ 17, 5,2}
+{-3, 2, }{-12,-4, }
+{ 1, 5, }{-12, 2,2}
+{  ,-1, }{ 12, 3, }
+{ 3, 2, }{-13,  , }
+
+%Revanche De Rubenstein 3T À 5
+{ 3, 3,2}{-12,2,2}
+{  ,  , }{ 12,2, }
+{-2, 2, }{-14, , }
+{ 3, 1,2}{ 18,5,2}
+{ 3,-3, }{-17,2, }
+
+%Revanche De Rubenstein 3T Douchée
+{  ,  ,2}{ 18, 6,2}
+{-3,-6, }{-13,-3, }
+{ 3, 6, }{-12, 2,2}
+{-1,  , }{ 14, 5, }
+{-2, 2, }{-14,-2, }
+
+%Revanche De Rubenstein 3T Sautée
+{-2,-1,2}{ 16, 4,2}
+{-3,  , }{-12,-4, }
+{ 1, 7, }{-12, 2,2}
+{-2,-3, }{ 10, 1, }
+{ 1, 2, }{-13,  , }
+
+%Revanche De Rubenstein 2T
+{ 10,2, }{10,-3}
+{ 10, , }{10,-2}
+{  8,6, }{-4,15}
+{   ,7, }{14,14}
+{-19,8,2}{ 9,  }
+{ 27,9, }{  ,  }
+*
+
+%Revanche De Rubenstein 2T Multiplexée
+{ 10, 2, }{10,-3}
+{  9,  , }{  ,-2}
+{ 10,-3, }{10,-3}
+{ 10, 5, }{10,-2}
+{  8, 7, }{-4,15}
+{   , 7, }{14,14}
+{-19, 8,2}{ 9,  }
+{ 27, 8, }{-2, 2}
+*
+
+%Revanche De Rubenstein Huitée
+{-3, 9}{ 14, 4, }
+{ 1,-2}{-12,-3, }
+{ 5, 5}{ -8,  ,2}
+{-3,-4}{  6, 1, }
+{  , 2}{ 10,  , }
+{ 1, 2}{-13, 5,2}
+{-2,-5}{-10, 3, }
+
+;========================================================================================================================================; 
+
+%Serpent
+{10,3}{-7,-1}
+{15,2}{ 5,10}
+{ 5, }{ 5,  }
+{-8,7}{ 1, 6}
+*
+
+%Serpent Inversé
+{ 5,  }{ 5, }
+{ 3, 6}{-8,7}
+{-7,-1}{10,3}
+{ 5,10}{15,2}
+*
+
+%Shoulder Cruncher
+{ -6,11,2}{ -6, 1, }
+{ 13,-2, }{ 13, 2, }
+{ -8, 3, }{-10,11,2}
+{ 13,  , }{  4,  , }
+{ 11,13,2}{  6,-2, }
+{-13, 2, }{ 10, 5, }
+*
+
+;========================================================================================================================================; 
+
+%Trèfle
+{-7, 3}{ 9, 7}
+{-7,-3}{-7,-3}
+{16, 3}{-7,-6}
+{  , 1}{  , 1}
+*
+
+%Trèfle Multiplexé
+{-7, 3}{ 9, 7}
+{-7,-1}{-7,-1}
+{16, 3}{-7,-6}
+{ 2, 1}{-2, 1}
+*
+
+%Trèfle Inversé
+{-7,-6}{16, 3}
+{  , 1}{  , 1}
+{ 9, 7}{-7, 3}
+{-7,-3}{-7,-3}
+*
+
+%Trèfle Inversé Multiplexé
+{-7,-6}{16, 3}
+{  , 1}{  , 1}
+{ 7, 7}{-7, 3}
+{-7,-3}{-7,-3}
+*
+
+%Trident
+{ 8,-1}{  5, 6}
+{ 8,-2}{-14,-2}
+{ 1,-2}{  8,-1}
+{ 8,-2}{  8,-2}
+*
+
+%Trident Croqué
+{12,-1, }{  5, 6}
+{14,  , }{-14,-2}
+{ 1,-2,2}{  3,-8}
+{ 3, 3, }{ 12,  }
+*
+
+%Trident Soulevé
+{-9,-2}{ 9, 6}
+{ 9, 4}{ 9, 3}
+{  ,  }{ 9,-1}
+{ 9, 3}{-9, 5}
+{-9,-1}{  ,-5}
+{11, 5}{11,-5}
+*
+
+;========================================================================================================================================; 
+
+%Volant
+{ 10,  }{ 1,  }
+{-13,11}{12,12}
+{ 10,  }{12, 9}
+
+;========================================================================================================================================; 
+
+%Yo-Yo Extérieur Alterné
+{-13,  , }{-13, 1}
+{ 13,-2, }{ 13,-2}
+{ -5, 7, }{  4,10}
+{ -4, 6,2}{ 13,-2}
+{ 13, 1, }{ -9, 2}
+{  4,10, }{ -5, 6}
+*
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Pagaies]
+/¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+#randomColors = true
+
+#height = 11
+#dwell  = 70
+#skill  = beginner
+$VVVO
+#style  = Double Loop
+"(4,2)(4,2)(4×,2) *" Double Loop ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$OOE
+#style  = Serpent
+"(2,4)(2,4×) *" Serpent ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$OOEE
+#style  = Serpent
+"(2,[44×])(2,4×) *" Serpent Multiplexé Bas ; 4
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$VOOV
+#style  = Serpent
+"(2,4)([4×2],4×) *" Serpent Multiplexé Haut ; 4
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$YOORR
+#style  = Serpent
+"(2,[44×])([4×2],4×) *" Serpent Multiplexé ; 5
+
+;========================================================================================================================================; 
+/
+
+#height = 17
+#dwell  = 70
+#skill  = amateur
+$BRR
+#style  = Pagaie
+"(4×,2)(2,4) *" Pagaie ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = amateur
+$ERRB
+#style  = Pagaie Intérieure Multiplexée
+"(4×,2)(2,[44×]) *" Pagaie Multiplexée Intérieure ; 4
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$BRRE
+#style  = Pagaie Extérieure Multiplexée
+"(4×,2)(2,[44×]) *" Pagaie Multiplexée Extérieure ; 4
+
+;========================================================================================================================================; 
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$BBV
+#style  = Multiplex Pagayé À 3
+"(2,4×)([42×],0)(4×,2) *" Multiplex Extérieur Pagayé ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$RRRY
+#style  = Multiplex Pagayé À 4
+"([22],4×)([42×],2)(4,[22]) *" Multiplex Extérieur Pagayé ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$MMB
+#style  = Barbelés Inversés
+"(2,4)(2,4×) *" Barbelés Inversés ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$EEMM
+#style  = Barbelés Inversés
+"(2,[44×])(2,4×) *" Barbelés Inversés Multiplexés ; 4
+
+#height = 8
+#dwell  = 70
+#skill  = amateur
+$VOO
+#style = Trèfle Inversé
+"(4×,2) (2,4) *" Trèfle Inversé ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$OVVY
+#style = Trèfle Inversé Multiplexé
+"(4×,2) (2,[44×]) *" Trèfle Inversé Multiplexé ; 4
+
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Boucles]
+/¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+#randomColors = true
+
+#dwell  = 70
+#height = 11
+#skill  = beginner
+$EEER
+#style  = Double Boucle
+"(4,2)(4×,2)(2,4) *" Double Boucle ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$EEO
+#style  = Barbelés
+"(4,2)(4×,2) *" Barbelés ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$RRBB
+#style  = Barbelés
+"([44×],2)(4×,2) *" Barbelés Multiplexés ; 4
+
+#height = 8
+#dwell  = 70
+#skill  = amateur
+$VVO
+#style = Trèfle
+"(4,2)(4×,2) *" Trèfle ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$OOYV
+#style = Trèfle Multiplexé
+"([44×],2)(4×,2) *" Trèfle Multiplexé ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$YEY
+#style  = Serpent Inversé
+"(2,4×)(4,2) *" Serpent Inversé ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$BYBY
+#style  = Serpent Inversé
+"(2,4×)([44×],2) *" Serpent Inversé Multiplexé Bas ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$MYMY
+#style  = Serpent Inversé
+"([4×2],4×)(4,2) *" Serpent Inversé Multiplexé Haut ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$ROYOR
+#style  = Serpent Inversé
+"([4×2],4×)([44×],2) *" Serpent Inversé Multiplexé ; 5
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Huits]
+/¯¯¯¯¯¯
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$YVY
+#style  = Huit Montant
+"(4, 2) (4, 2) " Huit Montant ; 3
+
+; #height = 11
+; #dwell  = 60
+; #skill  = 
+; %Huit Descendant Alterné Inversé
+; "(4×,2)(2,4) (2,4×)(4,2) " Huit Descendant Alterné Inversé Pas Joli ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$RRY
+#style  = Huit Montant Alterné
+"(4,2)(4×,2) *" Huit Montant Alterné ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$OOYV
+#style  = Huit Montant Alterné
+"([44×],2)(4×,2) *" Huit Montant Alterné Multiplexé ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$YVV
+#style  = Huit Descendant
+"24 24 " Huit Descendant ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$YYR
+#style  = Huit Descendant Alterné
+"(4,2)(4×,2) *" Huit Descendant Alterné ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$OOYV
+#style  = Huit Descendant Alterné
+"([42×],2)(4×,[22]) *" Huit Descendant Alterné Multiplexé a ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$OOYV
+#style  = Huit Descendant Alterné
+"([44×],2)(4×,2) *" Huit Descendant Alterné Multiplexé b ; 4
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Burke En 3 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+#randomColors = true
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$RRRV
+#style  = Barrage De Burke 3T a
+"(4,2)(4×,2)(2,4) *" Barrage De Burke a ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$RRRY
+#style  = Barrage De Burke 3T a
+"([44×],2)(4×,2)(2,[42]) *" Barrage De Burke Multiplexé a ; 4
+
+#height = 8
+#dwell  = 70
+#skill  = amateur
+$RRRY
+#style  = Barrage De Burke 3T a
+"(4,2)(4×,[22])(2,[44×]) *" Barrage De Burke Multiplexé a' ; 4
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$EEBBO
+#style  = Barrage De Burke 3T a
+"([42],[22])([44×],[22])(2,[42]) *" Barrage De Burke Multiplexé a ; 5
+
+#alternateColors = true
+
+#dwell  = 70
+#height = 10
+#skill  = confirmed
+$OOOR
+#style  = Barrage De Burke Inversé 3T a
+"(4,2)(4,2)(4×,2) *" Barrage De Burke Inversé a ; 3
+
+;========================================================================================================================================; 
+/
+
+#randomColors = true
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YYYE
+#style  = Barrage De Burke 3T b
+"(4,2)(4×,2)(2,4) *" Barrage De Burke b ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YYYV
+#style  = Barrage De Burke 3T Multiplexé b
+"(4,2)(4×,[22])(2,[44×]) *" Barrage De Burke Multiplexé b ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YYYV
+#style  = Barrage De Burke 3T Multiplexé b
+"([44×],2)(4×,2)(2,[42]) *" Barrage De Burke Multiplexé b' ; 4
+
+; #height = 08
+; #dwell  = 60
+; #skill  = pro
+; %Barrage De Burke 3T Multiplexé b
+; "5 " Barrage De Burke Multiplexé B Trop Moche ; 5
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+#randomColors = true
+
+#height = 7
+#dwell  = 70
+#skill  = confirmed
+$EEEO
+#style  = Barrage De Burke 3T c
+"(4,2)(4×,2)(2,4) *" Barrage De Burke c ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 7
+#dwell  = 70
+#skill  = confirmed
+$EEEO
+#style  = Barrage De Burke 3T c
+"(4,2)(4×,[22])(2,[44×]) *" Barrage De Burke Multiplexé c ; 4
+
+#height = 7
+#dwell  = 70
+#skill  = confirmed
+$EEEO
+#style  = Barrage De Burke 3T c
+"([44×],2)(4×,2)(2,[42]) *" Barrage De Burke Multiplexé c' ; 4
+
+; #height = 08
+; #dwell  = 60
+; #skill  = pro
+; %Barrage De Burke 3T c
+; "5 " Barrage De Burke Multiplexé C Trop Moche ; 5
+
+#alternateColors = true
+
+#dwell  = 70
+#height = 7
+#skill  = confirmed
+$OOOM
+#style  = Barrage De Burke Inversé 3T c
+"(4,2)(4,2)(4×,2) *" Barrage De Burke Inversé c ; 3
+
+;========================================================================================================================================; 
+/
+
+#randomColors = true
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$BBBV
+#style  = Moissonneuse
+"(2,4×)(4,2)(4,2) *" Moissonneuse ; 3
+
+#alternateColors = false
+#randomColors = false
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$BBBR
+#style  = Moissonneuse
+"([22],4×)([44×],2)(4,2) *" Moissonneuse Multiplexée ; 4
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Pioches En 2 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#randomColors = true
+#height = 9
+#dwell  = 75
+#skill  = amateur
+$ORY
+#style  = Pioche Médusée
+"333 *" Pioche Médusée ; 3
+
+#alternateColors = true
+#randomColors = false
+
+#height = 11
+#dwell  = 70
+#skill  = beginner
+$MMME
+#style  = Pioches Intérieures À 3
+"(4×,2) (2,4×) " Pioches Intérieures ; 3
+
+#height = 9
+#dwell  = 80
+#skill  = amateur
+$MMMY
+#style  = Pioches Intérieures Backfront À 3
+"(4×,2) (2,4×) " Pioches Intérieures Backfront ; 3
+
+#alternateColors = false
+
+#dwell  = 70
+#height = 11
+#skill  = pro
+$EEYY
+#style  = Pioches Extérieures Alternées À 4
+"552 *" Pioches Extérieures Alternées ; 4
+
+#dwell  = 70
+#height = 11
+#skill  = pro
+$EEMMM
+#style  = Pioches Intérieures À 5
+"([44×],2) *" Pioches Intérieures Multiplexées ; 5
+
+;========================================================================================================================================; 
+
+#height = 6
+#dwell  = 70
+#skill  = pro
+$MEE
+#style  = Pete Townshend
+"(6, 2) (2×, 2×) (4, 2) " Pete Townshend ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$MEE
+#style  = Yo-Yo Extérieur Alterné
+"(6×,2)(2,2)(2,4) *" Yo-Yo Alterné 2T Extérieur ; 3
+
+;========================================================================================================================================; 
+/
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$BYB
+#style  = Croix Piochée
+"(4×,2)(4×,2×) *" Croix Piochée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = pro
+$BRRBY
+#style  = Croix Piochée
+"([4×2],2)([44×],[22×]) *" Croix Piochée Multiplexée ; 5
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$EYE
+#style  = Croix Piochée Coupée
+"(4×,2)(4×,2×) *" Croix Coupée Piochée ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$MEEMY
+#style  = Croix Piochée Coupée
+"([4×2],2)([44×],[22×]) *" Croix Coupée Piochée Multiplexée ; 5
+
+;========================================================================================================================================; 
+
+#alternateColors = true
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$RRRE
+#style  = Trident
+"(4,2)(2×,4) *" Trident ; 3
+
+#alternateColors = false
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$RRRY
+#style  = Trident
+"(4,2)(2×,[44×]) *" Trident Multiplexé ; 4
+
+#alternateColors = true
+#randomColors = true
+
+#height = 8
+#dwell  = 75
+#skill  = confirmed
+$RRRB
+#style = Trident Soulevé
+"(4×,2×)(4×,4×)(0,4×) *" Trident Soulevé ; 3
+
+#height = 7
+#dwell  = 70
+#skill  = pro
+$RRRV
+#style  = Trident Croqué
+"(4,2)(2×,4) *" Trident Croqué ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Burke En 2 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 9
+#dwell  = 75
+#skill  = amateur
+$OOB
+#style  = Barrage De Burke 2T Intérieur À 3
+"(4,2)(4×,2) *" Barrage De Burke Intérieur ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$BBO
+#style  = Barrage De Burke 2T Extérieur À 3
+"(4,2)(4×,2) *" Barrage De Burke Extérieur ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+$EEY
+#style  = Barrage De Burke 2T Colonnes À 3
+"423 *" Barrage De Burke Colonnes ; 3
+
+;========================================================================================================================================; 
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$YYRO
+#style  = Barrage De Burke 2T Intérieur À 3
+"([44×],2)(4×,2) *" Barrage De Burke Intérieur Multiplexé ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YYYE
+#style  = Barrage De Burke 2T Extérieur À 3
+"([44×],2)(4×,2) *" Barrage De Burke Extérieur Multiplexé ; 4
+
+;========================================================================================================================================; 
+
+#height = 11
+#dwell  = 70
+#skill  = pro
+$EYYE
+#style  = Barrage De Burke 2T À 4
+"525 *" Barrage De Burke ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 8
+#dwell  = 70
+#skill  = amateur
+$VVO
+#style  = Barrage De Burke Zippé À 3
+"(4,2)(4×,2) *" Barrage De Burke Zippé ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$OORY
+#style  = Barrage De Burke Zippé À 3
+"([44×],2)(4×,2) *" Barrage De Burke Zippé Multiplexé ; 4
+
+#height = 12
+#dwell  = 70
+#skill  = confirmed
+$EERR
+#style  = Barrage De Burke Zippé À 4
+"(2,6×)(6×,2) *" Barrage De Burke Zippé ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$EER
+#style  = Barrage De Burke Croisé À 3
+"(2,4×)([44×],0)(4×,0)(2,4) *" Barrage De Burke Croisé Multiplexé ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = pro
+$VBVB
+#style  = Barrage De Burke Croisé À 4
+"(2,4×)([44×],2) *" Barrage De Burke Croisé Multiplexé ; 4
+
+;========================================================================================================================================; 
+
+#height = 10
+#dwell  = 75
+#skill  = confirmed
+$EYE
+#style  = Barrage De Burke Cascadé a
+"(4×,2)(4×,2×) *" Barrage De Burke Cascadé a ; 3
+
+#alternateColors = true
+
+#dwell  = 70
+#height = 9
+#skill  = confirmed
+$RRRY
+#style  = Barrage de Burke Cascadé b
+"(4,2)(2×,4) *" Barrage de Burke Cascadé b ; 3
+
+#alternateColors = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Pioches En 1 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+
+#height = 5
+#dwell  = 70
+#skill  = beginner
+$VVVO
+#style  = Cassiopée
+"522 *" Cassiopée ; 3
+
+#randomColors = true
+#height = 8
+#dwell  = 75
+#skill  = amateur
+$RRRB
+#style  = Volant
+"522 *" Volant ; 3
+
+;========================================================================================================================================; 
+/
+
+#dwell  = 70
+#height = 05
+#skill  = beginner
+$EVY
+#style  = Pioches Intérieures Alternées À 2
+"(4,0) *" Pioches Intérieures Alternées ; 2
+
+#startPattern = 1
+#randomColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$VVVY
+#style  = Pioches Intérieures Alternées À 3
+"(4×,2) *" Pioches Intérieures Alternées ; 3
+
+#alternateColors = false
+
+#height = 10
+#dwell  = 80
+#skill  = amateur
+$EEY
+#style  = Pioches Doublées
+"(6,2)(6×,2)(0,2) *" Pioches Intérieures Alternées Doublées ; 3
+
+;========================================================================================================================================; 
+
+#height = 11
+#dwell  = 70
+#skill  = pro
+$YRYR
+#style  = Pioches À 4
+"(6, 6) (2, 2) " Pioches Intérieures Synchro ; 4
+
+;========================================================================================================================================; 
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$EEOO
+#style  = Pioches Alternées À 4
+"(6, 6) (2, 2) " Pioches Intérieures Alternées ; 4
+
+#height = 8
+#dwell  = 70
+#skill  = pro
+$YYBBB
+#style  = Pioches Intérieures Alternées À 5
+"([44×],2) *" Pioches Intérieures Alternées Multiplexées ; 5
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+
+#height = 12
+#dwell  = 70
+#skill  = confirmed
+$EEEO
+#style  = Pioches Extérieures À 3
+"(2,2)(2,6×) *" Pioches Extérieures ; 3
+
+#alternateColors = false
+
+; #height = 12
+; #dwell  = 60
+; #skill  = pro
+; %Pioches Extérieures À 3
+; "(2,2)(2,[6×4×]) (2,2)([6×4×],2) " Pioches Extérieures Multiplexées ; 4
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$OOEEE
+#style  = Pioches Extérieures À 3
+"(2,[22])(2,[66×]) *" Pioches Extérieures Multiplexées ; 5
+
+;========================================================================================================================================; 
+
+#alternateColors = true
+
+#height = 8
+#dwell  = 80
+#skill  = confirmed
+$BBBV
+#style  = Lune Inversée À 3
+"(2,2)(2,6×) *" Lune Inversée ; 3
+
+#alternateColors = false
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$VOVO
+#style  = Lune Inversée À 4
+"(2,6×)(2,6×) *" Lune Inversée ; 4
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+
+#height = 9
+#dwell  = 80
+#skill  = confirmed
+$RRRB
+#style  = Photon Inversé À 3
+"(2,2)(2,6×) *" Photon Inversé ; 3
+
+#alternateColors = false
+
+; #height = 08
+; #dwell  = 50
+; #skill  = confirmed
+; %Photon Inversé
+; "(2,2)(2,[6×4×]) *" Photon Inversé Multiplexé ; 4
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$RRYY
+#style  = Photon Inversé À 4
+"(6×,2)(2,6×) *" Photon Inversé ; 4
+
+#height = 10
+#dwell  = 80
+#skill  = pro
+$YYRRR
+#style  = Photon Inversé À 3
+"(2,[22])(2,[66×]) *" Photon Inversé Multiplexé ; 5
+
+;========================================================================================================================================; 
+
+#alternateColors = true
+
+#height = 12
+#dwell  = 60
+#skill  = confirmed
+$EEEV
+#style  = Onde Inversée À 3
+"(2,6×)(2,2) *" Onde Inversée ; 3
+
+#alternateColors = false
+
+; #height = 10
+; #dwell  = 40
+; #skill  = pro
+; %Onde Inversée
+; "(2,[6×4×])(2,2) *" Onde Inversée Multiplexée ; 4
+
+#height = 12
+#dwell  = 60
+#skill  = pro
+$EEMM
+#style  = Onde Inversée À 4
+"(6×,2)(2,6×) *" Onde Inversée ; 4
+
+#height = 6
+#dwell  = 80
+#skill  = pro
+$MMEEE
+#style  = Onde Inversée Multiplexée
+"(2,[22])(2,[66×]) *" Onde Inversée Multiplexée ; 5
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Orbites]
+/¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+
+#height = 6
+#dwell  = 65
+#skill  = amateur
+$EEEV
+#style  = Adidas
+"(4×,2) *" Adidas ; 3
+
+#alternateColors = false
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$BRBR
+#style  = Adidas
+"(6,2) *" Adidas ; 4
+
+#height = 7
+#dwell  = 65
+#skill  = confirmed
+$YYMMM
+#style  = Adidas
+"([44×],2) *" Adidas Multiplexé ; 5
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+
+#height = 9
+#dwell  = 80
+#skill  = confirmed
+$OOOV
+#style  = Lune À 3
+"(6×,2)(2,2) *" Lune ; 3
+
+#alternateColors = false
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$MEEM
+#style  = Lune À 4
+"(6×,2)(6×,2) *" Lune ; 4
+
+; #height = 08
+; #dwell  = 70
+; #skill  = confirmed
+; %Lune À 3
+; "([6×4×],2)(2,2) *" Lune Multiplexée ; 4
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$BBOOO
+#style  = Lune À 3
+"([66×],2)(2,[22]) *" Lune Multiplexée ; 5
+
+;========================================================================================================================================; 
+
+#alternateColors = true
+
+#dwell  = 70
+#height = 12
+#skill  = pro
+$EEEV
+#style  = Pioches Extérieures Inversées À 3
+"(2,6×)(2,2) *" Pioches Extérieures Inversées ; 3
+
+; #dwell  = 70
+; #height = 12
+; #skill  = pro
+; $4
+; %Pioches Extérieures Inversées À 3
+; "(2,[6×4×])(2,2) *" Pioches Extérieures Inversées ; 3
+
+;========================================================================================================================================; 
+/
+
+#height = 10
+#dwell  = 80
+#skill  = confirmed
+$YYYV
+#style  = Photon À 3
+"(6×,2)(2,2) *" Photon ; 3
+
+#alternateColors = false
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$YYYM
+#style  = Photon À 3
+"([6×4×],2)(2,2) *" Photon Multiplexé ; 4
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$MYYM
+#style  = Photon À 4
+"(6×,2)(6×,2) *" Photon ; 4
+
+#height = 8
+#dwell  = 80
+#skill  = pro
+$MMYYY
+#style  = Photon À 3
+"([66×],2)(2,[22]) *" Photon Multiplexé ; 5
+
+;========================================================================================================================================; 
+
+#alternateColors = true
+
+#height = 12
+#dwell  = 55
+#skill  = pro
+$RRRO
+#style  = Onde À 3
+"(6×,2)(2,2) *" Onde ; 3
+
+#alternateColors = false
+
+#height = 12
+#dwell  = 55
+#skill  = pro
+$RRRB
+#style  = Onde À 3
+"([6×4×],2)(2,2) *" Onde Multiplexée ; 4
+
+#height = 12
+#dwell  = 60
+#skill  = pro
+$BRRB
+#style  = Onde À 4
+"(6×,2)(6×,2) *" Onde ; 4
+
+; #height = 10
+; #dwell  = 40
+; #skill  = pro
+; %Onde
+; "([66×],2)(2,[22]) *" Onde Multiplexée - Trop Moche ; 5
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Burke En 1 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 6
+#dwell  = 60
+#skill  = confirmed
+$OOV
+#style = Fleur Collée
+"([44×],2)(0,2) *" Fleur Collée ; 3
+
+#alternateColors = true
+
+#height = 9
+#dwell  = 70
+#skill  = confirmed
+$VVVE
+#style  = Fleur À 3
+"(4×,2) *" Fleur ; 3
+
+#alternateColors = false
+
+#height = 8
+#dwell  = 70
+#skill  = confirmed
+$VVY
+#style  = Fleur Doublée
+"(4,2)(4×,2) *" Fleur Doublée ; 3
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$BBMM
+#style  = Fleur À 4
+"(6, 6) (2, 2) " Fleur ; 4
+
+#height = 6
+#dwell  = 80
+#skill  = confirmed
+$OOVVV
+#style  = Fleur À 5
+"([44×],2) *" Fleur Multiplexée ; 5
+
+;========================================================================================================================================; 
+
+#height = 9
+#dwell  = 80
+#skill  = confirmed
+$RRB
+#style  = Barrage De Burke Photoné
+"(6,2)(2,2)(4×,2) *" Barrage De Burke Photoné ; 3
+
+#height = 10
+#dwell  = 80
+#skill  = confirmed
+$BMBE
+#style  = Barrage De Burke Photoné Multiplexé
+"(2,4×)([66×],2)(2,2) *" Barrage De Burke Photoné Multiplexé ; 4
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Rubenstein]
+/¯¯¯¯¯¯¯¯¯¯¯¯
+
+#alternateColors = true
+
+#height = 8
+#dwell  = 80
+#skill  = confirmed
+$RRRE
+#style  = Pioches Burkées À 3
+"(4×,2)(2,4×) (4×,2)(2,4×) " Pioches Burkées ; 3
+
+#alternateColors = false
+
+#height = 7
+#dwell  = 80
+#skill  = confirmed
+$EOE
+#style  = Pioches Lunées
+"(4×,2)(2,4×)(4×,2)(2,4) *" Pioches Lunées Alternées ; 3
+
+;========================================================================================================================================; 
+/
+
+#height = 12
+#dwell  = 80
+#skill  = confirmed
+$OYR
+#style  = Revanche De Rubenstein 3T À 3
+"35223 *" Revanche De Rubenstein 3T ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$VYV
+#style  = Revanche De Rubenstein 3T Douchée
+"35313 *" Revanche De Rubenstein 3T Douchée ; 3
+
+#alternateColors = true
+#randomColors = true
+
+#height = 12
+#dwell  = 80
+#skill  = pro
+$EEEM
+#style  = Revanche De Rubenstein 3T Sautée
+"06234 *" Revanche De Rubenstein 3T Sautée ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+
+#height = 12
+#dwell  = 80
+#skill  = confirmed
+$ORYV
+#style  = Revanche De Rubenstein 3T Multiplexée À 4 a
+"[32]5[32]23 *" Revanche De Rubenstein 3T Multiplexée a ; 4
+
+#height = 15
+#dwell  = 70
+#skill  = pro
+$RYVO
+#style  = Revanche De Rubenstein 3T Multiplexée À 4 b
+"3[53]22[32] *" Revanche De Rubenstein 3T Multiplexée b ; 4
+
+#height = 14
+#dwell  = 70
+#skill  = pro
+$EOEO
+#style  = Revanche De Rubenstein 3T À 4
+"22466 *" Revanche De Rubenstein 3T ; 4
+
+#alternateColors = true
+
+#height = 10
+#dwell  = 70
+#skill  = impossible
+$RRRRRV
+#style  = Revanche De Rubenstein 3T À 5
+"22777 *" Revanche De Rubenstein 3T ; 5
+
+#alternateColors = false
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 80
+#skill  = confirmed
+$YBB
+#style  = Revanche De Rubenstein Huitée
+"3522423 *" Revanche De Rubenstein Huitée ; 3
+
+#height = 14
+#dwell  = 80
+#skill  = confirmed
+$OYBB
+#style  = Revanche De Rubenstein Huitée
+"[32]5[32]24[22]3 *" Revanche De Rubenstein Huitée Multiplexée a ; 4
+
+#height = 14
+#dwell  = 80
+#skill  = pro
+$BBOY
+#style  = Revanche De Rubenstein Huitée
+"[43]522[43]23 *" Revanche De Rubenstein Huitée Multiplexée b ; 4
+
+;========================================================================================================================================; 
+/
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$EEYY
+#style  = Pioches Burkées À 4 a
+"(6, 6) (2, 2) " Pioches Burkées Synchro a ; 4
+
+#height = 7
+#dwell  = 80
+#skill  = pro
+$RRBB
+#style  = Pioches Burkées À 4 b
+"(6,6)(2,2) (6,6)(2,2) " Pioches Burkées Synchro b ; 4
+
+#height = 7
+#dwell  = 80
+#skill  = pro
+$VVOO
+#style  = Pioches Burkées À 4 c
+"(6,6)(2,2) (6,6)(2,2) " Pioches Burkées Synchro c ; 4
+
+;========================================================================================================================================; 
+
+#height = 7
+#dwell  = 90
+#skill  = confirmed
+$BBE
+#style  = Revanche De Rubenstein 2T
+"(6,2)(2,2)(4×,2) *" Revanche De Rubenstein 2T ; 3
+
+#height = 7
+#dwell  = 90
+#skill  = pro
+$YYYV
+#style  = Revanche De Rubenstein 2T Multiplexée
+"([44×],2)(6,2)(2,[22])(4×,[22]) *" Revanche De Rubenstein 2T Multiplexée ; 4
+
+;========================================================================================================================================; 
+
+#height = 9
+#dwell  = 80
+#skill  = pro
+$MEE
+#style  = Shoulder Cruncher
+"(6×,2)(0,2)(2,6) *" Shoulder Cruncher ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 

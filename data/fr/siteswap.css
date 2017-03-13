@@ -1,0 +1,71 @@
+BODY {
+  color:#000000;
+	background-attachment:fixed;
+	background-image:url('../../../images/siteswap.jpg');
+	background-repeat:repeat;
+	background-color:inherit;
+}
+.JuggleMasterPro {
+  text-align:center;
+  color:#000000;
+  background-color : inherit;
+  word-spacing:1px;
+  font-weight:bold;
+  font-family: "Times New Roman", Times, serif;
+}
+.JuggleMasterPro:hover {
+	color:#FFCC00;
+	background-color:inherit;
+}
+.Titre {
+	font-size:28.0pt;
+	text-align:left;
+}
+A {
+	font-family:"Times New Roman", Times, serif;
+	font-size:18.0pt;
+	text-decoration:inherit;
+}
+.Rouge {
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bolder;
+	font-size:32.0pt;
+	color:#FF0000;
+	background-color:inherit;
+}
+.Blanc {
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bolder;
+	font-size:32.0pt;
+	color:#FFFFFF;
+	background-color:inherit;
+}
+.Orange {
+	font-family:"Times New Roman", Times, serif;
+	font-size:20.0pt;
+	font-weight:bolder;
+	color:#FF9900;
+	background-color:inherit;
+}
+.Orange:hover {
+	color:#FFCC00;
+	background-color:inherit;
+}
+P {
+	text-align:justify;
+}
+TD {
+	font-family:"Times New Roman", Times, serif;
+	font-size:16.0pt;
+}
+.Texte {
+	font-family:"Times New Roman", Times, serif;
+	font-size:16.0pt;
+}
+.Nombre {
+	font-family:"Courier New", Courier, serif;
+	font-size:14.0pt;
+	font-weight:bolder;
+	color:#005500;
+	background-color:inherit;
+}

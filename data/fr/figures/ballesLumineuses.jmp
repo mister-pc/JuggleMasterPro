@@ -1,0 +1,1800 @@
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;                                                           Balles Lumineuses                                                            ;
+;                                                            par Arnaud BeLO.                                                            ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Chaque ligne du fichier peut avoir une des six significations suivantes :                                                             ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                             ;
+;  1.  ; <comment>                    : Commentaire dans ce fichier,                                                                     ;
+;  2.  / <comment>                    : Commentaire apparaissant dans la liste des figures,                                              ;
+;  3.  / <[title]>                    : Titre de chapitre apparaissant dans les listes des figures et des raccourcis,                    ;
+;  4.  <siteswap> [<pattern name>]    : Figure mémorisée dans la liste avec les paramètres en cours,                                     ;
+;  5.  # <name> = <value>             : Réglage d'un paramètre,                                                                          ;
+;  6.  {x, y, [=|-|+|#]z, [=|-|+|#]t}                                                                                                    ;
+;      {x, y, [=|-|+|#]z, [=|-|+|#]t} : Définition d'un style.                                                                           ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Des abrévations sont permises pour écrire les syntaxes les plus courantes :                                                           ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                           ;
+;  -   % <name>                       : Nom de style                   - équivalent à #style  = <name>,                                  ;
+;  -   ^ <value>                      : Réglage de la hauteur          - équivalent à #height = <value>,                                 ;
+;  -   @ <value>                      : Réglage du pourcentage en main - équivalent à #dwell  = <value>,                                 ;
+;  -   $ <values>                     : Réglage des couleurs           - équivalent à #colors = <values>,                                ;
+;  -   £ <value>                      : Réglage du niveau              - équivalent à #skill  = <value>.                                 ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 1. Il est même possible de commencer un commentaire en milieu de ligne, à la suite de données.                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 2. C'est pour créer un chapitre de figures dans la liste.                                                                              ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 3. C'est pour créer un chapitre de figures dans la liste, mais aussi un lien rapide vers ce chapitre.                                  ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 4. Les siteswaps sont en accord avec la nomenclature habituellement usitée :                                                           ;
+;    caractères alphanumériques, crochets, virgule, étoile et parenthèses.                                                               ;
+;    Des espaces peuvent être insérés dans le siteswap de façon à marquer des séparations entre des lancés.                              ;
+;    Le "siteswap" sera alors entouré de doubles-guillemets.                                                                             ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
+;    #tooltip            =  global*                                          | <tooltip text>                                            ;
+;    #startPattern†      =                    true*         |  false                                                                     ;
+;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #siteswap           =  global*| local |  true          | (false | user)*                                                            ;
+;    #siteswapThrows     =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseSiteswap    =  global*| local |  true          | (false | user)*                                                            ;
+;    #daySiteswapColor   =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F00 | user)*      ;
+;    #nightSiteswapColor =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F22 | user)*      ;
+;                                                                                                                                        ;
+;    #style              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #style°             =                           <name> | <inner style>*                                                             ;
+;    #FX                 =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseStyle       =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #balls              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #ballsTrail         =  global*| local                                   | <trail length 0*..50>          |      trail | user*       ;
+;    #currentThrows      =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #juggler            =  global*| local | (true  | user)*|  false                                                                     ;
+;    #dayJuggler         =  global*| local | (true  | user)*|  false                                                                     ;
+;    #nightJuggler       =  global*| local |  true          | (false | user)*                                                            ;
+
+;    #jugglerTrail       =  global*| local |  true          | (false | user)*                                                            ;
+;    #dayJugglerTrail    =  global*| local |  true          | (false | user)*                                                            ;
+;    #nightJugglerTrail  =  global*| local |  true          | (false | user)*                                                            ;
+
+;    #jugglerBody        =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #dayJugglerBody     =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #nightJugglerBody   =  global*| local |       (phantom |  user)*        |  hands &| arms &| head         |   (visible | user)*      ;
+;                                                                                                                                        ;
+;    #dayJugglerColor    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (444 | user)*      ;
+;    #nightJugglerColor  =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (CCC | user)*      ;
+;    #dayBackground      =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (FFF | user)*      ;
+;    #nightBackground    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (000 | user)*      ;
+;    #background         =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF>              | user *      ;
+;                                                                                                                                        ;
+;    #colors             =  global*| local | (true  | user)*|  false                                                                     ;
+;    #colors°            =                                                   | <color sequence>               |         (7 | user)*      ;
+;    #randomColors       =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |                [/]<period 9..1> | (catch | 0 | user)* | (count   | [/]T)                    ;
+;                                                                                                                                        ;
+;    #defaults           =  global*| local |  true          | (false | user)*                                                            ;
+;    #defaults           =  global*| local |  <number 1..9>                  |         (1 | user)*                                       ;
+;    #randomDefaults     =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #strobe             =  global*| local |  true                                                                                       ;
+;    #strobe             =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #robot              =  global*| local |  true          | (false | user)*                                                            ;
+;    #robot              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #flash              =  global*| local |  true          | (false | user)*                                                            ;
+;    #flash              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;                                                                                                                                        ;
+;    #sounds             =  global*| local | (true | user)* |   false                                                                    ;
+;    #catchSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #throwSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #metronome          =  global*| local |  true          | (false | user)*                                                            ;
+;    #light              =  global*| local | (true | user)* |  false                                                                     ;
+;                                                                                                                                        ;
+;    #height             =  global | local*| <number  1..50 >                |             <float 0.01..0.50> |        (12 | user)*      ;
+;    #speed              =  global*| local | (true | user)* |  false                                                                     ;
+;    #speed              =  global*| local                                   |             <float  0.1..3.0 > |       (1.5 | user)*      ;
+;    #dwell              =  global | local*| <number  1..99 >                |             <float 0.01..0.99> |        (70 | user)*      ;
+;    #fluency            =  global*| local | (true | user)* |  false                                                                     ;
+;    #fluency            =  global*| local |                                                 <number  1..99 > |        (99 | user)*      ;
+;                                                                                                                                        ;
+;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
+;    #errors             =  global*| local | (true | user)* | false                                                                      ;
+;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
+;    #mark°              =                    1..5 | 3*                                                                                  ;
+;    #edition            =  global | local*| (true | user)* | false                                                                      ;
+;                                                                                                                                        ;
+;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
+;    La valeur 'local' rend le paramètre propre à la figure, et permet donc de définir des valeurs différentes suivant les figures,      ;
+;    et les paramètres marqués d'un '°' sont toujours définis de façon 'local'(e).                                                       ;
+;    Le paramètre marqué d'un '†' (#startPattern) ne s'applique uniquement qu'à la figure qui le suit immédiatement.                     ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une séquence de couleurs est constituée d'une suite de lettres qui affectent à chacune des balles du siteswap une couleur.          ;
+;    Il est possible de suffixer une lettre par un chiffre de 1 (clair) à 9 (foncé),                                                     ;
+;    pour affiner l'intensité de la couleur (à 5 par défaut) :                                                                           ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                           ;
+;        A [Aqua]        : Mer,                                                                                                          ;
+;        B [Blue]        : Bleu,                                                                                                         ;
+;        C [Cyan]        : Cyan,                                                                                                         ;
+;        D [Dark]        : Noir,                                                                                                         ;
+;        E [Emerald]     : Émeraude,                                                                                                     ;
+;        F [Fuchsia]     : Fuchsia,                                                                                                      ;
+;        G [Green]       : Vert,                                                                                                         ;
+;        H [Honey]       : Miel,                                                                                                         ;
+;        I [Indigo]      : Indigo,                                                                                                       ;
+;        K [Khaki]       : Kaki,                                                                                                         ;
+;        L [Lavender]    : Lavande,                                                                                                      ;
+;        M [Maroon]      : Marron,                                                                                                       ;
+;        N [Night]       : Nuit,                                                                                                         ;
+;        O [Orange]      : Orange,                                                                                                       ;
+;        P [Pink]        : Rose,                                                                                                         ;
+;        Q [Quartz]      : Quartz,                                                                                                       ;
+;        R [Red]         : Rouge,                                                                                                        ;
+;        S [Saffron]     : Safran,                                                                                                       ;
+;        T [Tan]         : Bronzé,                                                                                                       ;
+;        U [UltraMarine] : Outremer,                                                                                                     ;
+;        V [Vermilion]   : Vermilion,                                                                                                    ;
+;        W [White]       : Blanc,                                                                                                        ;
+;        X [Crystal]     : Cristal,                                                                                                      ;
+;        Y [Yellow]      : Jaune,                                                                                                        ;
+;        Z [Zinc]        : Zinc.                                                                                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 6. Un style est appelé en mentionnant son nom : #style = <name>, ou plus simplement % <name>.                                          ;
+;    S'il n'existe pas, sa définition est donnée à sa suite.                                                                             ;
+;    Elle est réalisée par une série de lignes fournissant à chaque étape les coordonnées spatiales de la rattrape r et du lancé l       ;
+;    sous la forme :                                                                                                                     ;
+;                                                                                                                                        ;
+;        { [Xr] [(,| ) [Yr] [(,| ) [=|-|+|#][Zr][_|@|×] [(,| ) [=|-|+|#][Br][_|@|×]  ]]] }                                               ;
+;                                   [{ [Xl] [(,| ) [Yl] [(,| ) [=|-|+|#][Zl][_|@|×] [(,| ) [=|-|+|#][Bl][_|@|×]  ]]] }]                  ;
+;                                                                                                                                        ;
+;              avec :  -128  <=  Xr, Xl  <=  127,                                                                                        ;
+;                      -128  <=  Yr, Yl  <=  127,                                                                                        ;
+;                         0  <=  Zr, Zl  <=  127,                                                                                        ;
+;                         0  <=  Br, Bl  <=  127.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une abscisse Xn ou une ordonnée Yn non précisées valent 0 (balle au centre, face au nombril du jongleur).                           ;
+;    Il est préférable de fournir des valeurs respectant les réglages initiaux du constructeur (Ken MATSUOKA),                           ;
+;    au risque d'avoir sinon un jongleur avec de très grands bras :                                                                      ;
+;                                                                                                                                        ;
+;                       -30  <=  Xr, Xl  <=   30,                                                                                        ;
+;                       -10  <=  Yr, Yl  <=   20.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) fait référence à la position des bras et mains par rapport au jongleur (resp. aux balles).                   ;
+;    Une cote Zn non précisée vaut 0, une cote Bn reprend quant à elle la valeur de la cote Zn la précédant.                             ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être préfixée par un des signes '=', '-', '+' ou '#', pour préciser :                                   ;
+;        - la position de la main par rapport au bras et celle du bras par rapport au jongleur,                                          ;
+;        - resp. la position de la balle par rapport aux bras et au jongleur.                                                            ;
+;        Pour les bras et mains (Zn) :                                                                                                   ;
+;                          -        '=' (double '-') : la main est derrière le bras qui est derrière le jongleur,                        ;
+;                          -        '-'              : la main est devant le bras qui est derrière le jongleur,                          ;
+;                          -        '+'              : la main est derrière le bras qui est devant le jongleur,                          ;
+;                          -        '#' (double '+') : la main est devant le bras qui est devant le jongleur.                            ;
+;        Resp. pour les balles (Bn) :                                                                                                    ;
+;                          -        '=' (double '-') : la balle est derrière les bras et le jongleur,                                    ;
+;                          -        '-'              : la balle est devant les bras et derrière le jongleur,                             ;
+;                          -        '+'              : la balle est derrière les bras et devant le jongleur,                             ;
+;                          -        '#' (double '+') : la balle est devant les bras et le jongleur.                                      ;
+;        Le préfixe '#' est celui considéré par défaut.                                                                                  ;
+;        Il provoque le dessin de la balle par dessus les bras et le bras par dessus le jongleur.                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être suffixée par un des signes '_', '@', ou '×'                                                        ;
+;    pour préciser la visibilité momentanée du bras et/ou de la main du jongleur (resp. de la balle).                                    ;
+;        Pour le bras et la main (Zn) :                                                                                                  ;
+;                          -        '_' : le bras reste visible (mais la main devient invisible),                                        ;
+;                          -        '@' : la main reste visible (mais le bras devient invisible),                                        ;
+;                          -        '×' : le bras et la main sont invisibles.                                                            ;
+;        Resp. pour la balle (Bn) :                                                                                                      ;
+;                          -        '_' ou '@' : la balle reste visible,                                                                 ;
+;                          -        '×'        : la balle devient invisible.                                                             ;
+;        En l'absence de suffixe, bras, mains et balles restent visibles.                                                                ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Exemple exhaustif :                                                                                                                 ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                 ;
+;              %Exemple exhaustif de style                                                                                               ;
+;              {0, 1       }{ ,2,=3     }                                                                                                ;
+;              { ,-4,#5,  ×}{6, ,  _,-7 }                                                                                                ;
+;              {           }{8, , 9@    }                                                                                                ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;              #style = Exemple exhaustif de style    ; déclaration du style par son nom, et suivie de sa définition :                   ;
+;              {0, 1,#0,#0 }{0,2,=3 ,=3 }             ; { 0,  1, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                     ;          #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 0,  2, =3  : main derrière le bras derrière le jongleur,                       ;
+;                                                     ;          =3  : balle derrière la main et le bras                          }      ;
+;              {0,-4,#5,#0×}{6,0,#0_,-7 }             ; { 0, -4, #5  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0× : balle invisible                                            }      ;
+;                                                     ; { 6,  0, #0_ : bras devant le jongleur et main invisible ,                       ;
+;                                                                -7  : balle devant la main et le bras, mais derrière le jongleur }      ;
+;              {0, 0,#0,#0 }{8,0,#9@,#9@}             ; { 0,  0, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 8,  0, #9@ : main devant le jongleur, bras invisible   ,                       ;
+;                                                                #9@ : balle devant la main et devant le jongleur                 }      ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Dans le cas des siteswaps synchros - de la forme (<left 1>, <right 2>) ... (<left (n-1)>, <right n>) -,                             ;
+;    les lignes de style sont interprétées de la façon suivante :                                                                        ;
+;         la première   ligne : {Xr1    , Yr1    , Zr1    , Br1    } {Xl1    , Yl1    , Zl1    , Bl1    } correspond à    <right 2    >, ;
+;         la deuxième   ligne : {Xr2    , Yr2    , Zr2    , Br2    } {Xl2    , Yl2    , Zl2    , Bl2    } correspond à    <left  1    >, ;
+;         ...                                                                                                                            ;
+;         la (n-1)-ième ligne : {Xr(n-1), Yr(n-1), Zr(n-1), Br(n-1)} {Xl(n-1), Yl(n-1), Zl(n-1), Bl(n-1)} correspond à    <right n    >, ;
+;         la  n   -ième ligne : {Xrn    , Yrn    , Zrn    , Brn    } {Xln    , Yln    , Zln    , Bln    } correspond à    <left  (n-1)>. ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Pour définir plus rapidement des styles correspondant à des siteswaps synchros symétriques,                                         ;
+;    il est possible de faire suivre la première série de lignes de définitions par une ligne comportant uniquement un '*',              ;
+;    qui duplique les lignes déjà renseignées en les permutant deux à deux :                                                             ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         *                                                                                                                              ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+
+#mirror             = false
+                  
+#tooltip            = Balles Lumineuses
+
+#siteswap           = local
+#siteswap           = false
+#reverseSiteswap    = local
+#reverseSiteswap    = false
+#nightSiteswapColor = local
+#nightSiteswapColor = 000
+                  
+#style              = local
+#style              = true
+#reverseStyle       = local
+#reverseStyle       = false
+                    
+#balls              = local
+#balls              = true
+#juggler            = local
+#juggler            = false
+#dayJuggler         = local
+#dayJuggler         = phantom
+#dayJuggler         = 000
+#nightJuggler       = local
+#nightJuggler       = phantom
+#nightJugglerColor  = 000
+#dayBackground      = local
+#dayBackground      = 000
+#nightBackground    = local
+#nightBackground    = 000
+                    
+#colors             = local
+#colors             = true
+#alternateColors    = local
+#alternateColors    = catch
+#alternateColors    = false
+#randomColors       = false
+#randomColors       = local
+                    
+#defaults           = local
+#defaults           = true
+#randomDefaults     = local
+#randomDefaults     = false
+#flash              = local
+#flash              = false
+#robot              = local
+#robot              = false
+                    
+#sounds             = local
+#sounds             = false
+#catchSounds        = local
+#catchSounds        = false
+#throwSounds        = local
+#throwSounds        = false
+#metronome          = local
+#metronome          = false
+#light              = local
+#light              = false
+#currentThrows      = local
+#currentThrows      = false
+#siteswapThrows     = local
+#siteswapThrows     = false
+#FX                 = local
+#FX                 = false
+                    
+#skill              = local
+#skill              = impossible
+#errors             = true
+#warnings           = true
+#edition            = local
+; #edition          = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+%A
+{8,6}{8,6}
+
+%Agitation Moléculaire
+{-30, 20}{-10, 20}
+{-30,-10}{-10,-10}
+{10,  20}{ 30, 20}
+{10, -10}{ 30,-10}
+{30,  10}{ 30,   }
+{30,    }{ 30, 10}
+{30, -10}{ 10,-10}
+{30,  20}{ 10, 20}
+{-10,-10}{-30,-10}
+{-10, 20}{-30, 20}
+{-30,   }{-30, 10}
+{-30, 10}{-30,   }
+
+%Anaconda
+{33}{33}
+{ 1}{ 1}
+{31}{31}
+{ 3}{ 3}
+{29}{29}
+{ 5}{ 5}
+{27}{27}
+{ 7}{ 7}
+{25}{25}
+{ 9}{ 9}
+{23}{23}
+{11}{11}
+{21}{21}
+{13}{13}
+{19}{19}
+{15}{15}
+{17}{17}
+{17}{17}
+{15}{15}
+{19}{19}
+{13}{13}
+{21}{21}
+{11}{11}
+{23}{23}
+{ 9}{ 9}
+{25}{25}
+{ 7}{ 7}
+{27}{27}
+{ 5}{ 5}
+{29}{29}
+{ 3}{ 3}
+{31}{31}
+{ 1}{ 1}
+{33}{33}
+
+%B
+{ 9, 9}{ 9, 9}
+{ 9, 9}{ 9, 9}
+{ 6, 9}{ 6, 9}
+{-9, 2}{-9, 2}
+{-9, 2}{-9, 2}
+{-6,15}{-6,15}
+{-9,15}{-9,15}
+{ 9, 9}{ 9, 9}
+
+%Balance
+{30, }{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30,6}{30}
+{30, }{30}
+{30, }{30}
+
+%Balles Rebondissantes
+{ 20,-8}{ 20,-8}
+{ -6,-8}{ -6,-8}
+{-14,12}{-14,12}
+{ 20,12}{ 20,12}
+{-23,-8}{-23,-8}
+{  6,-8}{  6,-8}
+{ 15,12}{ 15,12}
+{-11,-8}{-11,-8}
+{  5,-8}{ 5 ,-8}
+{-11,-8}{-11,-8}
+{-15,12}{-15,12}
+{  6,-8}{  6,-8}
+{ 20,-8}{ 20,-8}
+{  6,-8}{  6,-8}
+{ 20,12}{ 20,12}
+{-14,12}{-14,12}
+{-23,-8}{-23,-8}
+{ -6,-8}{ -6,-8}
+{-15,12}{-15,12}
+{  5,-8}{  5,-8}
+{-11,-8}{-11,-8}
+{  5,-8}{  5,-8}
+{ 15,12}{ 15,12}
+{ -6,-8}{ -6,-8}
+
+%Batteur À Oeufs
+{ 4,8}{ 4,4}
+{13,4}{ 4,4}
+{13,4}{-4,4}
+
+%Boite
+{ 9, 5}{ 9,12}
+{ 3, 7}{ 3, 7}
+{ 9,12}{ 9,12}
+{-3, 7}{-3, 7}
+{-9,14}{-9,14}
+{ 3, 7}{ 3, 7}
+{ 3, 7}{ 3, 7}
+{ 9, 9}{ 9, 5}
+
+%Bourgeons
+{ 3, 5}{ 15, 8}
+{ 8,10}{ 20, 4}
+{15, 5}{  3, 7}
+{ 9, 5}{ 18, 4}
+{ 3, 7}{-11,10}
+{ 3, 3}{ -8, 3}
+*
+
+%Bourrée
+{  6, 6}{ 7, 7}
+{  3,12}{  , 3}
+{ -4, 9}{-9,14}
+{-13, 7}{13, 6}
+*
+
+%C
+{-8,13}{-8,13}
+{-8, 7}{ 8, 5}
+{-8, 7}{-8,13}
+{ 8, 5}{-8, 7}
+{  ,  }{  ,  }
+{-8, 7}{-8, 7}
+{ 8,15}{ 8,15}
+{-8, 7}{ 8, 5}
+{-8, 7}{-8,13}
+{  ,  }{  ,  }
+{-8,13}{-8,13}
+{  ,  }{  ,  }
+{ 8,15}{ 8,15}
+{ 8, 5}{-8, 7}
+{  ,  }{  ,  }
+{-8, 7}{-8, 7}
+
+%Charmeur De Reptiles
+{ 2}{-16}
+{  }{ 16}
+{-2}{-16}
+
+%Chenille
+{-15, 2}{ 2,6}
+{ 12,-1}{  ,5}
+{-12,  }{  ,4}
+{-16, 5}{-2, }
+{ 16, 8}{ 2,4}
+
+%D
+{-8, 4}{8, 7}
+{ 8,14}{8,10}
+{ 8,11}{8,11}
+{  ,  }{ ,  }
+{-8, 4}{8, 7}
+{  ,  }{ ,  }
+{ 8,11}{8,11}
+{ 8,14}{8,10}
+{  ,  }{ ,  }
+{  ,  }{ ,  }
+
+%E
+{ 6, 8}{ 6, 8}
+{ 6, 2}{ 6, 2}
+{-6,14}{-6,14}
+{ 6, 2}{ 6, 2}
+{-6, 8}{-6, 8}
+{ 6,14}{ 6,14}
+{ 6,14}{ 6,14}
+{-6, 2}{-6, 2}
+
+%Enfer
+{60,-10}{60,30}
+
+%Éruption
+{13}
+
+%F
+{ 6,15}{ 6,15}
+{ 6, 2}{ 6, 2}
+{-6, 8}{-6, 8}
+{ 6,15}{ 6,15}
+{-6, 8}{-6, 8}
+{-2, 8}{-2, 8}
+{-6, 8}{-6, 8}
+{ 6,15}{ 6,15}
+
+%Escaliers
+{  6, 3}{  6, 3}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{ -6, 3}{ -6, 3}
+
+{ 12, 6}{ 12, 6}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-12, 6}{-12, 6}
+
+{ 18, 9}{ 18, 9}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-18, 9}{-18, 9}
+
+{ 24,12}{ 24,12}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-24,12}{-24,12}
+
+{ 30,15}{ 27,17}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-30,15}{-30,15}
+
+{ 24,12}{ 24,12}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-24,12}{-24,12}
+
+{ 18, 9}{ 18, 9}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-18, 9}{-18, 9}
+
+{ 12, 6}{ 12, 6}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{-12, 6}{-12, 6}
+
+{  6, 3}{  6, 3}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{ -6, 3}{ -6, 3}
+
+{  0, 0}{  0, 0}
+{   ,  }{   ,  }
+{   ,  }{   ,  }
+{  0, 0}{  0, 0}
+*
+
+%Geyser
+{13}
+
+%Grandes Eaux
+{29,2}{29,4}
+
+%Grenouille
+{2,10}{2,10}
+{2,  }{9,  }
+{2,10}{2,10}
+{2,10}{2,10}
+{2,10}{2,10}
+{2,10}{2,10}
+{2,10}{2,10}
+{2,10}{2,10}
+*
+
+%H
+{8,8}{8,2}
+{8,8}{8,2}
+{8,8}{8,8}
+{8,8}{8,8}
+
+%Haute Tension
+{29,4}{29,2}
+
+%I
+{  ,15}{  ,15}
+{  , 2}{  , 2}
+{-8,15}{-8,15}
+{ 8, 2}{ 8, 2}
+{  ,15}{  ,15}
+{  , 2}{  , 2}
+{ 8,15}{ 8,15}
+{-8, 2}{-8, 2}
+
+%Intérieurs
+{13}{4}
+
+%Inondations
+{29,4}{29,2}
+
+%J
+{-7,6}{ 7,6}
+{-7,6}{ 7,6}
+{  , }{  , }
+{ 7,6}{ 7,6}
+{  , }{  , }
+{ 7,6}{-7,6}
+{ 7,6}{-7,6}
+{  , }{  , }
+{-7,6}{ 7,6}
+{  , }{  , }
+
+%K
+{ 8,14}{ 8,14}
+{ 8, 2}{ 8, 2}
+{-8, 7}{-8, 7}
+{ 8, 7}{ 8, 8}
+{ 8, 2}{ 8, 2}
+{ 8,15}{ 8,15}
+{-8, 8}{-8, 8}
+{ 8, 8}{ 8, 7}
+
+%L
+{ 8, 2}{ 8, 2}
+{ 8, 2}{ 8, 2}
+{-8,15}{-8,15}
+{ 8, 2}{ 8, 2}
+
+%Locomotive
+{-3, 5}{-18,  }
+{ 9,  }{ 17, 9}
+{-4, 5}{-15, 2}
+{ 6, 7}{ 11, 7}
+{10,-7}{ -8, 2}
+
+%M
+{   , 8}{   , 8}
+{   , 8}{   , 8}
+{ 10,14}{ 10,14}
+{ 10,14}{ 10,14}
+{-10, 2}{-10, 2}
+{-10, 2}{-10, 2}
+{ 10,14}{ 10,14}
+{ 10,14}{ 10,14}
+
+%Machinerie
+{25,-3}{25,-3}
+
+%m Comme M....
+{21,8}{21,7}
+{  ,9}{  ,8}
+*
+
+%Marsupilami
+{ 1,5}{10,9}
+{15,9}{26,5}
+*
+
+%Mécanique
+{14, }{14,3}
+{  ,5}{  ,5}
+{ 7,7}{ 7, }
+{14,3}{ 7,7}
+{  ,5}{  ,5}
+{14, }{14,3}
+{14,3}{ 7,3}
+{ 7,7}{ 7, }
+{14, }{14,3}
+{  ,5}{  ,5}
+{ 7,3}{ 7, }
+{14,3}{ 7,3}
+{  ,5}{  ,5}
+{14, }{14,3}
+{14,3}{ 7,7}
+{ 7,3}{ 7, }
+
+%Mouche
+{-3,15}{ 14,10}
+{ 1, 4}{-12, 3}
+{ 5,11}{ -8, 6}
+{-3, 2}{  6, 7}
+{  , 8}{ 10, 6}
+{ 1, 8}{-13,11}
+{-2, 1}{-10, 9}
+
+%Moustiques
+{ 2,6}{-13,9}
+{-8,3}{  8,3}
+{ 5,4}{ -3,2}
+
+%N
+{9, 2}{9, 2}
+{9,15}{9,15}
+{9, 2}{9, 2}
+{9, 2}{9, 2}
+
+%O
+{7,8}{-7,8}
+{7,8}{-7,8}
+
+%Ondes
+{50}{50}
+{49}{49}
+{44}{44}
+{43}{43}
+{38}{38}
+{37}{37}
+{32}{32}
+{31}{31}
+{26}{26}
+{25}{25}
+{20}{20}
+{19}{19}
+{14}{14}
+{13}{13}
+{ 8}{ 8}
+{ 7}{ 7}
+{ 2}{ 2}
+{ 1}{ 1}
+{ 5}{ 5}
+{ 4}{ 4}
+{11}{11}
+{10}{10}
+{17}{17}
+{16}{16}
+{23}{23}
+{22}{22}
+{29}{29}
+{28}{28}
+{35}{35}
+{34}{34}
+{41}{41}
+{40}{40}
+{47}{47}
+{46}{46}
+
+%P
+{ 11,6}{11,  6}
+{ 11,6}{11,-11}
+{-11,1}{11,  1}
+{ 11,8}{11,-11}
+
+%Papillon
+{4,-5}{ 4,-5}
+{4,-1}{ 4,-1}
+{4,-5}{50, 4}
+{4,-2}{50,-4}
+{4,-2}{ 4,-2}
+{4,-4}{ 4,-4}
+{4,-2}{ 4,-2}
+{4,-4}{ 4,-4}
+{4,-1}{ 4,-1}
+{4,-4}{ 4,-4}
+{4,-1}{ 4,-1}
+{4,-4}{ 4,-4}
+{4,  }{ 4,  }
+{4,-4}{ 4,-4}
+{4,  }{ 4,  }
+{4,-4}{ 4,-4}
+*
+
+%Presse
+{7,14}{ 7,  }
+{7,  }{ 7,  }
+{7,  }{ 7,  }
+{7,  }{-7,11}
+*
+
+%Puces
+{ 9,6}{ 9,6}
+{ 9,2}{ 9,2}
+{ 9,2}{ 9,2}
+{ 9,2}{ 9,2}
+{ 5,2}{ 5,2}
+{ 9,6}{ 9,6}
+{12,2}{12,2}
+{ 9,6}{ 3,2}
+{12,2}{12,2}
+{ 9,2}{ 9,2}
+*
+
+%Radar
+{  ,4}{10,7}
+{-9,8}{ 7,5}
+*
+
+%Rollers
+{-10,5}{-10, 5}
+{ 18,6}{ -3, 3}
+{-10,5}{  1,10}
+
+%S
+{ 7,15}{ 7,15}
+{ 9, 1}{ 9, 1}
+{ 9, 1}{ 9, 1}
+{ 7,15}{ 7,15}
+{-8, 8}{-8, 8}
+{-8, 8}{-8, 8}
+{-8, 8}{-8, 8}
+{-8, 8}{-8, 8}
+{ 9, 1}{ 9, 1}
+{ 7,15}{ 7,15}
+
+%Saut-Extension
+{29,2}{29,2}
+
+%Ski De Fond
+{-13,4}{13,8}
+{  7,6}{ 7,6}
+{  9,6}{ 9,6}
+{  7,6}{ 9,6}
+*
+
+%Suspension
+{-9,13}{-9,13}
+{-9, 4}{-9, 6}
+{  ,13}{  ,13}
+{ 9, 4}{ 9, 6}
+{ 9,13}{ 9,13}
+{  , 4}{  , 6}
+
+%T
+{10,15}{10,15}
+{  , 2}{  , 2}
+{  ,15}{  ,15}
+{10,15}{10,15}
+
+%Tableau
+{-30, 20}{-10, 20}
+{-30,-10}{-10,-10}
+{ 10, 20}{ 30, 20}
+{ 10,-10}{ 30,-10}
+{ 30, 10}{ 30,   }
+{ 30,   }{ 30, 10}
+{ 30,-10}{ 10,-10}
+{ 30, 20}{ 10, 20}
+{-10,-10}{-30,-10}
+{-10, 20}{-30, 20}
+{-30,   }{-30, 10}
+{-30, 10}{-30,   }
+
+%Tornade
+{-1,6}{-12,  }
+{ 1,3}{ 12,-2}
+{  ,5}{-15, 3}
+{  ,7}{ 18, 9}
+{  ,7}{-18, 8}
+
+%Trampoline
+{  }{  }
+{  }{  }
+{ 3}{ 3}
+{ 3}{ 3}
+{ 6}{ 6}
+{ 6}{ 6}
+{ 9}{ 9}
+{ 9}{ 9}
+{12}{12}
+{12}{12}
+{15}{15}
+{15}{15}
+{18}{18}
+{18}{18}
+{21}{21}
+{21}{21}
+{18}{18}
+{18}{18}
+{15}{15}
+{15}{15}
+{12}{12}
+{12}{12}
+{ 9}{ 9}
+{ 9}{ 9}
+{ 6}{ 6}
+{ 6}{ 6}
+{ 3}{ 3}
+{ 3}{ 3}
+
+%U
+{-10,6}{ 10,6}
+{-10,6}{ 10,6}
+{-10,6}{ 10,6}
+{-10,6}{ 10,6}
+{ 10,6}{-10,6}
+{ 10,6}{-10,6}
+{ 10,6}{-10,6}
+{ 10,6}{-10,6}
+
+%V
+{  , 2}{  , 2}
+{  , 2}{  , 2}
+{10,15}{10,15}
+{10,15}{10,15}
+
+%Valse
+{27,14}{10, 2}
+{27,14}{10, 2}
+{20, 8}{14,15}
+{20, 8}{14,15}
+{ 3,14}{20, 2}
+{ 3,14}{20, 2}
+{10, 8}{16,15}
+{10, 8}{16,15}
+
+%W
+{  ,15}{  ,15}
+{  ,15}{  ,15}
+{-8, 2}{-8, 2}
+{-8, 2}{-8, 2}
+{16,15}{16,15}
+{16,15}{16,15}
+{-8, 2}{-8, 2}
+{-8, 2}{-8, 2}
+
+%X
+{10, 2}{10, 2}
+{10, 2}{10, 2}
+{10,15}{10,15}
+{10,15}{10,15}
+
+%Y
+{  , 8}{  , 2}
+{  , 8}{  , 8}
+{12,15}{12,15}
+{12,15}{12,15}
+
+%Z
+{-10,15}{-10,15}
+{ 10, 2}{ 10, 2}
+{ 10,15}{ 10,15}
+{-10, 2}{-10, 2}
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Micro-Cosmos]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#startPattern    = true
+#alternateColors = true
+#alternateColors = catch
+#randomColors    = true
+#defaults        = false
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+#dwell           = 99
+#height          = 9
+#balls           = 3
+$Y6G1G1
+#style           = Grenouille
+"(A×,2)(2,2)(2,2)(2,2) *" Grenouille
+#defaults        = true
+#alternateColors = false
+
+#startPattern    = false
+#dwell           = 80
+#height          = 20
+#defaults        = 2
+#balls           = 5
+#background      = 360
+#nightSiteswapColor   = 360
+#nightJugglerColor    = 360
+#randomColors    = false
+$W6OS3I6
+#style           = Chenille
+"444 53 *" Chenille
+
+#alternateColors = true
+#alternateColors = catch
+#randomColors    = true
+#dwell           = 1
+#height          = 16
+#defaults        = 3
+#balls           = 4
+#background      = 033
+#nightSiteswapColor   = 033
+#nightJugglerColor    = 033
+$Y9Y8Y7Y6Y5Y4Y3Y2Y1S9S8S7S6S5S4S3S2S1O9O8O7O6O5O4O3O2O1
+#style           = Puces
+"([6×4×],4×)(0,0)(2,4×)(4×,2)(2,2) *" Puces
+#alternateColors = false
+
+#height          = 7
+#dwell           = 70
+#defaults        = 2
+#balls           = 4
+#background      = CFC
+#nightSiteswapColor   = CFC
+#nightJugglerColor    = CFC
+#randomColors    = false
+$E7E8E9I
+#style           = Bourgeons
+"(4,2)(4×,[22]) (2,[44×])*" Bourgeons
+
+#dwell           = 55
+#height          = 13
+#defaults        = 2
+#balls           = 4
+#background      = 660
+#nightSiteswapColor   = 660
+#nightJugglerColor    = 660
+#randomColors    = true
+#alternateColors = true
+$Y6M3M2M1D
+#style           = Mouche
+"35[22]2[42]2[33] *" Mouche
+
+#dwell           = 55
+#height          = 6
+#defaults        = 5
+#balls           = 2
+#background      = 003
+#nightSiteswapColor   = 003
+#nightJugglerColor    = 003
+$W9W8W7W6W5W4W3W2W1
+#style           = Moustiques
+"720 720 " Moustiques
+
+#height          = 8
+#dwell           = 3
+#defaults        = 1
+#balls           = 6
+#background      = 002
+#nightSiteswapColor = 002
+#nightJugglerColor   = 002
+#randomColors    = false
+#alternateColors = false
+$I3U3AE9Y3S2R1I3U3AE9Y3S2R1DDDDR1R1S2S2Y3Y3E9E9AAU3U3I3I3
+#style           = Papillon
+"([2222222],[2222222]) ([W×U×S×Q×O×M×K×I×],[W×U×S×Q×O×M×K×I×]) (2,2)([22],[22])([222],[222])([2222],[2222])([22222],[22222])([222222],[222222])*" Papillon
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Jungle]
+/¯¯¯¯¯¯¯
+
+#alternateColors = true
+#alternateColors = /2
+#randomColors    = true
+#defaults        = false
+#dwell           = 85
+#height          = 12
+#balls           = trail
+#background      = 6F6
+#nightSiteswapColor   = 6F6
+#nightJugglerColor    = 6F6
+$DD6DY4Y5Y6
+#style           = Marsupilami
+"(4×,2) *" Marsupilami
+
+#alternateColors = catch
+#alternateColors = false
+#randomColors    = false
+#defaults        = true
+#dwell           = 85
+#height          = 16
+#defaults        = true
+#balls           = 3
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+$SYWVRO
+#style           = Charmeur De Reptiles
+"333 666 999 " Charmeur De Reptiles
+#alternateColors = false
+
+#height          = 4
+#dwell           = 1
+#defaults        = 1
+#balls           = 2
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+$W9R8W7R7W5R6W3R5Y9R4Y7R3Y5R2Y3V9S9V8S7V7S5V6S3V5O9V4O7V3O5V2O3V1R9D1
+#style           = Anaconda
+"YY YY YY YY YY YY YY YY YY YY YY YY YY YY YY YY YY " Anaconda
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Mouvements Corporels]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+#dwell           = 45
+#height          = 12
+#defaults        = 1
+#balls           = 4
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$E7W7W7
+#style           = Ski De Fond
+"(2,4×)(2×,4×) *" Ski De Fond
+
+#dwell           = 70
+#height          = 6
+#defaults        = 1
+#balls           = 3
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$Y3G1R
+#style           = Rollers
+"225 *" Rollers
+
+#height          = 9
+#dwell           = 1
+#defaults        = false
+#balls           = 8
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$D4N2N9U5U8B4B9A6A9CC8W9
+#style           = Saut-Extension
+"0[222222222]0[2222222222]0[22222222222]0 [ZXVTRPNLJHFD] 000000000000 [2]0[22]0[222]0[2222]0[22222]0[222222]0[2222222]0[22222222]*" Saut-Extension
+#defaults        = true
+
+#height          = 8
+#dwell           = 55
+#defaults        = false
+#balls           = 4
+#background      = FFC
+#nightSiteswapColor   = FFC
+#nightJugglerColor    = FFC
+$GA9O6F6
+#style           = Bourrée
+"(2,4×) ([44×],2)*" Bourrée
+#defaults        = true
+
+#dwell           = 99
+#height          = 6
+#defaults        = 1
+#balls           = 6
+#background      = AAE
+#nightSiteswapColor   = AAE
+#nightJugglerColor    = AAE
+#alternateColors = true
+#randomColors    = true
+$R1R2R3R4R5R6R7R8R9O1O2O3O4O5O6O7O8O9S1S2S3S4S5S6S7S8S9Y1Y2Y3Y4Y5Y6Y7Y8Y9
+#style           = Valse
+"(6, 6) (2, 2) " Valse
+#alternateColors = false
+
+#dwell              = 1
+#height             = 3
+#defaults           = false
+#balls              = 2
+#background         = 000
+#nightSiteswapColor = 000
+#nightJugglerColor  = 000
+#alternateColors    = true
+#randomColors       = true
+$W9W8W7W6Y9Y8Y7Y6N3
+#style           = Escaliers
+"(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0) (0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4×)(4×,0) *" Escaliers
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Télé-Achats]
+/¯¯¯¯¯¯¯¯¯¯¯¯
+#dwell           = 75
+#height          = 8
+#defaults        = false
+#balls           = 8
+#background      = 303
+#nightSiteswapColor   = 303
+#nightJugglerColor    = 303
+#randomColors    = false
+$G7T4G7
+#style           = Boite
+"(4, 2) (4×, 2) (4, 2×) (2×, 4×) " Boite
+#defaults = true
+
+#alternateColors = true
+#alternateColors = catch
+#dwell           = 80
+#height          = 8
+#defaults        = false
+#balls           = 3
+#background      = 300
+#nightSiteswapColor   = 300
+#nightJugglerColor    = 300
+#randomColors    = true
+$Y1Y2Y3Y4Y5Y6Y7Y8Y9W5W4W3W2W1W5W4W3W2W1
+#style           = Batteur À Oeufs
+"471 471 " Batteur À Oeufs
+#alternateColors = false
+#defaults        = true
+
+#height          = 5
+#dwell           = 1
+#defaults        = false
+#balls           = 4
+#background      = 6FC
+#nightSiteswapColor   = 6FC
+#nightJugglerColor    = 6FC
+#randomColors    = false
+$Y3B3B3
+#style           = Trampoline
+"([S×2],2) (2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2) *" Trampoline
+#defaults        = true
+
+#height          = 12
+#dwell           = 1
+#defaults        = 2
+#balls           = 2
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$O2O2Y2Y2W9W9
+#style           = Balles Rebondissantes
+"(6×,C)(6×,6×)(6×,C) (0,6×)(6×,6×)(0,6×) " Balles Rebondissantes
+
+#height          = 5
+#dwell           = 1
+#style           = Balance
+#defaults        = false
+#balls           = 5
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$E2E4E6E8G1G3GG7G9W9
+"Y1 U1 Q1 M1 I1 E1 A1 61 2 " Balance
+#defaults        = true
+
+#height          = 1
+#dwell           = 1
+#defaults        = 1
+#balls           = 5
+#background      = 960
+#nightSiteswapColor   = 960
+#nightJugglerColor    = 960
+$WWWWDDWDDDDWMBYOEYRVORMBVE
+#style           = Tableau
+"([CE], [CE]) " Tableau
+
+#height          = 5
+#dwell           = 1
+#defaults        = false
+#balls           = trail
+#background      = F00
+#nightSiteswapColor   = F00
+#nightJugglerColor    = F00
+#alternateColors = true
+#alternateColors = catch
+#randomColors    = true
+$YYYYYYYYYYYYYYYYYYYYYYM2T2
+#style           = m Comme M....
+"(O×, O×) " m Comme M.... (McShit)
+#defaults        = true
+#alternateColors = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Alphabet]
+/¯¯¯¯¯¯¯¯¯
+
+#defaults        = false
+
+#balls           = trail
+#dwell           = 85
+#height          = 13
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$V7Y
+#style = A
+"([4×2×], [4×2×]) " A
+
+#dwell           = 01
+#height          = 01
+#alternateColors = true
+#alternateColors = /9
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$W9P2S4
+#style           = B
+"(2×,2×) **" B
+
+#alternateColors = count
+#dwell           = 99
+#height          = 3
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$RO7Y3
+#style           = C
+"(2×,2×)(2,4)(2,0)(2×,4)(0,4) (0,2×)(2,4)(2,0) " C
+#alternateColors = catch
+#alternateColors = false
+
+#dwell           = 85
+#height          = 5
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$E6Y2
+#style           = D
+"(4×,2)(0,4×)(0,2)(4×,4×)(0,0)" D
+
+#dwell           = 1
+#height          = 1
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$E8OR4Y
+#style           = E
+"(4, 4) " E
+
+#alternateColors = true
+#dwell           = 7
+#height          = 2
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$G1Y1
+#style           = F
+"(2×,2×) " F
+#alternateColors = false
+
+#dwell           = 7
+#height          = 11
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$P8L3
+#style           = H
+"(6,6) (2×,2×) " H
+
+#dwell           = 7
+#height          = 2
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$S2Y6O1
+#style           = I
+"([4×2],2)(2,2) *" I
+
+#alternateColors = true
+#dwell           = 99
+#height          = 10
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$E8S9B2
+#style           = J
+"(2,6)(2,0)(6,0)(0,2)(0,2) " J
+#alternateColors = false
+
+#alternateColors = true
+#dwell           = 7
+#height          = 4
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$AC8
+#style           = K
+"(2×,2×) " K
+#alternateColors = false
+
+#alternateColors = true
+#dwell           = 10
+#height          = 3
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$Y3V8
+#style           = L
+"(2×, 2×) " L
+#alternateColors = false
+
+#alternateColors = true
+#height          = 4
+#dwell           = 1
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$IY
+#style           = M
+"(2×, 2×) " M
+#alternateColors = false
+
+#dwell           = 10
+#height          = 21
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$Y4Y6R6S1
+#style           = N
+"(2×, 4) (4, [42×]) " N
+
+#dwell           = 99
+#height          = 8
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$BYER
+#style           = O
+"(4, 4) " O
+
+#dwell           = 80
+#height          = 13
+#alternateColors = /1
+#alternateColors = true
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$YWR
+#style           = P
+"(2×,2×) (2,2) " P
+
+; #dwell           = 75
+; #height          = 13
+; #background      = 011
+; #nightSiteswapColor   = 011
+; #nightJugglerColor    = 011
+; $37
+; #style           = R
+; { 11, 6}{11,  6}
+;     {-5,-2}{-5,-2} ; lancé haut
+;     {11,-11}{11,-11} ; 2 bas
+; { 11,8}{11,-11}
+;     {11,-9}{11,-5} ; lancé bas
+; { 11, 6}{11,-11}
+; {-11, 1}{11,  1}
+;     {-5,-2}{-5,-4} ; 2 haut
+; #edition = true
+; "(2×,2×) (2,2)(2×,2×) (2,2)" + R
+; 
+#alternateColors = true
+#alternateColors = catch
+#dwell           = 5
+#height          = 2
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$RUY
+#style           = S
+"(2×,2×)(2×,2×)(2×,2×)(2×,2×)(2×,2×) *" S
+
+#alternateColors = false
+#dwell           = 7
+#height          = 2
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$YI6
+#style           = T
+"(2×, 2×) " T
+
+#alternateColors = true
+#dwell           = 99
+#height          = 16
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = false
+$S9U8
+#style           = U
+"(4, 4) " U
+#alternateColors = false
+
+#alternateColors = true
+#height          = 6
+#dwell           = 10
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$YW
+#style           = V
+"(2×, 2×) " V
+#alternateColors = false
+
+#alternateColors = true
+#height          = 6
+#dwell           = 10
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$S8O
+#style           = W
+"(2×, 2×) " W
+#alternateColors = false
+
+#alternateColors = true
+#height          = 3
+#dwell           = 5
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$GI8
+#style           = X
+"(2×, 2×) " X
+#alternateColors = false
+
+#height          = 5
+#dwell           = 7
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+#randomColors    = true
+$S1YR7
+#style           = Y
+"([22×],4) (2,2×) " Y
+
+#height          = 3
+#dwell           = 7
+#background      = 011
+#nightSiteswapColor   = 011
+#nightJugglerColor    = 011
+$GAI
+#style           = Z
+"([22×],2) *" Z
+
+#defaults        = true
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Industrie]
+/¯¯¯¯¯¯¯¯¯
+
+#height          = 17
+#dwell           = 75
+#defaults        = 1
+#balls           = 2
+#background      = 222
+#nightSiteswapColor   = 222
+#nightJugglerColor    = 222
+$V8S9V8
+#style           = Locomotive
+"42 333 *" Locomotive
+
+#dwell           = 1
+#height          = 13
+#defaults        = false
+#balls           = 5
+#background      = 222
+#nightSiteswapColor   = 222
+#nightJugglerColor    = 222
+$W9Y9S9O9R9V9
+#style           = Mécanique
+"(4×,6)(4,2×) (6,4×)(2×,4) (4×,6)(4,2×) (6,4×)(2×,4) " Mécanique
+#defaults        = true
+
+#dwell           = 99
+#height          = 2
+#defaults        = 1
+#balls           = 3
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+#randomColors    = false
+$ZZZG9G9
+#style           = Presse
+"(2,[22])(6×,[26]) *" Presse
+
+
+#dwell           = 1
+#height          = 3
+#defaults        = false
+#balls           = 1
+#background      = FC6
+#nightSiteswapColor   = FC6
+#nightJugglerColor    = FC6
+$WWYYOORRVDDVRROOYYYYYOORRVDDVRROOYYMM
+#style           = Machinerie
+"[2222222222222222221] [ZXVTRPNLJHFDB975321][ZXVTRPNLJHFDB975321][X2][X2][V2][V2][T2][T2][R2][R2][P2][P2][N2][N2][L2][L2][J2][J2][H2][H2][F2][F2][D2][D2][B2][B2][92][92][72][72][52][52][32][32][21]" Machinerie
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Électro-Magnétisme]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#dwell           = 99
+#height          = 3
+#defaults        = false
+#balls           = 3
+#background      = 008
+#nightSiteswapColor   = 008
+#nightJugglerColor    = 008
+#randomColors    = true
+#alternateColors = true
+$WOY
+#style           = Suspension
+"333 " Suspension
+#defaults        = true
+
+#dwell           = 99
+#height          = 10
+#defaults        = false
+#balls           = 3
+#background      = 002
+#nightSiteswapColor   = 002
+#nightJugglerColor    = 002
+#style           = Radar
+$WYYO
+"(4, 4) " Radar
+#defaults        = true
+#alternateColors = false
+
+#height          = 3
+#dwell           = 1
+#defaults        = 4
+#balls           = 2
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+#randomColors    = false
+#alternateColors = false
+$WYWWYWEEEEBB
+#style           = Agitation Moléculaire
+"([642], [642]) **([642], [642]) " Agitation Moléculaire
+
+#height          = 7
+#dwell           = 1
+#defaults        = false
+#balls           = 2
+#background      = 9CF
+#nightSiteswapColor   = 9CF
+#nightJugglerColor    = 9CF
+$BDBDEVEVEVYRYROOOOOOYRYRYREVEVBDBD
+#style           = Ondes
+"(Y, Y) ****(Y, Y) " Ondes
+#defaults        = true
+
+#height          = 12
+#dwell           = 1
+#defaults        = false
+#balls           = 4
+#alternateColors = true
+#alternateColors = count
+#background      = 034
+#nightSiteswapColor   = 034
+#nightJugglerColor    = 034
+$BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMDDDDDDDDDDDDDDDDDDDD
+#style           = Haute Tension
+"[ZZYXWVUTSRQPONMLKJIHGFEDCBA9876543211] *" Haute Tension
+#defaults        = true
+#alternateColors = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Forces Naturelles]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+#dwell           = 70
+#height          = 12
+#defaults        = 1
+#balls           = 2
+#background      = 9CF
+#nightSiteswapColor   = 9CF
+#nightJugglerColor    = 9CF
+$DVROYW
+#style           = Tornade
+"56667 *" Tornade
+
+#height          = 11
+#dwell           = 1
+#defaults        = false
+#balls           = 6
+#background      = 06C
+#nightSiteswapColor   = 06C
+#nightJugglerColor    = 06C
+$BBBBBEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYYYYYYYYYOOOOOORRRRRRRRRRRRRRRRVVVVVVVVVVVVDDDD
+#style           = Grandes Eaux
+"[ZSLE7] [VOHA3] [YRKD6] [UNG92] [XQJC5] [TMF81] [WPIB4] *" Grandes Eaux
+#defaults        = true
+
+#dwell           = 1
+#height          = 10
+#defaults        = 1
+#balls           = 6
+#background      = 222
+#nightSiteswapColor   = 222
+#nightJugglerColor    = 222
+#style           = Geyser
+$OYOOYOOYOOYOOYORRRV
+"666 999 CCC FFF III LLL OOO RRR UUU XXX 333 *" Geyser
+
+#alternateColors = catch
+#height          = 11
+#dwell           = 1
+#defaults        = 1
+#balls           = 17
+#background      = 9FF
+#nightSiteswapColor   = 9FF
+#nightJugglerColor    = 9FF
+$BBBBBBBBBBBBBBBBBBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRVVVVVVVVVVVVVVVVVVDDDDDDDDDD
+#style           = Inondations
+"[ZXVTRPNLJHFDB97531] [111111111111111111] " Inondations
+
+#height          = 9
+#dwell           = 1
+#defaults        = 1
+#balls           = 7
+#background      = 222
+#nightSiteswapColor   = 222
+#nightJugglerColor    = 222
+#style           = Éruption
+$W8W5Y8Y5Y2S8S5S2O8O5O2R8R5R2V8V5V2
+"1 XVTRPNLJHFDB9753*" Éruption
+
+#height           = 11
+#dwell            = 1
+#defaults         = 9
+#randomDefaults   = true
+#balls            = 3
+#background      = 000
+#nightSiteswapColor   = 000
+#nightJugglerColor    = 000
+$WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+#style            = Enfer
+"[ZZYXWVUTSRQPONMLKJIHGFEDCBA9876543211] *" Enfer [6G6)
+#randomDefaults   = false
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 

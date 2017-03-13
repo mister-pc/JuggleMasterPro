@@ -1,0 +1,80 @@
+Error while trying to open 'data\fr\lang.ini'
+Error while writing preference pattern               
+
+JugglePreferences (ROM, RAM) :
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+bolGnewFileInformation     = (true , true )
+bolGfileExportInformation  = (true , true )
+bolGfileAccessErrors       = (false, false)
+bolGclipboardInformation   = (false, false)
+bolGballsNumber            = (false, false)
+bolGskill                  = (false, false)
+bolGinvalidPatterns        = (false, false)
+bolGnavigatorConfiguration = (true , true )
+bolGscreenPlayInformation  = (true , true )
+bolGballsLightColors       = (false, false)
+bolLedition                = (true , true )
+bolLmirror                 = (false, false)
+bolLsiteswap               = (false, false)
+bolLsiteswapThrows         = (false, false)
+bolLreverseSiteswap        = (false, false)
+bolLstyle                  = (true , true )
+bolLfX                     = (false, false)
+bolLreverseStyle           = (false, false)
+bolLballs                  = (true , true )
+bolLcurrentThrows          = (false, false)
+bolLjuggler                = (true , true )
+bolLcolors                 = (true , true )
+bolLrandomColors           = (false, false)
+bolLalternateColors        = (false, false)
+bolLdefaults               = (true , true )
+bolLrelativeDefaults       = (false, false)
+bolLflash                  = (false, false)
+bolLrobot                  = (false, false)
+bolLsounds                 = (true , true )
+bolLcatchSounds            = (false, false)
+bolLthrowSounds            = (false, false)
+bolLmetronome              = (false, false)
+bolLlight                  = (true , true )
+bolLspeed                  = (true , true )
+bolLfluency                = (true , true )
+bolLwarnings               = (true , true )
+bolLerrors                 = (true , true )
+bytGlowBallsNumber         = (01, 01)
+bytGhighBallsNumber        = (09, 09)
+bytGlowSkill               = (00, 00)
+bytGhighSkill              = (04, 04)
+bytLballs                  = (06, 06)
+bytLdayJuggler             = (02, 02)
+bytLnightJuggler           = (00, 00)
+bytLalternateColors        = (00, 00)
+bytLdefaults               = (01, 01)
+bytLstrobe                 = (05, 05)
+bytLheight                 = (12, 12)
+bytLdwell                  = (70, 70)
+bytLspeed                  = (15, 15)
+bytLskill                  = (01, 01)
+bytLfluency                = (99, 99)
+strGlanguage               = ("", "") *
+strLpattern                = ("", "") *
+strLstyle                  = (" ", " ") *
+strLcolors                 = ("7", "7") *
+strLreverseColors          = ("7", "7") *
+strLdayJuggler             = ("464242", "464242") *
+strLnightJuggler           = ("DB1818", "DB1818") *
+strLdayBackground          = ("F1F4D0", "F1F4D0") *
+strLsiteswap               = ("0", "0") *
+strLsiteswapColor          = ("FF0000", "FF0000") *
+strLreverseSiteswap        = ("0", "0") *
+strLnightBackground        = ("410303", "410303") *
+ 00:04.603 - jugglemasterpro.pattern.JugglePatternsManager.initInitialValues(JugglePatternsManager.java:1606)
+
+Chargement du fichier data\fr\./figures/lesStandardsDeLaJongle.jmp...
+Fichier chargé !
+Arrêt de la figure en cours...
+Mise à jour du JPM
+Mise à jour des listes...
+Fin de doLoadJugglePatternsManager, sans blocage !
+doRestartJuggling par ObjectsJList 00:13.877 - javax.swing.JList.fireSelectionValueChanged(JList.java:1765)
+

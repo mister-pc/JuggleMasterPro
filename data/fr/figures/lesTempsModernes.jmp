@@ -1,0 +1,2005 @@
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;                                                           Les Temps Modernes                                                           ;
+;                                                            par Arnaud BeLO.                                                            ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Chaque ligne du fichier peut avoir une des six significations suivantes :                                                             ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                             ;
+;  1.  ; <comment>                    : Commentaire dans ce fichier,                                                                     ;
+;  2.  / <comment>                    : Commentaire apparaissant dans la liste des figures,                                              ;
+;  3.  / <[title]>                    : Titre de chapitre apparaissant dans les listes des figures et des raccourcis,                    ;
+;  4.  <siteswap> [<pattern name>]    : Figure mémorisée dans la liste avec les paramètres en cours,                                     ;
+;  5.  # <name> = <value>             : Réglage d'un paramètre,                                                                          ;
+;  6.  {x, y, [=|-|+|#]z, [=|-|+|#]t}                                                                                                    ;
+;      {x, y, [=|-|+|#]z, [=|-|+|#]t} : Définition d'un style.                                                                           ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;  Des abrévations sont permises pour écrire les syntaxes les plus courantes :                                                           ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                           ;
+;  -   % <name>                       : Nom de style                   - équivalent à #style  = <name>,                                  ;
+;  -   ^ <value>                      : Réglage de la hauteur          - équivalent à #height = <value>,                                 ;
+;  -   @ <value>                      : Réglage du pourcentage en main - équivalent à #dwell  = <value>,                                 ;
+;  -   $ <values>                     : Réglage des couleurs           - équivalent à #colors = <values>,                                ;
+;  -   £ <value>                      : Réglage du niveau              - équivalent à #skill  = <value>.                                 ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 1. Il est même possible de commencer un commentaire en milieu de ligne, à la suite de données.                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 2. C'est pour créer un chapitre de figures dans la liste.                                                                              ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 3. C'est pour créer un chapitre de figures dans la liste, mais aussi un lien rapide vers ce chapitre.                                  ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 4. Les siteswaps sont en accord avec la nomenclature habituellement usitée :                                                           ;
+;    caractères alphanumériques, crochets, virgule, étoile et parenthèses.                                                               ;
+;    Des espaces peuvent être insérés dans le siteswap de façon à marquer des séparations entre des lancés.                              ;
+;    Le "siteswap" sera alors entouré de doubles-guillemets.                                                                             ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
+;    #tooltip            =  global*                                          | <tooltip text>                                            ;
+;    #startPattern†      =                    true*         |  false                                                                     ;
+;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #siteswap           =  global*| local |  true          | (false | user)*                                                            ;
+;    #siteswapThrows     =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseSiteswap    =  global*| local |  true          | (false | user)*                                                            ;
+;    #daySiteswapColor   =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F00 | user)*      ;
+;    #nightSiteswapColor =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (F22 | user)*      ;
+;                                                                                                                                        ;
+;    #style              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #style°             =                           <name> | <inner style>*                                                             ;
+;    #FX                 =  global*| local |  true          | (false | user)*                                                            ;
+;    #reverseStyle       =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #balls              =  global*| local | (true  | user)*|  false                                                                     ;
+;    #balls              =  global*| local                                   | <trail length 0*..50>          |      trail | user*       ;
+;    #currentThrows      =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #juggler            =  global*| local | (true  | user)*|  false                                                                     ;
+;    #jugglerTrail       =  global*| local |  true          | (false | user)*                                                            ;
+;    #dayJuggler         =  global*| local | (true  | user)*|  false                                                                     ;
+;    #nightJuggler       =  global*| local |  true          | (false | user)*                                                            ;
+;    #juggler            =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #dayJuggler         =  global*| local |        phantom                  |  hands &| arms &| head         |   (visible | user)*      ;
+;    #nightJuggler       =  global*| local |       (phantom |  user)*        |  hands &| arms &| head         |   (visible | user)*      ;
+;                                                                                                                                        ;
+;    #dayJugglerColor    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (444 | user)*      ;
+;    #nightJugglerColor  =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (CCC | user)*      ;
+;    #dayBackground      =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (FFF | user)*      ;
+;    #nightBackground    =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF> |       (000 | user)*      ;
+;    #background         =  global*| local |    <3 hexa-number 000..FFF>     | <6 hexa-number 000000..FFFFFF>              | user *      ;
+;                                                                                                                                        ;
+;    #colors             =  global*| local | (true  | user)*|  false                                                                     ;
+;    #colors°            =           local*                                  | <color sequence>               |         (7 | user)*      ;
+;    #randomColors       =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |  true          | (false | user)*                                                            ;
+;    #alternateColors    =  global*| local |                [/]<period 9..1> | (catch | 0 | user)* | (count   | [/]T)                    ;
+;                                                                                                                                        ;
+;    #defaults           =  global*| local |  true          | (false | user)*                                                            ;
+;    #defaults           =  global*| local |  <number 1..9>                  |         (1 | user)*                                       ;
+;    #randomDefaults     =  global*| local |  true          | (false | user)*                                                            ;
+;                                                                                                                                        ;
+;    #strobe             =  global*| local |  true                                                                                       ;
+;    #strobe             =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #robot              =  global*| local |  true          | (false | user)*                                                            ;
+;    #robot              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;    #flash              =  global*| local |  true          | (false | user)*                                                            ;
+;    #flash              =  global*| local |  [/]<period 1..9>               |         (1 | user)* | (count   | [/]T)      | (catch | 0) ;
+;                                                                                                                                        ;
+;    #sounds             =  global*| local | (true | user)* |   false                                                                    ;
+;    #catchSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #throwSounds        =  global*| local |  true          | (false | user)*                                                            ;
+;    #metronome          =  global*| local |  true          | (false | user)*                                                            ;
+;    #light              =  global*| local | (true | user)* |  false                                                                     ;
+;                                                                                                                                        ;
+;    #height             =  global | local*| <number  1..50 >                |             <float 0.01..0.50> |        (12 | user)*      ;
+;    #speed              =  global*| local | (true | user)* |  false                                                                     ;
+;    #speed              =  global*| local                                   |             <float  0.1..3.0 > |       (1.5 | user)*      ;
+;    #dwell              =  global | local*| <number  1..99 >                |             <float 0.01..0.99> |        (70 | user)*      ;
+;    #fluency            =  global*| local | (true | user)* |  false                                                                     ;
+;    #fluency            =  global*| local |                                                 <number  1..99 > |        (99 | user)*      ;
+;                                                                                                                                        ;
+;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
+;    #errors             =  global*| local | (true | user)* | false                                                                      ;
+;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
+;    #mark°              =                    1..5 | 3*                                                                                  ;
+;    #edition            =  global | local*| (true | user)* | false                                                                      ;
+;                                                                                                                                        ;
+;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
+;    La valeur 'local' rend le paramètre propre à la figure, et permet donc de définir des valeurs différentes suivant les figures,      ;
+;    et les paramètres marqués d'un '°' sont toujours définis de façon 'local'(e).                                                       ;
+;    Le paramètre marqué d'un '†' (#startPattern) ne s'applique uniquement qu'à la figure qui le suit immédiatement.                     ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une séquence de couleurs est constituée d'une suite de lettres qui affectent à chacune des balles du siteswap une couleur.          ;
+;    Il est possible de suffixer une lettre par un chiffre de 1 (clair) à 9 (foncé),                                                     ;
+;    pour affiner l'intensité de la couleur (à 5 par défaut) :                                                                           ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                           ;
+;        A [Aqua]        : Mer,                                                                                                          ;
+;        B [Blue]        : Bleu,                                                                                                         ;
+;        C [Cyan]        : Cyan,                                                                                                         ;
+;        D [Dark]        : Noir,                                                                                                         ;
+;        E [Emerald]     : Émeraude,                                                                                                     ;
+;        F [Fuchsia]     : Fuchsia,                                                                                                      ;
+;        G [Green]       : Vert,                                                                                                         ;
+;        H [Honey]       : Miel,                                                                                                         ;
+;        I [Indigo]      : Indigo,                                                                                                       ;
+;        K [Khaki]       : Kaki,                                                                                                         ;
+;        L [Lavender]    : Lavande,                                                                                                      ;
+;        M [Maroon]      : Marron,                                                                                                       ;
+;        N [Night]       : Nuit,                                                                                                         ;
+;        O [Orange]      : Orange,                                                                                                       ;
+;        P [Pink]        : Rose,                                                                                                         ;
+;        Q [Quartz]      : Quartz,                                                                                                       ;
+;        R [Red]         : Rouge,                                                                                                        ;
+;        S [Saffron]     : Safran,                                                                                                       ;
+;        T [Tan]         : Bronzé,                                                                                                       ;
+;        U [UltraMarine] : Outremer,                                                                                                     ;
+;        V [Vermilion]   : Vermilion,                                                                                                    ;
+;        W [White]       : Blanc,                                                                                                        ;
+;        X [Crystal]     : Cristal,                                                                                                      ;
+;        Y [Yellow]      : Jaune,                                                                                                        ;
+;        Z [Zinc]        : Zinc.                                                                                                         ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;                                                                                                                                        ;
+; 6. Un style est appelé en mentionnant son nom : #style = <name>, ou plus simplement % <name>.                                          ;
+;    S'il n'existe pas, sa définition est donnée à sa suite.                                                                             ;
+;    Elle est réalisée par une série de lignes fournissant à chaque étape les coordonnées spatiales de la rattrape r et du lancé l       ;
+;    sous la forme :                                                                                                                     ;
+;                                                                                                                                        ;
+;        { [Xr] [(,| ) [Yr] [(,| ) [=|-|+|#][Zr][_|@|×] [(,| ) [=|-|+|#][Br][_|@|×]  ]]] }                                               ;
+;                                   [{ [Xl] [(,| ) [Yl] [(,| ) [=|-|+|#][Zl][_|@|×] [(,| ) [=|-|+|#][Bl][_|@|×]  ]]] }]                  ;
+;                                                                                                                                        ;
+;              avec :  -128  <=  Xr, Xl  <=  127,                                                                                        ;
+;                      -128  <=  Yr, Yl  <=  127,                                                                                        ;
+;                         0  <=  Zr, Zl  <=  127,                                                                                        ;
+;                         0  <=  Br, Bl  <=  127.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une abscisse Xn ou une ordonnée Yn non précisées valent 0 (balle au centre, face au nombril du jongleur).                           ;
+;    Il est préférable de fournir des valeurs respectant les réglages initiaux du constructeur (Ken MATSUOKA),                           ;
+;    au risque d'avoir sinon un jongleur avec de très grands bras :                                                                      ;
+;                                                                                                                                        ;
+;                       -30  <=  Xr, Xl  <=   30,                                                                                        ;
+;                       -10  <=  Yr, Yl  <=   20.                                                                                        ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) fait référence à la position des bras et mains par rapport au jongleur (resp. aux balles).                   ;
+;    Une cote Zn non précisée vaut 0, une cote Bn reprend quant à elle la valeur de la cote Zn la précédant.                             ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être préfixée par un des signes '=', '-', '+' ou '#', pour préciser :                                   ;
+;        - la position de la main par rapport au bras et celle du bras par rapport au jongleur,                                          ;
+;        - resp. la position de la balle par rapport aux bras et au jongleur.                                                            ;
+;        Pour les bras et mains (Zn) :                                                                                                   ;
+;                          -        '=' (double '-') : la main est derrière le bras qui est derrière le jongleur,                        ;
+;                          -        '-'              : la main est devant le bras qui est derrière le jongleur,                          ;
+;                          -        '+'              : la main est derrière le bras qui est devant le jongleur,                          ;
+;                          -        '#' (double '+') : la main est devant le bras qui est devant le jongleur.                            ;
+;        Resp. pour les balles (Bn) :                                                                                                    ;
+;                          -        '=' (double '-') : la balle est derrière les bras et le jongleur,                                    ;
+;                          -        '-'              : la balle est devant les bras et derrière le jongleur,                             ;
+;                          -        '+'              : la balle est derrière les bras et devant le jongleur,                             ;
+;                          -        '#' (double '+') : la balle est devant les bras et le jongleur.                                      ;
+;        Le préfixe '#' est celui considéré par défaut.                                                                                  ;
+;        Il provoque le dessin de la balle par dessus les bras et le bras par dessus le jongleur.                                        ;
+;                                                                                                                                        ;
+;    Une cote Zn (resp. Bn) peut être suffixée par un des signes '_', '@', ou '×'                                                        ;
+;    pour préciser la visibilité momentanée du bras et/ou de la main du jongleur (resp. de la balle).                                    ;
+;        Pour le bras et la main (Zn) :                                                                                                  ;
+;                          -        '_' : le bras reste visible (mais la main devient invisible),                                        ;
+;                          -        '@' : la main reste visible (mais le bras devient invisible),                                        ;
+;                          -        '×' : le bras et la main sont invisibles.                                                            ;
+;        Resp. pour la balle (Bn) :                                                                                                      ;
+;                          -        '_' ou '@' : la balle reste visible,                                                                 ;
+;                          -        '×'        : la balle devient invisible.                                                             ;
+;        En l'absence de suffixe, bras, mains et balles restent visibles.                                                                ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Exemple exhaustif :                                                                                                                 ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                 ;
+;              %Exemple exhaustif de style                                                                                               ;
+;              {0, 1       }{ ,2,=3     }                                                                                                ;
+;              { ,-4,#5,  ×}{6, ,  _,-7 }                                                                                                ;
+;              {           }{8, , 9@    }                                                                                                ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;              #style = Exemple exhaustif de style    ; déclaration du style par son nom, et suivie de sa définition :                   ;
+;              {0, 1,#0,#0 }{0,2,=3 ,=3 }             ; { 0,  1, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                     ;          #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 0,  2, =3  : main derrière le bras derrière le jongleur,                       ;
+;                                                     ;          =3  : balle derrière la main et le bras                          }      ;
+;              {0,-4,#5,#0×}{6,0,#0_,-7 }             ; { 0, -4, #5  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0× : balle invisible                                            }      ;
+;                                                     ; { 6,  0, #0_ : bras devant le jongleur et main invisible ,                       ;
+;                                                                -7  : balle devant la main et le bras, mais derrière le jongleur }      ;
+;              {0, 0,#0,#0 }{8,0,#9@,#9@}             ; { 0,  0, #0  : main devant le bras devant le jongleur    ,                       ;
+;                                                                #0  : balle devant les bras devant le jongleur                   }      ;
+;                                                     ; { 8,  0, #9@ : main devant le jongleur, bras invisible   ,                       ;
+;                                                                #9@ : balle devant la main et devant le jongleur                 }      ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Dans le cas des siteswaps synchros - de la forme (<left 1>, <right 2>) ... (<left (n-1)>, <right n>) -,                             ;
+;    les lignes de style sont interprétées de la façon suivante :                                                                        ;
+;         la première   ligne : {Xr1    , Yr1    , Zr1    , Br1    } {Xl1    , Yl1    , Zl1    , Bl1    } correspond à    <right 2    >, ;
+;         la deuxième   ligne : {Xr2    , Yr2    , Zr2    , Br2    } {Xl2    , Yl2    , Zl2    , Bl2    } correspond à    <left  1    >, ;
+;         ...                                                                                                                            ;
+;         la (n-1)-ième ligne : {Xr(n-1), Yr(n-1), Zr(n-1), Br(n-1)} {Xl(n-1), Yl(n-1), Zl(n-1), Bl(n-1)} correspond à    <right n    >, ;
+;         la  n   -ième ligne : {Xrn    , Yrn    , Zrn    , Brn    } {Xln    , Yln    , Zln    , Bln    } correspond à    <left  (n-1)>. ;
+;                                                                                                                                        ;
+;                                                                                                                                        ;
+;    Pour définir plus rapidement des styles correspondant à des siteswaps synchros symétriques,                                         ;
+;    il est possible de faire suivre la première série de lignes de définitions par une ligne comportant uniquement un '*',              ;
+;    qui duplique les lignes déjà renseignées en les permutant deux à deux :                                                             ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         *                                                                                                                              ;
+;                                                                                                                                        ;
+;    est équivalent à :                                                                                                                  ;
+;                                                                                                                                        ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                      ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                      ;
+;                                                                                                                                        ;
+;========================================================================================================================================;
+;========================================================================================================================================;
+;========================================================================================================================================;
+
+#reverseSiteswap  = false
+
+#style            = true
+#FX               = false
+#reverseStyle     = false
+
+#tooltip          = Les Temps Modernes
+
+#balls            = true
+#balls            = 0
+#nightJuggler     = false
+#nightJuggler     = phantom
+#dayJuggler       = true
+#juggler          = true
+
+#colors           = true
+#alternateColors  = local
+#alternateColors  = false
+#alternateColors  = catch
+#randomColors     = local
+#randomColors     = false
+
+#defaults         = true
+#defaults         = 1
+#randomDefaults   = false
+#flash            = false
+#robot            = false
+
+#metronome        = false
+#light            = true
+                  
+#skill            = amateur
+#errors           = true
+#warnings         = true
+#startPattern     = true
+#edition          = true
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+%Ascenceur Descendant
+{ ,-2}{ ,-2}
+{ ,14}{ ,14}
+{ ,-2}{ ,-2}
+{6,14}{6, 6}
+{ ,-2}{ ,-2}
+{ , 6}{ , 6}
+{6,-2}{6,14}
+{ , 6}{ , 6}
+{ ,14}{ ,14}
+{ , 6}{ , 6}
+{ ,14}{ ,14}
+{6, 6}{6,-2}
+{ ,14}{ ,14}
+{ ,-2}{ ,-2}
+{6,14}{6, 6}
+{ ,-2}{ ,-2}
+{ , 6}{ , 6}
+{ ,-2}{ ,-2}
+{ , 6}{ , 6}
+{6,-2}{6,14}
+{ , 6}{ , 6}
+{ ,14}{ ,14}
+{6, 6}{6,-2}
+{ ,14}{ ,14}
+
+%Ascenceur Montant
+{ ,14}{ ,14}
+{ ,-2}{ ,-2}
+{ ,14}{ ,14}
+{6,-2}{6, 6}
+{ ,14}{ ,14}
+{ , 6}{ , 6}
+{6,14}{6,-2}
+{ , 6}{ , 6}
+{ ,-2}{ ,-2}
+{ , 6}{ , 6}
+{ ,-2}{ ,-2}
+{6, 6}{6,14}
+{ ,-2}{ ,-2}
+{ ,14}{ ,14}
+{6,-2}{6, 6}
+{ ,14}{ ,14}
+{ , 6}{ , 6}
+{ ,14}{ ,14}
+{ , 6}{ , 6}
+{6,14}{6,-2}
+{ , 6}{ , 6}
+{ ,-2}{ ,-2}
+{6, 6}{6,14}
+{ ,-2}{ ,-2}
+
+;========================================================================================================================================; 
+
+%Carré Machiné
+{ 9,-2}{ 9, 7}
+{ 3,  }{ 3,  }
+{ 9, 7}{ 9, 7}
+{-3,  }{-3,  }
+{-9, 9}{-9, 9}
+{ 3,  }{ 3,  }
+{ 3,  }{ 3,  }
+{ 9, 2}{ 9,-2}
+
+%Carré Machiné Inversé
+{ 3,-5}{ 3,-5}
+{ 9,-3}{ 9,-3}
+{ 3,14}{ 3,14}
+{ 3,-4}{ 3, 8}
+{-9, 9}{ 9,12}
+{-3,-5}{-3, 9}
+{ 9, 2}{ 9,-3}
+{ 3,-4}{ 3, 8}
+
+%Cascade
+{8}{8}
+{8}{8}
+
+%Centre
+{13}
+{13}
+
+;========================================================================================================================================; 
+
+%Escaliers Synchros Croisés À 2
+{-6,15,2}{-6,15,2}
+{-6,15, }{-6,15, }
+{ 6, 5, }{ 6, 5, }
+{ 6, 5, }{ 6, 5, }
+{-6,-5, }{-6,-5, }
+{-6,-5,2}{-6,-5,2}
+{ 6, 5, }{ 6, 5, }
+{ 6, 5, }{ 6, 5, }
+*
+
+%Escaliers Synchros Décroisés À 2
+{ 6,15, }{ 6,15, }
+{ 6,15, }{ 6,15, }
+{-6, 5,2}{-6, 5,2}
+{-6, 5, }{-6, 5, }
+{ 6,-5, }{ 6,-5, }
+{ 6,-5, }{ 6,-5, }
+{-6, 5, }{-6, 5, }
+{-6, 5,2}{-6, 5,2}
+*
+
+%Escaliers Asynchros À 2
+{-5, 20, }{-5, 20, }
+{-5, 15,2}{-5, 15,2}
+{15, 20, }{15, 11, }
+{-5, 15, }{-5, 17, }
+{-5, 10, }{-5, 10, }
+{15, 15, }{15,  6, }
+{-5, 10, }{-5, 12, }
+{-5,  5, }{-5,  5, }
+{15, 10, }{15,  1, }
+{-5,  5, }{-5,  7, }
+{-5,   , }{-5,   , }
+{15,  5, }{15, -4, }
+{-5,   , }{-5,  2, }
+{-5, -5,2}{-5, -5,2}
+{15,   , }{15, -9, }
+{-5, -5,2}{-5, -5,2}
+{-5,-10, }{-5,-10, }
+{-5, -5,2}{-5, -5,2}
+{-5,-10, }{-5, -8, }
+{-5, -5,2}{-5, -5,2}
+{15,-10, }{15,   , }
+{-5, -5,2}{-5, -3,2}
+{-5,   , }{-5,   , }
+{15, -5, }{15,  5, }
+{-5,   , }{-5,  2, }
+{-5,  5, }{-5,  5, }
+{15,   , }{15, 10, }
+{-5,  5, }{-5,  7, }
+{-5, 10, }{-5, 10, }
+{15,  5, }{15, 15, }
+{-5, 10, }{-5, 12, }
+{-5, 15, }{-5, 15, }
+{15, 10, }{15, 20, }
+{-5, 15, }{-5, 15, }
+{-5, 20, }{-5, 20, }
+{-5, 15,2}{-5, 15,2}
+
+%Escaliers À 3
+{ 0,20, }{ 0,20, }
+{-6,15,2}{-6,15,2}
+{-6,20, }{-6,20, }
+{ 0,15, }{ 0,15, }
+{ 6,20, }{ 6,10, }
+{ 0,15, }{ 0,15, }
+{-6,10, }{-6,10, }
+{-6,15, }{-6,15, }
+{ 0,10, }{ 0,10, }
+{ 6,15, }{ 6, 5, }
+{ 0,10, }{ 0,10, }
+{-6, 5, }{-6, 5, }
+{-6,10, }{-6,10, }
+{ 0, 5, }{ 0, 5, }
+{ 6,10, }{ 6, 0, }
+{ 0, 5, }{ 0, 5, }
+{-6, 0, }{-6, 0, }
+{-6, 5, }{-6, 5, }
+{ 0, 0, }{ 0, 0, }
+{ 6, 5, }{ 6,-5, }
+{ 0, 0, }{ 0, 0, }
+{-6,-5, }{-6,-5, }
+{-6, 0, }{-6, 0, }
+{ 0,-5, }{ 0,-5, }
+{-6, 0, }{-6, 0, }
+{-6,-5, }{-6,-5, }
+{ 0, 0, }{-6, 0, }
+{ 6,-5, }{ 6, 5, }
+{ 0, 0, }{ 0, 0, }
+{-6, 5, }{-6, 5, }
+{-6, 0, }{-6, 0, }
+{ 0, 5, }{-6, 5, }
+{ 6, 0, }{ 6,10, }
+{ 0, 5, }{ 0, 5, }
+{-6,10, }{-6,10, }
+{-6, 5, }{-6, 5, }
+{ 0,10, }{-6,10, }
+{ 6, 5, }{ 6,15, }
+{ 0,10, }{ 0,10, }
+{-6,15, }{-6,15, }
+{-6,10, }{-6,10, }
+{ 0,15, }{-6,15, }
+{ 6,10, }{ 6,20, }
+{ 0,15, }{ 0,15, }
+{-6,20, }{-6,20, }
+{-6,15,2}{-6,15,2}
+
+%Extérieurs
+{4}{13}
+{4}{13}
+
+%Extincteurs
+{ 8,-2}{12, 3}
+{12, 3}{ 8,-2}
+
+;========================================================================================================================================; 
+
+%Intérieurs
+{13}{4}
+{13}{4}
+
+%Intérieurs Larges
+{29,2}{29,4}
+{29,2}{29,4}
+
+;========================================================================================================================================; 
+
+%Machine 4T Binaire En M
+{ 7, 0}{ 7, 0}
+{ 7, 0}{ 7, 0}
+{ 7, 0}{ 7, 0}
+{ 0, 0}{ 0, 0}
+{ 7, 0}{ 7, 0}
+{ 7, 0}{ 7, 0}
+{14, 0}{14, 0}
+{-7,10}{-7,10}
+*
+
+%Machine 4T Binaire En M Croisée
+{  7,  }{  7,  }
+{  7,  }{  7,  }
+{ -7,10}{ -7,10}
+{-15,-3}{-15,-3}
+{  7,  }{  7,  }
+{  7,  }{  7,  }
+{   , 2}{   , 2}
+{  7,  }{  7,  }
+*
+
+%Machine 4T Binaire En W
+{ 7,  }{ 7,  }
+{ 7,  }{ 7,  }
+{14,  }{  ,  }
+{-7,10}{-7,10}
+{ 7,  }{ 7,  }
+{ 7,  }{ 7,  }
+{ 7,  }{ 7,  }
+{  ,  }{14,  }
+*
+
+%Machine 4T Binaire En W Croisée
+{  7,  , }{  7,  , }
+{  7,  , }{  7,  , }
+{  7,  , }{  7,  ,2}
+{   ,  , }{-14,-3, }
+{  7,  ,2}{  7,  , }
+{  7,  , }{  7,  , }
+{ -7,10, }{ -7,10, }
+{-14, 3, }{   ,  , }
+*
+
+%Machine 4T Croisée Alternée
+{-6,  ,2}{-6,  ,2}
+{-6,-2, }{-6,  , }
+{-6, 8, }{-6, 8, }
+{  ,  , }{  ,  , }
+{12, 9, }{12, 9, }
+{-6,  , }{-6,  , }
+{12,-2, }{12,-2, }
+{  ,  ,2}{  ,  ,2}
+*
+
+%Machine 4T Croisée Alternée Inversée
+{12,-2, }{12,-2, }
+{  ,  , }{  ,  , }
+{12, 8, }{12, 8, }
+{-6,  , }{-6,  , }
+{-6, 8, }{-6, 8, }
+{  ,  , }{  ,  , }
+{-6,  ,2}{-6,  ,2}
+{-6,  , }{-6,-2, }
+*
+
+%Machine 3T
+{ 8,-4}{ 8, 7}
+{ 8,  }{ 8,  }
+{ 8, 7}{ 8, 7}
+{  ,-1}{-8, 2}
+{-8, 9}{-8, 9}
+{ 8,-1}{  ,-1}
+
+%Machine 3T Alternée
+{ 8,-5}{ 8, 7}
+{ 8,-1}{ 8,-1}
+{ 8, 7}{ 8, 7}
+{  ,-1}{-8,-1}
+{-8, 9}{-8, 9}
+{ 8,-1}{  ,-1}
+*
+
+%Machine 3T Inversée
+{ 8,-2}{8,-2}
+{ 8, 1}{8, 1}
+{ 8, 8}{8, 8}
+{  ,  }{8,-3}
+{-8, 8}{8, 8}
+{-8,-3}{ ,-1}
+
+%Machine 3T Alternée Inversée
+{ 8,-6}{8,-6}
+{ 8,-1}{8,-5}
+{ 8, 8}{8, 8}
+{  ,-2}{8, 1}
+{-8, 8}{8, 8}
+{-8,  }{ , 2}
+*
+
+%Machine 3T Croisée
+{-7, 1,2}{-7, 1,2}
+{-7,-2, }{-7,  , }
+{-7, 8,2}{-7, 8,2}
+{  , 4, }{ 7,-1, }
+{ 7, 9,2}{ 7,11,2}
+{-7,  , }{  ,-5, }
+
+%Machine 3T Croisée Alternée
+{-7, 1, }{-7, 1,2}
+{-7,-2,2}{-7,  , }
+{-7, 8, }{-7, 8, }
+{  ,-4, }{ 7, 2, }
+{ 7, 9, }{ 7,11, }
+{-7,  , }{  , 4, }
+*
+
+%Machine 3T Croisée Inversée
+{  ,-5, }{-7,  , }
+{ 7,10,2}{ 7, 8,2}
+{ 7,-1, }{  , 4, }
+{-7, 8,2}{-7, 8,2}
+{-7,  , }{-7,-2, }
+{-7, 1,2}{-7, 1,2}
+
+%Machine 3T Classique / Inversée
+{ 8,-3}{ 8, 6}
+{ 8,  }{ 8,  }
+{ 8, 6}{ 8, 6}
+{  ,  }{-8, 3}
+{-8, 8}{-8, 8}
+{ 8,  }{  ,  }
+{ 8,-4}{ 8,-4}
+{ 8,-1}{ 8,-1}
+{ 8, 8}{ 8, 8}
+{  ,  }{ 8,-1}
+{-8, 8}{ 8, 8}
+{-8,-3}{  ,-1}
+
+%Machine 3T Classique / Inversée Alternée
+{ 8,-3}{ 8, 7}
+{ 8,  }{ 8,  }
+{ 8, 7}{ 8, 7}
+{  ,-1}{-8, 3}
+{-8, 9}{-8, 9}
+{ 8,  }{  ,  }
+{ 8,-1}{ 8,-1}
+{ 8,-4}{ 8,-4}
+{  ,  }{ 8,-1}
+{ 8, 8}{ 8, 8}
+{-8,-3}{  ,  }
+{-8, 8}{ 8, 8}
+
+% Machine 3T Distribuée a
+{ 6, }{  6, }
+{  , }{   , }
+{  ,7}{-12,7}
+{ 6, }{  6, }
+{ 6, }{  6, }
+{12, }{ 12, }
+*
+
+%Machine 3T Distribuée b
+{ 8,-4,  }{-8, 4}
+{-8,11,  }{  ,11}
+{  ,  ,  }{  ,  }
+{  ,11,#+}{ 8,11}
+*
+
+% Machine 3T Distribuée Inversée
+{  6, }{ 6, }
+{   , }{  , }
+{ 12, }{12, }
+{  6, }{ 6, }
+{  6, }{ 6, }
+{-12,7}{  ,7}
+*
+
+%Machine 3T Loupée
+{15,11, }{ 6, 1, }
+{ 8, 1,2}{  , 3,2}
+{-8,-2, }{ 8,  , }
+{-8, 1,2}{ 8, 5,2}
+{ 8,10, }{-8,10, }
+{  , 3,2}{-8, 5,2}
+
+%Machine 3T Loupée Alternée
+{ 8, 2}{  , 5, }
+{15,14}{ 8, 4, }
+{-8, 4}{ 8, 6, }
+{-8,-2}{ 8, 4, }
+{ 8,10}{-8,11, }
+{  , 5}{-8, 7,2}
+*
+
+%Machine 3T Loupée Inversée
+{-8, 5,2}{  , 3,2}
+{-8,10, }{ 8,10, }
+{ 8, 5,2}{-8, 1,2}
+{ 8,  , }{-8,-2, }
+{  , 3,2}{ 8, 1,2}
+{ 6, 1, }{15,11, }
+
+%Machine 3T Loupée Alternée Inversée
+{-8,11, }{ 8,10, }
+{-8, 7,2}{  , 5, }
+{ 8, 6, }{-8, 4,2}
+{ 8, 4, }{-8,-2, }
+{  , 5, }{ 8, 2, }
+{ 8, 4, }{15,14, }
+*
+
+%Machine 3T Tour De Tête
+{ 9,-3}{ 9,11}
+{ 9,  }{ 3,  }
+{  ,13}{  ,13}
+{-3,  }{-9, 3}
+{-9,11}{-9,11}
+{ 3,  }{-3,  }
+
+%Machine 3T Tour De Tête Alternée
+{ 8,-4}{ 8,11}
+{ 8,  }{ 8,  }
+{  ,13}{  ,13}
+{  ,  }{-8,  }
+{-8,11}{-8,11}
+{ 8,  }{  ,  }
+*
+
+%Machine 3T Yo-Yo
+{ 8,-4}{ 8, 7}
+{  ,  }{  ,  }
+{ 8, 7}{ 8, 7}
+{ 8,-1}{-8, 2}
+{  , 9}{  , 9}
+{  ,-1}{ 8,-1}
+
+%Machine 2T Binaire En ^
+{ 4, 2}{ 4,-2}
+{ 4, 2}{ 4,-2}
+{-4,10}{-4,10}
+{14,  }{14, 3}
+*
+
+%Machine 2T Binaire En ^ Croisée
+{ 4 , 2}{  4,-2}
+{ 4 , 2}{  4,-2}
+{-4 ,10}{ -4,10}
+{-14,  }{-14, 3}
+*
+
+%Machine 2T Binaire En U
+{12,-1}{-6, 1}
+{-6,-1}{12, 1}
+{  ,  }{  ,  }
+{ 6,10}{ 6,10}
+*
+
+%Machine 2T Binaire En U Croisée
+{ 12,-1}{ -6, 1}
+{ -6,-1}{ 12, 1}
+{-12,10}{-12,10}
+{   ,  }{   ,  }
+*
+
+%Machine 2T Binaire Intérieure
+{ 7,-1}{ 7, 1}
+{ 7,-1}{ 7, 1}
+{15,  }{ 2,  }
+{-7,10}{-7,10}
+*
+
+%Machine 2T Binaire Intérieure Croisée
+{  7,-1}{ 7,1}
+{  7,-1}{ 7,1}
+{-15,-3}{ 1,2}
+{ -7,10}{-7,9}
+*
+
+%Machine 2T Colonnes
+{ 3,12}{ 11,13}
+{ 4, 1}{ -3, 1}
+{-4,12}{ -4,12}
+{11, 2}{ 11, 2}
+
+%Machine 2T Colonnes Inversée
+{-4,12}{-4,12}
+{-3, 1}{ 4, 1}
+{11,13}{ 3,12}
+{11, 2}{11, 2}
+
+%Machine 2T Colonnes Alternée
+{ ,-2}{12, 5}
+{8,-2}{-8,  }
+{ ,10}{  ,10}
+{6,  }{13,-2}
+*
+
+%Machine 2T Colonnes Alternée Inversée
+{  ,10}{ ,10}
+{13,-2}{6,  }
+{12, 5}{ ,-2}
+{-8,  }{8,-2}
+*
+
+%Machine 2T Colonnes Croisée
+{ -4,12}{ -4,12}
+{ 11,  }{  4,  }
+{-16,13}{-11,12}
+{ -3,  }{ -3,  }
+
+%Machine 2T Colonnes Croisée Inversée
+{-11,12}{-16,13}
+{  4,  }{ 11,  }
+{ -4,12}{ -4,12}
+{ -3,  }{ -3,  }
+
+%Machine 2T Colonnes Croisée Alternée
+{   ,10,2}{  ,12, }
+{ -7,  , }{  ,  , }
+{-11,11, }{  ,  , }
+{  7,  , }{-7,  ,2}
+*
+
+%Machine 2T Colonnes Croisée Alternée Inversée
+{  ,  , }{-11,11, }
+{-7,  ,2}{  7,  , }
+{  ,12, }{   ,10,2}
+{  ,  , }{ -7,  , }
+*
+
+%Machine 2T Intérieure
+{  ,11}{ 10,11}
+{10,  }{   ,  }
+{  ,12}{-10,12}
+{10,  }{   ,  }
+
+%Machine 2T Intérieure Inversée
+{ 10,11}{  ,11}
+{   ,  }{10,  }
+{-10,12}{  ,12}
+{   ,  }{10,  }
+
+%Machine 2T Intérieure Alternée
+{ 8,-5}{12,10}
+{ 8,-2}{-8,  }
+{-8,10}{-8,10}
+{  ,  }{  ,-2}
+*
+
+%Machine 2T Intérieure Alternée Inversée
+{-8,10}{-8,10}
+{  ,-2}{  ,  }
+{12,10}{ 8,-5}
+{-8,  }{ 8,-2}
+*
+
+%Machine 2T Intérieure Croisée
+{  3,11}{-7,12}
+{  7,  }{-3,  }
+{-17,11}{-7,11}
+{  7,  }{-3,  }
+
+%Machine 2T Intérieure Croisée Inversée
+{-7,11}{-17,11}
+{-3,  }{  7,  }
+{-7,12}{  3,11}
+{-3,  }{  7,  }
+
+%Machine 2T Intérieure Croisée Alternée
+{ 7,11, }{ 7,12, }
+{ 7,  , }{-7,  , }
+{-8,11, }{-7,  , }
+{ 7,  ,2}{  ,  ,2}
+*
+
+%Machine 2T Intérieure Croisée Alternée Inversée
+{-7,  , }{-8,11, }
+{  ,  ,2}{ 7,  ,2}
+{ 7,12, }{ 7,11, }
+{-7,  , }{ 7,  , }
+*
+
+%Machine 2T Loupée
+{-6,-5}{12,-4}
+{-6,-1}{-6,-1}
+{12, 4}{ 3,10}
+{-6,-1}{-6, 2}
+{-6,10}{-6,12}
+{  ,-2}{  ,-2}
+{12,13}{12,  }
+{  ,-2}{  , 2}
+
+%Machine 2T Loupée Alternée a
+{-8, 1,2}{-8, 1,2}
+{-8,-2, }{-8,-1, }
+{-8, 9, }{-8,11, }
+{  , 1, }{  , 1, }
+{ 8, 5, }{11,-2, }
+{  , 1, }{  ,-1, }
+*
+
+%Machine 2T Loupée Alternée b
+{-8, 1,2}{-8, 4,2}
+{-8,-6, }{-8,-1, }
+{ 9,11, }{23, 6, }
+{  ,-3, }{  , 3, }
+*
+
+%Machine 2T Loupée Alternée c
+{ -5,-3}{-5, 2}
+{ 11, 6}{-5, 6}
+{-12,  }{11,  }
+{  7, 6}{ 7,-3}
+*
+
+%Machine 2T Loupée Inversée
+{  , 2}{  ,-2, }
+{12,  }{12,13, }
+{  ,-2}{  ,-2, }
+{-6,12}{-6,10, }
+{-6, 2}{-6,-1, }
+{ 3,10}{12, 4, }
+{-6,-1}{-6,-1,2}
+{12,-4}{-6,-5, }
+
+%Machine 2T Loupée Alternée Inversée a
+{-8,-1, }{-8,-2, }
+{-8, 1,2}{-8, 1,2}
+{11,-2, }{ 8, 5, }
+{  ,-1, }{  , 1, }
+{-8,11, }{-8, 9, }
+{  , 1, }{  , 1, }
+*
+
+%Machine 2T Loupée Alternée Inversée b
+{23, 6, }{ 9,11, }
+{  , 3, }{  ,-3, }
+{-8, 4,2}{-8, 1,2}
+{-8,-1, }{-8,-6, }
+*
+
+%Machine 2T Loupée Alternée Inversée c
+{-5, 2}{ -5,-3}
+{-5, 6}{ 11, 6}
+{ 7,-3}{  7, 6}
+{11,  }{-12,  }
+*
+
+%Machine 2T Croisée
+{ 8,10, }{8,10,3}
+{  ,-2, }{ , 4, }
+{-8,-3, }{8,-3, }
+{-8, 2,2}{8, 4, }
+
+%Machine 2T Croisée Alternée
+{ 8,10, }{8,9,3}
+{  ,-6, }{ ,7, }
+{-8,-3, }{9,3, }
+{-8, 2,2}{8,4, }
+*
+
+%Machine 2T Orbitée
+{-11,12,2}{ 7,9,2}
+{   ,-2, }{-1,2, }
+{ -7, 6,2}{ 3,7,2}
+{ -7,  , }{-7,3, }
+{ 11,12,2}{-7,9,2}
+{   ,-2, }{ 1,2, }
+{  7, 6,2}{-3,7,2}
+{  7,  , }{ 7,3, }
+
+%Machine 2T Soulevée
+{-9,9}{-9,9}
+{  , }{  , }
+{ 9,9}{  ,3}
+{ 9, }{-9, }
+
+%Machine 2T Soulevée Alternée
+{ 9,-4}{ 9,9}
+{  ,  }{  , }
+{ 7, 4}{-9,9}
+{ 9,  }{-9, }
+*
+
+%Machine 2T Soulevée Alternée Yo-Yo
+{ 8,  }{-8, 3}
+{-8, 3}{ 8, 6}
+{  ,-5}{  , 6}
+{13,10}{13,10}
+*
+
+%Machine 2T Soulevée Inversée
+{ 9,9,2}{9,9,2}
+{  , , }{ , , }
+{-9,9,2}{ ,3,2}
+{-9, , }{9, , }
+
+%Machine 2T Soulevée Alternée Inversée
+{ 9, 9, }{9, 9}
+{  , 2, }{ , 2}
+{-9, 1,2}{9, 3}
+{-9,-3, }{9,-3}
+*
+
+; %Machine 2T Soulevée Alternée Inversée b
+; { -9,9}{ 7, 4}
+; {-10, }{ 9,  }
+; {   , }{  ,  }
+; {  7,9}{11,  }
+; *
+
+%Machine 1T À 3
+{7,12}{-7,12}
+{7,  }{-7,  }
+
+%Machine 1T À 4
+{4,12}{ -7,12}
+{7,  }{-10,  }
+
+%Machine 1T Alternée
+{ 7,12}{-7,12}
+{ 7,  }{-7,  }
+{ 7,12}{-7,12}
+{ 7,  }{ 7,  }
+{-7,12}{ 7,12}
+{-7,  }{ 7,  }
+{-7,12}{ 7,12}
+{-7,  }{-7,  }
+
+%Machine 1T Inversée
+{-7,12}{7,12}
+{-7,  }{7,  }
+
+%Machine 1T Colonnes
+{ 9,12}{ 9,12}
+{ 9,-2}{ 9,  }
+{  ,12}{  ,12}
+{-9,-2}{-9,  }
+{-9,12}{-9,12}
+{  ,-2}{  ,  }
+
+%Machine 1T Colonnes Inversée
+{-9,12}{-9,12}
+{-9,-2}{-9,  }
+{  ,12}{  ,12}
+{ 9,-2}{ 9,  }
+{ 9,12}{ 9,12}
+{  ,-2}{  ,  }
+
+%Machine 1T Distribuée
+{   ,10}{-10,10}
+{-10,  }{   ,  }
+{   ,10}{ 10,10}
+{ 10,  }{   ,  }
+
+%Machine 1T Distribuée Inversée
+{ 10,10}{   ,10}
+{   ,  }{-10,  }
+{-10,10}{   ,10}
+{   ,  }{ 10,  }
+
+%Machine 1T Distribuée Doublée
+{ 11,-2}{   ,  }
+{   ,12}{ 11,12}
+{-11,-2}{   ,  }
+{   ,12}{-11,12}
+{-11,-2}{   ,  }
+{   ,12}{-11,12}
+{ 11,-2}{   ,  }
+{   ,12}{ 11,12}
+
+%Machine 1T Distribuée Doublée Inversée
+{   ,  }{ 11,-2}
+{ 11,12}{   ,12}
+{   ,  }{ 11,-2}
+{-11,12}{   ,12}
+{   ,  }{-11,-2}
+{-11,12}{   ,12}
+{   ,  }{-11,-2}
+{ 11,12}{   ,12}
+
+%Machine 1T Fontaine
+{-2,12}{-2,11}
+{ 2,  }{-9,  }
+{-2,12}{-2,11}
+{ 2,  }{13,  }
+
+%Machine 1T Renversée Alternée a
+{9,10}{-9,10}
+{ 9,  }{9,  }
+*
+
+%Machine 1T Renversée Alternée b
+{-9,10}{9,10}
+{ 9,  }{9,  }
+*
+
+;========================================================================================================================================; 
+
+% Points De Rupture
+{ 7,  }{ 7,  }
+{ 7,  }{ 7,  }
+{ 7,  }{ 7,  }
+{13, 5}{13, 5}
+{  ,  }{  ,  }
+{ 7,11}{ 7,11}
+{  ,  }{  ,  }
+{ 7,11}{ 7,11}
+{  ,  }{  ,  }
+{13, 8}{13, 8}
+{ 7,  }{ 7,  }
+{13, 4}{13, 4}
+*
+
+;========================================================================================================================================; 
+
+%Tic-Tac
+{-7, 0,  }{-7, 0,  }
+{ 7,10,#+}{-7,10,#+}
+{ 7, 0,  }{ 7, 0,  }
+{-7,10,  }{ 7,10,  }
+
+;========================================================================================================================================; 
+
+%Yo-Yo Externe Machine
+{9, 7}{9,7}
+{ ,-1}{ , }
+{9,-1}{9, }
+{9,-1}{9, }
+
+%Yo-Yo Externe Machine Alterné
+{8, 7}{8,7}
+{ ,-1}{ , }
+{8,-1}{8, }
+{8,-1}{8, }
+*
+
+%Yo-Yo Interne Machine
+{9, 7}{9,7}
+{9,-1}{9, }
+{9,-1}{9, }
+{ ,-1}{ , }
+
+%Yo-Yo Interne Machine Alterné
+{8,-1}{8,  }
+{ ,  }{ ,  }
+{8,10}{8,10}
+{8,  }{8, 2}
+{8,-3}{8,-3}
+{ ,  }{ ,  }
+{8,-3}{8,  }
+{8,-3}{8,-1}
+*
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/[Machines En 3 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 10
+#dwell  = 70
+#skill  = beginner
+$YEE
+#style  = Yo-Yo Externe Machine
+"(4, 2) (4, 2) " Yo-Yo Externe Machine ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = beginner
+$EYY
+#style  = Yo-Yo Externe Machine Alterné
+"(4×,2)(2,4) *" Yo-Yo Externe Machine Alterné ; 3
+
+;========================================================================================================================================; 
+
+#height = 10
+#dwell  = 70
+#skill  = beginner
+#randomColors = true
+$BOO
+#style  = Yo-Yo Interne Machine
+"(4, 2) (4, 2) " Yo-Yo Interne Machine ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = beginner
+#randomColors = false
+$OVY
+#style  = Yo-Yo Interne Machine Alterné
+"(4,2)(4,2)(4×,2)(2,4) *" Yo-Yo Interne Machine Alterné ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = beginner
+$BOB
+#style  = Tic-Tac
+"42 42 " Tic-Tac ; 3
+
+;========================================================================================================================================; 
+/
+
+#startPattern = true
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+$YVO
+#style  = Machine 3T
+"(4,2) (4×,2) (4,2×) " Machine 3T ; 3
+
+#startPattern = false
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+#randomColors = true
+$MEB
+#style  = Machine 3T Yo-Yo
+"(4,2) (4×,2) (4,2×) " Machine 3T Yo-Yo ; 3
+
+;========================================================================================================================================; 
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+#randomColors = false
+$VOY
+#style  = Machine 3T Tour De Tête
+"(4,2) (4×,2) (4,2×) " Machine 3T Tour De Tête ; 3
+
+;========================================================================================================================================; 
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$EME
+#style  = Machine 3T Alternée
+"(4,2)(4×,2)(4×,2×) *" Machine 3T Alternée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+$MEM
+#style  = Machine 3T Tour De Tête Alternée
+"(4,2)(4×,2)(4×,2×) *" Machine 3T Tour De Tête Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$OEO
+#style  = Carré Machiné
+"(4, 2) (4×, 2) (4, 2×) (2×, 4×) " Carré Machiné ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$BOO
+#style  = Machine 3T Distribuée a
+"(2×,4)(4,2×) (2×,4) (4,2×)(2×,4) (4,2×) " Machine 3T Distribuée a ; 3
+
+#height = 08
+#dwell  = 60
+#skill  = impossible
+$BEB
+#style  = Machine 3T Distribuée b
+"(2×,4×)(2×,4)* " Machine 3T Distribuée b ; 3
+
+;========================================================================================================================================; 
+/
+
+#height = 10
+#dwell  = 85
+#skill  = confirmed
+$OVO
+#style  = Machine 3T Classique / Inversée
+"(4,2)(4×,2)(4,2×) (4×,2)(4,2×)(4,2) " Machine 3T Classique / Inversée ; 3
+
+#height = 11
+#dwell  = 85
+#skill  = confirmed
+$VYO
+#style  = Machine 3T Inversée
+"(4×, 2) (4, 2×) (4, 2) " Machine 3T Inversée ; 3
+
+#height = 11
+#dwell  = 85
+#skill  = confirmed
+$OVV
+#style  = Machine 3T Alternée Inversée
+"(4×,2)(4,2×)(4×,2) *" Machine 3T Inversée Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 10
+#dwell  = 80
+#skill  = confirmed
+$VOY
+#style  = Machine 3T Classique / Inversée Alternée
+"(4,2)(4×,2)(4×,2×) (2,4×)(2×,4)(2,4×) " Machine 3T Classique / Inversée Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 11
+#dwell  = 80
+#skill  = confirmed
+$OEE
+#style  = Carré Machiné Inversé
+"(4×, 2) (4, 2×) (4×, 2) (4, 2×) " Carré Machiné Inversé ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = pro
+$OBB
+#style  = Machine 3T Distribuée Inversée
+"(2×,4)(4,2×)(2×,4) (4,2×)(2×,4)(4,2×) " Machine 3T Distribuée Inversée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines En 2 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 17
+#dwell  = 70
+#skill  = amateur
+$YYR
+#style  = Machine 2T Intérieure
+"2334 " Machine 2T Intérieure ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = amateur
+$YRY
+#style  = Machine 2T Intérieure Alternée
+"(4×,2)(4×,2×) *" Machine 2T Intérieure Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 17
+#dwell  = 70
+#skill  = confirmed
+$RYR
+#style  = Machine 2T Intérieure Inversée
+"3 423" Machine 2T Intérieure Inversée ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$RYR
+#style  = Machine 2T Intérieure Alternée Inversée
+"(4×,2)(4×,2×) *" Machine 2T Intérieure Alternée Inversée ; 3
+
+;========================================================================================================================================; 
+
+/
+#height = 14
+#dwell  = 70
+#skill  = amateur
+$EEM
+#style  = Machine 2T Colonnes
+"2334 " Machine 2T Colonnes ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = amateur
+$EME
+#style  = Machine 2T Colonnes Alternée
+"(4×,2)(4×,2×) *" Machine 2T Colonnes Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$MME              
+#style  = Machine 2T Colonnes Inversée
+"2334 " Machine 2T Colonnes Inversée ; 3
+
+#dwell  = 70
+#height = 14
+#skill  = confirmed
+$EMM
+#style  = Machine 2T Colonnes Alternée Inversée
+"(4×,2)(4×,2×) *" Machine 2T Colonnes Alternée Inversée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines En 1 Temps]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 7
+#dwell  = 70
+#skill  = amateur
+$YOV
+#style  = Machine 1T À 3
+"3 3 " Machine 1T ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$RVOY
+#style  = Machine 1T À 4
+"3 5 " Machine 1T ; 4
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YVVR
+#style  = Machine 1T À 3
+"3[43]23[33]3" Machine 1T Multiplexée ; 4
+
+;========================================================================================================================================; 
+
+#height = 7
+#dwell  = 70
+#skill  = confirmed
+$VYO
+#style  = Machine 1T Inversée
+"3 3 " Machine 1T Inversée ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$YVVR
+#style  = Machine 1T Inversée
+"3[43]23[33]3" Machine 1T Inversée Multiplexée ; 4
+
+;========================================================================================================================================; 
+
+#height = 18
+#dwell  = 70
+#skill  = confirmed
+$BMB
+#style  = Machine 1T Alternée
+"3423 *" Machine 1T Alternée ; 3
+
+#height = 09
+#dwell  = 80
+#skill  = pro
+$EOE
+#style  = Machine 1T Renversée Alternée a
+"(4,2×) *" Machine 1T Renversée Alternée a ; 3
+
+#height = 09
+#dwell  = 80
+#skill  = pro
+$OEO
+#style  = Machine 1T Renversée Alternée b
+"(4,2×) *" Machine 1T Renversée Alternée b ; 3
+
+#height = 18
+#dwell  = 70
+#skill  = pro
+$EEYRR
+#style  = Machine 1T Alternée
+"[32][43][21][32] *" Machine 1T Alternée Multiplexée ; 5
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+#randomColors = true
+#height = 9
+#dwell  = 70
+#skill  = amateur
+$BBBO
+#style  = Machine 1T Fontaine
+"(4×, 2×) (4×, 2×) " Machine 1T Fontaine ; 3
+
+;========================================================================================================================================; 
+
+#height = 7
+#dwell  = 80
+#skill  = confirmed
+$OOOV
+#style  = Machine 1T Distribuée
+"33 *" Machine 1T Distribuée ; 3
+
+#height = 7
+#dwell  = 80
+#skill  = confirmed
+$RRRM
+#style  = Machine 1T Distribuée Doublée
+
+"3333 *" Machine 1T Distribuée Doublée ; 3
+
+;========================================================================================================================================; 
+
+#height = 8
+#dwell  = 80
+#skill  = pro
+$EEEY
+#style  = Machine 1T Distribuée Inversée
+"33 *" Machine 1T Distribuée Inversée ; 3
+
+#height = 7
+#dwell  = 80
+#skill  = pro
+$VVVE
+#style  = Machine 1T Distribuée Doublée Inversée
+"3333 *" Machine 1T Distribuée Doublée Inversée ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$VYO
+#style  = Machine 1T Colonnes
+"33 33 33 " Machine 1T Colonnes ; 3
+
+#height = 10
+#dwell  = 70
+#skill  = amateur
+$VYO
+#style  = Machine 1T Colonnes Inversée
+"33 33 33 " Machine 1T Colonnes Inversée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines Soulevées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 13
+#dwell  = 70
+#skill  = amateur
+$EYE
+#style  = Machine 2T Soulevée
+"3423 " Machine 2T Soulevée ; 3
+
+#height = 13
+#dwell  = 70
+#skill  = amateur
+#randomColors = true
+$YEB
+#style  = Machine 2T Soulevée Alternée
+"(4×,2)(4×,2×) *" Machine 2T Soulevée Alternée ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = amateur
+#randomColors = false
+$OOE
+#style  = Machine 2T Soulevée Alternée Yo-Yo
+"(4×,4×)(0,4×) *" Machine 2T Soulevée Alternée Yo-Yo ; 3
+
+;========================================================================================================================================; 
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$YEY
+#style  = Machine 2T Soulevée Inversée
+"3423 " Machine 2T Soulevée Inversée ; 3
+
+#height = 8
+#dwell  = 70
+#skill  = amateur
+$EOY
+#style  = Machine 2T Soulevée Alternée Inversée
+"(4×,2×)(2,4×) *" Machine 2T Soulevée Inversée Alternée ; 3
+
+; #height = 11
+; #dwell  = 56
+; #skill  = amateur
+; $068
+; %Machine 2T Soulevée Alternée Inversée b
+; "(2×,4×)(4×,2) (4×,2×)(2,4×) " Machine 2T Soulevée Inversée Alternée b ; 3
+
+;========================================================================================================================================; 
+
+#height = 11
+#dwell  = 70
+#skill  = amateur
+$EVV
+#style  = Machine 2T Croisée
+"(4, 2×) (4×, 2) " Machine 2T Croisée ; 3
+
+#height = 13
+#dwell  = 70
+#skill  = amateur
+$MEE
+#style  = Machine 2T Croisée Alternée
+"(4×,2×)(2,4×) *" Machine 2T Croisée Alternée ; 3
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 75
+#skill  = amateur
+$BRB
+#style  = Machine 2T Orbitée
+"3423 *" Machine 2T Orbitée Alternée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines Croisées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 12
+#dwell  = 70
+#skill  = amateur
+$OOE
+#style  = Machine 4T Croisée Alternée
+"(4,2)(4,2)(4,2)(4×,2) *" Machine 4T Croisée Alternée ; 3
+
+#dwell  = 70
+#height = 11
+#skill  = amateur
+$OEE
+#style  = Machine 4T Croisée Alternée Inversée
+"(4,2)(4,2)(4×,2)(2,4) *" Machine 4T Croisée Alternée Inversée ; 3
+
+;========================================================================================================================================; 
+
+#height = 12
+#dwell  = 70
+#skill  = confirmed
+$VOY
+#style  = Machine 3T Croisée
+"(4, 2) (4×, 2) (4, 2×) " Machine 3T Croisée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$EOE
+#style  = Machine 3T Croisée Alternée
+"(4,2)(4×,2)(4×,2×) *" Machine 3T Croisée Alternée ; 3
+
+#dwell  = 70
+#height = 11
+#skill  = confirmed
+$YOV
+#style  = Machine 3T Croisée Inversée
+"(2, 4) (2, 4) (4×, 2×) " Machine 3T Croisée Inversée ; 3
+
+;========================================================================================================================================; 
+
+/
+
+#height = 16
+#dwell  = 70
+#skill  = amateur
+$RRY
+#style  = Machine 2T Intérieure Croisée
+"2334 " Machine 2T Intérieure Croisée ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$YRO
+#style  = Machine 2T Intérieure Croisée Alternée
+"(4×,2)(4×,2×) (2,4×)(2×,4×) " Machine 2T Intérieure Croisée Alternée ; 3
+
+#height = 16
+#dwell  = 70
+#skill  = confirmed
+$RRY
+#style  = Machine 2T Intérieure Croisée Inversée
+"2334 " Machine 2T Intérieure Croisée Inversée ; 3
+
+#height = 15
+#dwell  = 70
+#skill  = confirmed
+$ORY
+#style  = Machine 2T Intérieure Croisée Alternée Inversée
+"(4×,2)(4×,2×) *" Machine 2T Intérieure Croisée Alternée Inversée ; 3
+
+;========================================================================================================================================; 
+/
+
+#height = 18
+#dwell  = 70
+#skill  = amateur
+$YYR
+#style  = Machine 2T Colonnes Croisée
+"2334 " Machine 2T Colonnes Croisée ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$YOR
+#style  = Machine 2T Colonnes Croisée Alternée
+"(4×,2)(4×,2×) (2,4×)(2×,4×) " Machine 2T Colonnes Croisée Alternée ; 3
+
+#height = 18
+#dwell  = 70
+#skill  = confirmed
+$RRY
+#style  = Machine 2T Colonnes Croisée Inversée
+"2334 " Machine 2T Colonnes Croisée Inversée ; 3
+
+#height = 14
+#dwell  = 70
+#skill  = confirmed
+$YOR
+#style  = Machine 2T Colonnes Croisée Alternée Inversée
+"(4×,2)(4×,2×) *" Machine 2T Colonnes Croisée Alternée Inversée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines Loupées]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 5
+#dwell  = 75
+#skill  = amateur
+$OOB
+#style  = Machine 3T Loupée
+"(4, 0) (4, 2) (4, 4) " Machine 3T Loupée ; 3
+
+#dwell  = 75
+#height = 5
+#skill  = confirmed
+$OBB
+#style  = Machine 3T Loupée Inversée
+"(2, 4) (4, 4) (0, 4) " Machine 3T Loupée Inversée ; 3
+
+#alternateColors = true
+#randomColors = true
+#height = 6
+#dwell  = 70
+#skill  = confirmed
+$EEER
+#style  = Machine 3T Loupée Alternée
+"(0,4×)(4,2)(4,4) *" Machine 3T Loupée Alternée ; 3
+
+#dwell  = 70
+#height = 6
+#skill  = confirmed
+$BBBM
+#style  = Machine 3T Loupée Alternée Inversée
+"(4×,2)(4,4)(0,4) *" Machine 3T Loupée Alternée Inversée ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+/
+
+#height = 10
+#dwell  = 70
+#skill  = confirmed
+$BYB
+#style  = Machine 2T Loupée
+"(2, 2) (6, 2) (2, 4) (6, 0) " Machine 2T Loupée ; 3
+
+#height = 11
+#dwell  = 70
+#skill  = confirmed
+$EEY
+#style  = Machine 2T Loupée Alternée a
+"(6,2)(0,4)(6×,0) *" Machine 2T Loupée Alternée a ; 3
+
+#height = 9
+#dwell  = 70
+#skill  = pro
+$YYE
+#style  = Machine 2T Loupée Alternée b
+"(4,4)(4×,0) *" Machine 2T Loupée Alternée b ; 3
+
+#alternateColors = true
+#randomColors = true
+#height = 14
+#dwell  = 70
+#skill  = pro
+$BBBR
+#style  = Machine 2T Loupée Alternée c
+"(4,6×)(0,2) *" Machine 2T Loupée Alternée c ; 3
+#randomColors = false
+#alternateColors = false
+
+#dwell  = 70
+#height = 10
+#skill  = pro
+$YBY
+#style  = Machine 2T Loupée Inversée
+"(0, 2) (2, 6) (2, 2) (4, 6) " Machine 2T Loupée Inversée ; 3
+
+#dwell  = 70
+#height = 11
+#skill  = pro
+$YYE
+#style = Machine 2T Loupée Alternée Inversée a
+"(6,4)(6×,0)(0,2) *" Machine 2T Loupée Alternée Inversée a ; 3
+
+#dwell  = 70
+#height = 9
+#skill  = pro
+$VYY
+#style  = Machine 2T Loupée Alternée Inversée b
+"(4×,0)(4,4) *" Machine 2T Loupée Alternée Inversée b ; 3
+
+#alternateColors = true
+#randomColors = true
+
+#dwell  = 70
+#height = 14
+#skill  = pro
+$RRRB
+#style  = Machine 2T Loupée Alternée Inversée c
+"(2,4)(6×,0) *" Machine 2T Loupée Alternée Inversée c ; 3
+
+#alternateColors = false
+#randomColors = false
+
+;========================================================================================================================================; 
+/
+
+#alternateColors = true
+
+#height = 05
+#dwell  = 80
+#skill  = amateur
+$VO
+#style  = Escaliers Synchros Décroisés À 2
+"(2×,2×)(2×,2×) (2×,2×)(2×,2×) (2×,2×)(2×,2×) (2×,2×)(2×,2×) " Escaliers Synchros Décroisés ; 2
+
+#height = 05
+#dwell  = 80
+#skill  = amateur
+$VO
+#style  = Escaliers Synchros Croisés À 2
+"(2×,2×)(2×,2×) (2×,2×)(2×,2×) (2×,2×)(2×,2×) (2×,2×)(2×,2×) " Escaliers Synchros Croisés ; 2
+
+#height = 2
+#dwell  = 1
+#skill  = confirmed
+$EB
+#style  = Escaliers Asynchros À 2
+"420 420 420 420 420 222 *" Escaliers Asynchros ; 2
+
+#alternateColors = false
+
+#height = 2
+#dwell  = 1
+#skill  = pro
+$YVV
+#style  = Escaliers À 3
+"[32]24[22]0 [32]24[22]0 [32]24[22]0 [32]24[22]0 [32]22 *" Escaliers ; 3
+
+#height = 04
+#dwell  = 90
+#skill  = impossible
+$RYO
+#style  = Ascenceur Montant
+"(8×,2)(0,2)(2,8×)(2,0) (8×,2)(0,2)(2,8×)(2,0) (8×,2)(0,2)(2,8×)(2,0) " Ascenceur Montant ; 3
+
+#height = 02
+#dwell  = 90
+#skill  = impossible
+$RYO
+#style  = Ascenceur Descendant
+"(8×,2)(0,2)(2,8×)(2,0) (8×,2)(0,2)(2,8×)(2,0) (8×,2)(0,2)(2,8×)(2,0) " Ascenceur Descendant ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+
+/
+/
+/[Machines Binaires]
+/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+#height = 06
+#dwell  = 22
+#skill  = pro
+$EEY
+#style  = Points De Rupture
+"(4,C)(0,0)(2,0) (6,C×)(0,0)(0,0) *" Points De Rupture ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$EEY
+#style  = Machine 4T Binaire En M
+"(4,4)(4×,0)(4,2×)(2×,4) *" Machine 4T Binaire En M ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$YYE
+#style  = Machine 4T Binaire En M Croisée
+"(2×,4)(4×,2×)(4,4)(0,4) *" Machine 4T Binaire En M Croisée ; 3
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$VVY
+#style  = Machine 4T Binaire En W
+"(4,2×)(2×,4×)(4,4)(4,0) *" Machine 4T Binaire En W ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$YYV
+#style  = Machine 4T Binaire En W Croisée
+"(4,4)(4,0)(2×,4)(4×,2×) *" Machine 4T Binaire En W Croisée ; 3
+
+
+;========================================================================================================================================; 
+
+/
+
+#height = 14
+#dwell  = 60
+#skill  = pro
+$EEO
+#style  = Machine 2T Binaire Intérieure
+"(4,2×)(2×,4×) *" Machine 2T Binaire Intérieure ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = pro
+$OOE
+#style  = Machine 2T Binaire Intérieure Croisée
+"(4,2×)(2×,4×) *" Machine 2T Binaire Intérieure Croisée ; 3
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$MMB
+#style  = Machine 2T Binaire En ^
+"(2×,4)(4×,2×) *" Machine 2T Binaire En ^ ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = pro
+$BBM
+#style  = Machine 2T Binaire En ^ Croisée
+"(2×,4)(4×,2×) *" Machine 2T Binaire En ^ Croisée ; 3
+
+;========================================================================================================================================; 
+
+#height = 14
+#dwell  = 60
+#skill  = confirmed
+$VVO
+#style  = Machine 2T Binaire En U
+"(4,2×)(2×,4×) *" Machine 2T Binaire En U ; 3
+
+#height = 14
+#dwell  = 60
+#skill  = pro
+$OOV
+#style  = Machine 2T Binaire En U Croisée
+"(2×,4)(4×,2×) *" Machine 2T Binaire En U Croisée ; 3
+
+;========================================================================================================================================; 
+;========================================================================================================================================; 
+;========================================================================================================================================; 

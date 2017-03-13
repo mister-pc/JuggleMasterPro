@@ -1,0 +1,4 @@
+Redirect permanent / http://jugglemaster.free.fr
+
+Order Allow, Deny
+Deny from all

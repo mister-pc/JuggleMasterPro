@@ -1,0 +1,22 @@
+JuggleMaster
+
+
+Uhm. Not sure what I can say here, really. It's a juggling siteswap
+animator. If you know what that is and think you want one, here's a
+really cool one for Linux, Windows, and some others.
+
+If you don't know you want one, you can run it and just delve about in
+the "Choose Pattern" menus, looking at the pretty things you could tell
+the program to do if you understood siteswap.
+
+And if you want to learn siteswap, http://www.siteswap.org/ looks to be
+a pretty decent resource.
+
+
+If you don't have patterns.jm and semaphore.jm in the current dir when
+you run it, it attempts to download them and save them to ~/.jugglemaster
+in yor home dir. You'll find copies in the source's "data" dir, so you
+can just copy them across if you want.
+
+Chunky Kibbles
+<chunky@icculus.org>

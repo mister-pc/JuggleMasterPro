@@ -1,0 +1,42 @@
+Version 0.4
+2004-09-01
+ - all: Makefile voodoo
+ - jmqt: initial add
+ - jmlib: Added patterns.h and patterns.cpp, which parse pattern files
+ - data: Added some style data for completeness
+ - jmdlx: Added printing mpegs. Thanks to luap for the color stuff.
+ - jmdlx: Added printing images
+ - jmdlx: HUGE list of fixes and changes from arkanes in #wxwidgets
+ - jmdlx: Added Visual Studio build stuff, also arkanes
+ - jmpocket: initial add
+ - jmlib: minor jmpocket compatability fixes
+
+Version 0.3
+2004-03-17
+ - aajm: Took out pointless macros AAWIDTH and AAHEIGHT
+ - jmlib: Provide ability to describe all the builtin styles
+ - aajm: modified to take advantage of new jmlib feature
+ - jmdlx: modified to take advantage of new jmlib feature
+ - jmdlx: Modified download locations, added progress bar
+ - jmlib: Added "Random" style. Thanks to Barton Chittenden for the
+    [ridiculously simple if I'd taken two minutes to think about it]
+    pseudocode
+ - jmdlx: Added OSX voodoo to Makefile and created "macosx" dir and guff
+    MASSIVE thanks go to Tom Davie for his OSX guruism, especially the
+    cool icon
+ - Added more patterns
+ - Miscellaneous small fixes
+ - jmlib: Changed License to Modified BSD, with Ken Matsuoka's permission
+
+Version 0.2
+2003-12-11
+ - Major addition: AAJM
+ - jmdlx: Colored Balls
+ - jmdlx: Added Some Patterns
+ - jmdlx: "Printing"
+ - jmdlx: Miscellaneous small changes/bugfixes
+ - jmlib: Fixed dumb tpyo in style nomenclature
+
+Version 0.1
+2003-11-10
+ - Initial Public Release

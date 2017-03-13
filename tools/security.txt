@@ -1,0 +1,37 @@
+functions.php :
+
+add_filter('login_errors', create_function('$a', "return null;"));
+add_filter('login_errors', create_function('$no_login_error', "return '(Identifiant, Mot de passe) incorrect';"));
+add_filter('allow_major_auto_core_updates', '__return_true');
+add_filter('allow_minor_auto_core_updates', '__return_true');
+add_filter('auto_update_plugin', '__return_true');
+add_filter('auto_update_translation', '__return_true');
+remove_action('wp_head', 'wlwmanifest_link');
+remove_action('wp_head', 'wp_generator');
+define('DISALLOW_FILE_EDIT', true);
+
+remove_action( 'init',          'rest_api_init' );
+remove_action( 'parse_request', 'rest_api_loaded' );
+remove_action( 'xmlrpc_rsd_apis',            'rest_output_rsd' );
+remove_action( 'wp_head',                    'rest_output_link_wp_head' );
+remove_action( 'template_redirect',          'rest_output_link_header', 11 );
+remove_action( 'auth_cookie_malformed',      'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_expired',        'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_bad_username',   'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_bad_hash',       'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_valid',          'rest_cookie_collect_status' );
+add_filter( 'rest_enabled',       '__return_false' );
+add_filter( 'rest_jsonp_enabled', '__return_false' );
+add_filter( 'xmlrpc_enabled', '__return_false' );
+remove_action( 'wp_head', 'rsd_link' );
+
+
+function secure_API( $access ) {
+
+	if( ! is_user_logged_in() ) {
+        return new WP_Error( 'rest_cannot_access', __( 'Accès réservé aux personnes authentifiées', 'disable-json-api' ), array( 'status' => rest_authorization_required_code() ) );
+    }
+
+    return $access;
+}
+add_filter( 'rest_authentication_errors', 'secure_API' );

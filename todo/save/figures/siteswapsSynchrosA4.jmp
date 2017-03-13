@@ -1,0 +1,1427 @@
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                     Site Swaps Synchros à 4                                                                                     ;
+;                                                                                         par Arnaud BeLO.                                                                                        ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;  Chaque ligne du fichier peut avoir une des six significations suivantes :                                                                                                                      ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                      ;
+;  1.  ; <comment>                                                   : Commentaire dans ce fichier,                                                                                               ;
+;  2.  / <comment>                                                   : Commentaire apparaissant dans la liste des figures,                                                                        ;
+;  3.  / <[title]>                                                   : Titre de chapitre apparaissant dans les listes des figures et des raccourcis,                                              ;
+;  4.  <siteswap> [<pattern name>]                                   : Figure mémorisée dans la liste avec les paramètres en cours,                                                               ;
+;  5.  # <name> = <value>                                            : Réglage d'un paramètre,                                                                                                    ;
+;  6.  {x, y, [=|-|+|#]z, [=|-|+|#]t} {x, y, [=|-|+|#]z, [=|-|+|#]t} : Définition d'un style.                                                                                                     ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;  Des abrévations sont permises pour écrire les syntaxes les plus courantes :                                                                                                                    ;
+;  ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                    ;
+;  -   % <name>                        : Nom de style                   - équivalent à #style  = <name>,                                                                                          ;
+;  -   ^ <value>                       : Réglage de la hauteur          - équivalent à #height = <value>,                                                                                         ;
+;  -   @ <value>                       : Réglage du pourcentage en main - équivalent à #dwell  = <value>,                                                                                         ;
+;  -   $ <values>                      : Réglage des couleurs           - équivalent à #colors = <values>,                                                                                        ;
+;  -   £ <value>                       : Réglage du niveau              - équivalent à #skill  = <value>.                                                                                         ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 1. Il est même possible de commencer un commentaire en milieu de ligne, à la suite de données.                                                                                                  ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 2. C'est pour créer un chapitre de figures dans la liste.                                                                                                                                       ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 3. C'est pour créer un chapitre de figures dans la liste, mais aussi un lien rapide vers ce chapitre.                                                                                           ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 4. Les siteswaps sont en accord avec la nomenclature habituellement usitée : caractères alphanumériques, crochets, virgule, étoile et parenthèses.                                              ;
+;    Des espaces peuvent être insérés dans le siteswap de façon à marquer des séparations entre des lancés. Le "siteswap" sera alors entouré de doubles-guillemets.                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                                                                              ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                              ;
+;    #startPattern†    =                   true*        |  false                                                                                                                                  ;
+;    #mirror           = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #siteswap         = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #siteswapThrows   = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #reverseSiteswap  = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #daySiteswap      = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (F00 | user)*                                     ;
+;    #nightSiteswap    = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (F22 | user)*                                     ;
+;                                                                                                                                                                                                 ;
+;    #style            = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #style°           =                                                   <name>                     | <inner style>*                                                                            ;
+;    #FX               = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #reverseStyle     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #balls            = global*| local | (true | user)*|  false         | <trail length 0*..50>      |  user*                          |      trail                                              ;
+;    #currentThrows    = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #juggler          = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #jugglerTrail     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #dayJuggler       = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #nightJuggler     = global*| local |  true         | (false | user)*| (phantom | user)*|  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #juggler          = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF>                                                           ;
+;    #dayJuggler       = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (444 | user)*                                     ;
+;    #nightJuggler     = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (CCC | user)*                                     ;
+;    #dayBackground    = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (FFF | user)*                                     ;
+;    #nightBackground  = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (000 | user)*                                     ;
+;    #background       = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF>              | user *                                     ;
+;                                                                                                                                                                                                 ;
+;    #colors           = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #colors°          =          local*                                 | <color sequence>                                             |         (7 | user)*                                     ;
+;    #randomColors     = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #alternateColors  = global*| local |  true         | (false | user)*| [/]<period 9..1>                                             | (catch | 0 | user)* | (count      | [/]T)               ;
+;                                                                                                                                                                                                 ;
+;    #defaults         = global*| local |  true         | (false | user)*|    <number 1..9>                                             |         (1 | user)*                                     ;
+;    #relativeDefaults = global*| local |  true         | (false | user)*                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    #strobe           = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;    #robot            = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;    #flash            = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
+;                                                                                                                                                                                                 ;
+;    #sounds           = global*| local | (true | user)*|  false                                                                                                                                  ;
+;    #catchSounds      = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #throwSounds      = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #metronome        = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #light            = global*| local | (true | user)*|  false                                                                                                                                  ;
+;                                                                                                                                                                                                 ;
+;    #height           = global | local*                |                  <number  1..50 >                  | <float 0.01..0.50>      |         (12 | user)*                                     ;
+;    #speed            = global*| local | (true | user)*|  false         | <float 0.1..3.0>                                            |        (1.5 | user)*                                     ;
+;    #dwell            = global | local*                                 | <number  1..99 >                  | <float 0.01..0.99>      |         (70 | user)*                                     ;
+;    #fluency          = global*| local | (true | user)*|  false         | <number  1..99 >                                            |         (99 | user)*                                     ;
+;                                                                                                                                                                                                 ;
+;    #warnings         = global*| local | (true | user)*| false                                                                                                                                   ;
+;    #errors           = global*| local | (true | user)*| false                                                                                                                                   ;
+;    #skill°           =                                                   (beginner | 0)   | (amateur | 1 | user)* | (confirmed | 2)  |        (pro | 3)     | (impossible | 4)                  ;
+;    #edition          = global | local*| (true | user)*| false                                                                                                                                   ;
+;                                                                                                                                                                                                 ;
+;    Les valeurs par défaut sont indiquées par un '*'.                                                                                                                                            ;
+;    La valeur 'local' rend le paramètre propre à la figure, et permet donc de définir des valeurs différentes suivant les figures,                                                               ;
+;    et les paramètres marqués d'un '°' sont toujours définis de façon 'local'(e).                                                                                                                ;
+;    Le paramètre marqué d'un '†' (#startPattern) ne s'applique uniquement qu'à la figure qui le suit immédiatement.                                                                              ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une séquence de couleurs est constituée d'une suite d'entiers et/ou de lettres qui affectent à chacune des balles du siteswap une couleur :                                                  ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                  ;
+;        0 ou K [blacK]    : Noir,                                                                                                                                                                ;
+;        1 ou R [Red]      : Rouge,                                                                                                                                                               ;
+;        2 ou O [Orange]   : Orange,                                                                                                                                                              ;
+;        3 ou Y [Yellow]   : Jaune,                                                                                                                                                               ;
+;        4 ou G [Green]    : Vert,                                                                                                                                                                ;
+;        5 ou B [Blue]     : Bleu,                                                                                                                                                                ;
+;        6 ou P [Purple]   : Violet,                                                                                                                                                              ;
+;        7 ou D [Dark red] : Bordeaux,                                                                                                                                                            ;
+;        8 ou M [Maroon]   : Marron,                                                                                                                                                              ;
+;        9 ou W [White]    : Blanc.                                                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;                                                                                                                                                                                                 ;
+; 6. Un style est appelé en mentionnant son nom : #style = <name>, ou plus simplement % <name>. S'il n'existe pas, sa définition est donnée à sa suite.                                           ;
+;    Elle est réalisée par une série de lignes fournissant à chaque étape les coordonnées spatiales de la rattrape r et du lancé l sous la forme :                                                ;
+;                                                                                                                                                                                                 ;
+;              { [Xr] [(,| ) [Yr] [(,| ) [=|-|+|#][Zr][_|@|×] [(,| ) [=|-|+|#][Br][_|@|×]  ]]] } [{ [Xl] [(,| ) [Yl] [(,| ) [=|-|+|#][Zl][_|@|×] [(,| ) [=|-|+|#][Bl][_|@|×]  ]]] }]              ;
+;                                                                                                                                                                                                 ;
+;              avec :  -128  <=  Xr, Xl  <=  127,                                                                                                                                                 ;
+;                      -128  <=  Yr, Yl  <=  127,                                                                                                                                                 ;
+;                         0  <=  Zr, Zl  <=  127,                                                                                                                                                 ;
+;                         0  <=  Br, Bl  <=  127.                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une abscisse Xn ou une ordonnée Yn non précisées valent 0 (balle au centre, face au nombril du jongleur).                                                                                    ;
+;    Il est préférable de fournir des valeurs respectant les réglages initiaux du constructeur (Ken MATSUOKA),                                                                                    ;
+;    au risque d'avoir sinon un jongleur avec de très grands bras :                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;                       -30  <=  Xr, Xl  <=   30,                                                                                                                                                 ;
+;                       -10  <=  Yr, Yl  <=   20.                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) fait référence à la position des bras et mains par rapport au jongleur (resp. aux balles).                                                                            ;
+;    Une cote Zn non précisée vaut 0, une cote Bn reprend quant à elle la valeur de la cote Zn la précédant.                                                                                      ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) peut être préfixée par un des signes '=', '-', '+' ou '#', pour préciser :                                                                                            ;
+;        - la position de la main par rapport au bras et celle du bras par rapport au jongleur,                                                                                                   ;
+;        - resp. la position de la balle par rapport aux bras et au jongleur.                                                                                                                     ;
+;        Pour les bras et mains (Zn) :                                                                                                                                                            ;
+;                          -        '=' (double '-') : la main est derrière le bras qui est derrière le jongleur,                                                                                 ;
+;                          -        '-'              : la main est devant le bras qui est derrière le jongleur,                                                                                   ;
+;                          -        '+'              : la main est derrière le bras qui est devant le jongleur,                                                                                   ;
+;                          -        '#' (double '+') : la main est devant le bras qui est devant le jongleur.                                                                                     ;
+;        Resp. pour les balles (Bn) :                                                                                                                                                             ;
+;                          -        '=' (double '-') : la balle est derrière les bras et le jongleur,                                                                                             ;
+;                          -        '-'              : la balle est devant les bras et derrière le jongleur,                                                                                      ;
+;                          -        '+'              : la balle est derrière les bras et devant le jongleur,                                                                                      ;
+;                          -        '#' (double '+') : la balle est devant les bras et le jongleur.                                                                                               ;
+;        Le préfixe '#' est celui considéré par défaut, il provoque le dessin de la balle par dessus les bras et le bras par dessus le jongleur.                                                  ;
+;                                                                                                                                                                                                 ;
+;    Une cote Zn (resp. Bn) peut être suffixée par un des signes '_', '@', ou '×' pour préciser la visibilité momentanée du bras et/ou de la main du jongleur (resp. de la balle).                ;
+;        Pour le bras et la main (Zn) :                                                                                                                                                           ;
+;                          -        '_' : le bras reste visible (mais la main devient invisible),                                                                                                 ;
+;                          -        '@' : la main reste visible (mais le bras devient invisible),                                                                                                 ;
+;                          -        '×' : le bras et la main sont invisibles.                                                                                                                     ;
+;        Resp. pour la balle (Bn) :                                                                                                                                                               ;
+;                          -        '_' ou '@' : la balle reste visible,                                                                                                                          ;
+;                          -        '×'        : la balle devient invisible.                                                                                                                      ;
+;        En l'absence de suffixe, bras, mains et balles restent visibles.                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Exemple exhaustif :                                                                                                                                                                          ;
+;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                                                                                                                                                          ;
+;              %Exemple exhaustif de style                                                                                                                                                        ;
+;              {0, 1       }{ ,2,=3     }                                                                                                                                                         ;
+;              { ,-4,#5,  ×}{6, ,  _,-7 }                                                                                                                                                         ;
+;              {           }{8, , 9@    }                                                                                                                                                         ;
+;                                                                                                                                                                                                 ;
+;    est équivalent à :                                                                                                                                                                           ;
+;                                                                                                                                                                                                 ;
+;              #style = Exemple exhaustif de style    ; déclaration du style par son nom suivie de sa définition :                                                                                ;
+;              {0, 1,#0,#0 }{0,2,=3 ,=3 }             ; { 0,  1, #0  : main devant le bras devant le jongleur    , #0  : balle devant les bras devant le jongleur                   }             ;
+;                                                     ; { 0,  2, =3  : main derrière le bras derrière le jongleur, =3  : balle derrière la main et le bras                          }             ;
+;              {0,-4,#5,#0×}{6,0,#0_,-7 }             ; { 0, -4, #5  : main devant le bras devant le jongleur    , #0× : balle invisible                                            }             ;
+;                                                     ; { 6,  0, #0_ : bras devant le jongleur et main invisible , -7  : balle devant la main et le bras, mais derrière le jongleur }             ;
+;              {0, 0,#0,#0 }{8,0,#9@,#9@}             ; { 0,  0, #0  : main devant le bras devant le jongleur    , #0  : balle devant les bras devant le jongleur                   }             ;
+;                                                       { 8,  0, #9@ : main devant le jongleur, bras invisible   , #9@ : balle devant la main et devant le jongleur                 }             ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Dans le cas des siteswaps synchros - de la forme (<left 1>, <right 2>) ... (<left (n-1)>, <right n>) -, les lignes de style sont interprétées de la façon suivante :                         ;
+;         la première   ligne : {Xr1    , Yr1    , Zr1    , Br1    } {Xl1    , Yl1    , Zl1    , Bl1    }    correspond à    <right 2    >,                                                       ;
+;         la deuxième   ligne : {Xr2    , Yr2    , Zr2    , Br2    } {Xl2    , Yl2    , Zl2    , Bl2    }    correspond à    <left  1    >,                                                       ;
+;         ...                                                                                                                                                                                     ;
+;         la (n-1)-ième ligne : {Xr(n-1), Yr(n-1), Zr(n-1), Br(n-1)} {Xl(n-1), Yl(n-1), Zl(n-1), Bl(n-1)}    correspond à    <right n    >,                                                       ;
+;         la  n   -ième ligne : {Xrn    , Yrn    , Zrn    , Brn    } {Xln    , Yln    , Zln    , Bln    }    correspond à    <left  (n-1)>.                                                       ;
+;                                                                                                                                                                                                 ;
+;                                                                                                                                                                                                 ;
+;    Pour définir plus rapidement des styles correspondant à des siteswaps synchros symétriques, il est possible de faire suivre la première série de lignes de définitions                       ;
+;    par une ligne comportant uniquement un '*', qui duplique les lignes déjà renseignées en les permutant deux à deux :                                                                          ;
+;                                                                                                                                                                                                 ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         *                                                                                                                                                                                       ;
+;                                                                                                                                                                                                 ;
+;    est équivalent à :                                                                                                                                                                           ;
+;                                                                                                                                                                                                 ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         {Xr2, Yr2, Zr2, Br2} {Xl2, Yl2, Zl2, Bl2}                                                                                                                                               ;
+;         {Xr1, Yr1, Zr1, Br1} {Xl1, Yl1, Zl1, Bl1}                                                                                                                                               ;
+;                                                                                                                                                                                                 ;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+;=================================================================================================================================================================================================;
+#mirror           = false
+
+#siteswap         = true
+#reverseSiteswap  = false
+
+#style            = false
+#FX               = false
+#reverseStyle     = false
+
+#balls            = true
+#balls            = 1
+#currentThrows    = true
+#siteswapThrows   = true
+#nightJuggler     = false
+#nightJuggler     = phantom
+#dayJuggler       = true
+#juggler          = true
+
+#colors           = true
+#alternateColors  = false
+#alternateColors  = catch
+#randomColors     = true
+
+#defaults         = true
+#defaults         = 1
+#relativeDefaults = false
+#flash            = false
+#robot            = false
+
+#metronome        = false
+#light            = true
+
+#skill            = amateur
+#errors           = true
+#warnings         = true
+#startPattern     = true
+#edition          = true
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+%Centre
+{12}
+{12}
+
+%Intérieurs
+{13}{4}
+{13}{4}
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+
+#dwell  = 70
+#height = 10
+$932170
+
+/
+/[(4×, 4×) ...]
+/
+
+
+#skill  = beginner
+
+"(4×,4×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(4, 4) ...]
+/
+
+
+#skill  = beginner
+
+#startPattern = 1
+
+"(4,4) "
+"(4,4) (4×,4×) "
+"(4,4) (4×,4×) (4×,4×) "
+"(4,4) (4×,4×) (4×,4×) (4×,4×) "
+/
+"(4,4) (4,4) (4×,4×) "
+"(4,4) (4,4) (4×,4×) (4×,4×) "
+"(4,4) (4,4) (4,4) (4×,4×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6×, 2×) ...]
+/
+
+#height = 18
+#skill  = amateur
+
+"(6×,2×) "
+"(6×,2×) *"
+/
+/
+/[(6×, 2) ...]
+/
+
+#skill  = amateur
+
+"(6×,2) (2,6×) (6×,2×) "
+/
+"(6×,2) (6×,2×) (2,6×) (6×,2×) "
+/
+"(6×,2) (6×,2) *"
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6×, 4×) ...]
+/
+
+#skill  = confirmed
+
+"(6×,4×) (0,6×) (6×,2×) (6×,2) "
+/
+"(6×,4×) (2×,4×) "
+"(6×,4×) (2×,4×) (4×,4×) "
+"(6×,4×) (2×,4×) (4×,4×) (4×,4×) "
+"(6×,4×) (2×,4×) (4×,4×) (4,4) "
+"(6×,4×) (2×,4×) *"
+"(6×,4×) (2×,4×) (4,4) "
+"(6×,4×) (2×,4×) (4,4) (4×,4×) "
+"(6×,4×) (2×,4×) (4,4) (4,4) "
+/
+"(6×,4×) (2×,6×) (2,4) "
+"(6×,4×) (2×,6×) (2,4) (4×,4×) "
+"(6×,4×) (2×,6×) (2,4) (4,4) "
+"(6×,4×) (2×,6×) (2,6×) (2×,4) "
+"(6×,4×) (2×,6×) (2,6×) (4×,2) "
+"(6×,4×) (2×,6×) (4×,2×) "
+"(6×,4×) (2×,6×) (4×,2×) (4×,4×) "
+"(6×,4×) (2×,6×) (4×,2×) (4,4) "
+"(6×,4×) (2×,6×) (6×,2×) (2×,4×) "
+"(6×,4×) (2×,6×) (6×,2×) (4,2) "
+/
+"(6×,4×) (4,0) (4×,6×) (6×,2×) "
+/
+"(6×,4×) (4,2) "
+"(6×,4×) (4,2) (4×,4×) "
+"(6×,4×) (4,2) (4×,4×) (4×,4×) "
+"(6×,4×) (4,2) (4×,4×) (4,4) "
+"(6×,4×) (4,2) (4×,6×) (2,4) "
+"(6×,4×) (4,2) (4×,6×) (4×,2×) "
+"(6×,4×) (4,2) (4,4) "
+"(6×,4×) (4,2) (4,4) (4×,4×) "
+"(6×,4×) (4,2) (4,4) (4,4) "
+"(6×,4×) (4,2) (6×,4×) (2×,4×) "
+/
+"(6×,4×) (6×,0) (2,6×) (6×,2×) "
+/
+"(6×,4×) (6×,2) (2,4×) "
+"(6×,4×) (6×,2) (2,4×) (4×,4×) "
+"(6×,4×) (6×,2) (2,4×) (4,4) "
+"(6×,4×) (6×,2) (2,6×) (2,4) "
+"(6×,4×) (6×,2) (2,6×) (4×,2×) "
+"(6×,4×) (6×,2) (4,2×) "
+"(6×,4×) (6×,2) (4,2×) (4×,4×) "
+"(6×,4×) (6×,2) (4,2×) (4,4) "
+"(6×,4×) (6×,2) (6×,2×) (2,4×) "
+"(6×,4×) (6×,2) (6×,2×) (4,2×) "
+"(6×,4×) (6×,2) (6×,4×) (0,4×) "
+/
+"(6×,4×) (6×,4×) (4,0) "
+"(6×,4×) (6×,4×) (4,0) (4×,4×) "
+"(6×,4×) (6×,4×) (4,0) (4,4) "
+"(6×,4×) (6×,4×) (6×,0) (2,4×) "
+"(6×,4×) (6×,4×) (6×,0) (4,2×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6×, 4) ...]
+/
+
+#skill  = confirmed
+
+"(6×,4) (0,4×) (4×,4×) (4×,6×) "
+"(6×,4) (0,4×) (4×,6×) "
+"(6×,4) (0,4×) (4,4) (4×,6×) "
+"(6×,4) (0,4×) (6×,4×) (2×,6×) "
+/
+"(6×,4) (0,6×) "
+"(6×,4) (0,6×) (2,4) (4×,6×) "
+"(6×,4) (0,6×) (4×,2×) (4×,6×) "
+"(6×,4) (0,6×) (6×,2×) (2×,6×) "
+/
+"(6×,4) (2,4×) "
+"(6×,4) (2,4×) (4×,4×) "
+"(6×,4) (2,4×) (4×,4×) (4×,4×) "
+"(6×,4) (2,4×) (4×,4×) (4,4) "
+"(6×,4) (2,4×) (4×,6×) (2,4) "
+"(6×,4) (2,4×) (4×,6×) (4×,2×) "
+"(6×,4) (2,4×) (4,4) "
+"(6×,4) (2,4×) (4,4) (4×,4×) "
+"(6×,4) (2,4×) (4,4) (4,4) "
+"(6×,4) (2,4×) *"
+"(6×,4) (2,4×) (6×,4×) (2×,4×) "
+"(6×,4) (2,4×) (6×,4×) (4,2) "
+/
+"(6×,4) (2,6×) (2,4) "
+"(6×,4) (2,6×) (2,4) (4×,4×) "
+"(6×,4) (2,6×) (2,4) (4,4) "
+"(6×,4) (2,6×) (2,6×) (2×,4) "
+"(6×,4) (2,6×) (2,6×) (4×,2) "
+"(6×,4) (2,6×) (4×,2×) "
+"(6×,4) (2,6×) (4×,2×) (4×,4×) "
+"(6×,4) (2,6×) (4×,2×) (4,4) "
+"(6×,4) (2,6×) (4×,6×) (0,4) "
+"(6×,4) (2,6×) (6×,2×) (2×,4×) "
+"(6×,4) (2,6×) (6×,2×) (4,2) "
+"(6×,4) (2,6×) (6×,4) (0,4×) "
+/
+"(6×,4) (4,0) (4×,6×) (2,6×) "
+/
+"(6×,4) (4,2×) "
+"(6×,4) (4,2×) (4×,4×) "
+"(6×,4) (4,2×) (4×,4×) (4×,4×) "
+"(6×,4) (4,2×) (4×,4×) (4,4) "
+"(6×,4) (4,2×) (4×,6×) (2,4) "
+"(6×,4) (4,2×) (4×,6×) (4×,2×) "
+"(6×,4) (4,2×) (4,4) "
+"(6×,4) (4,2×) (4,4) (4×,4×) "
+"(6×,4) (4,2×) (4,4) (4,4) "
+"(6×,4) (4,2×) *"
+"(6×,4) (4,2×) (4,6×) (4×,2) "
+"(6×,4) (4,2×) (6×,4×) (2×,4×) "
+"(6×,4) (4,2×) (6×,4×) (4,2) "
+"(6×,4) (4,2×) (6×,4) (2,4×) "
+/
+"(6×,4) (4,6×) (0,4) "
+"(6×,4) (4,6×) (0,4) (4×,4×) "
+"(6×,4) (4,6×) (0,4) (4,4) "
+/
+"(6×,4) (6×,0) (2,4×) (4,6×) "
+"(6×,4) (6×,0) (2,6×) (2,6×) "
+"(6×,4) (6×,0) (4,2×) (4,6×) "
+"(6×,4) (6×,0) *"
+/
+"(6×,4) (6×,2×) (2,4×) "
+"(6×,4) (6×,2×) (2,4×) (4×,4×) "
+"(6×,4) (6×,2×) (2,4×) (4,4) "
+"(6×,4) (6×,2×) (2,6×) (2,4) "
+"(6×,4) (6×,2×) (2,6×) (4×,2×) "
+"(6×,4) (6×,2×) (4,2×) "
+"(6×,4) (6×,2×) (4,2×) (4×,4×) "
+"(6×,4) (6×,2×) (4,2×) (4,4) "
+"(6×,4) (6×,2×) (4,6×) (0,4) "
+"(6×,4) (6×,2×) (6×,2×) (2,4×) "
+"(6×,4) (6×,2×) (6×,2×) (4,2×) "
+"(6×,4) (6×,2×) (6×,4×) (0,4×) "
+/
+"(6×,4) (6×,4×) (0,4×) "
+"(6×,4) (6×,4×) (0,4×) (4×,4×) "
+"(6×,4) (6×,4×) (0,4×) (4,4) "
+"(6×,4) (6×,4×) (0,6×) (2,4) "
+"(6×,4) (6×,4×) (0,6×) (4×,2×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6×, 6×) ...]
+/
+
+#skill  = confirmed
+
+"(6×,6×) (2×,0) (4×,4×) (4,6×) "
+"(6×,6×) (2×,0) (4×,6×) (2,6×) "
+"(6×,6×) (2×,0) (4,4) (4,6×) "
+"(6×,6×) (2×,0) (4,6×) "
+"(6×,6×) (2×,0) (4,6×) (2×,6×) "
+/
+"(6×,6×) (2×,2×) "
+"(6×,6×) (2×,2×) (4×,4×) "
+"(6×,6×) (2×,2×) (4×,4×) (4×,4×) "
+"(6×,6×) (2×,2×) (4×,4×) (4,4) "
+"(6×,6×) (2×,2×) (4,4) "
+"(6×,6×) (2×,2×) (4,4) (4×,4×) "
+"(6×,6×) (2×,2×) (4,4) (4,4) "
+"(6×,6×) (2×,2×) (6×,4×) (2×,4×) "
+"(6×,6×) (2×,2×) (6×,4×) (4,2) "
+"(6×,6×) (2×,2×) (6×,4) (2,4×) "
+"(6×,6×) (2×,2×) (6×,4) (4,2×) "
+/
+"(6×,6×) (2,0) (4×,4×) (6×,4×) "
+"(6×,6×) (2,0) (4×,6×) (6×,2×) "
+"(6×,6×) (2,0) (4,4) (6×,4×) "
+"(6×,6×) (2,0) (4,6×) (6×,2) "
+"(6×,6×) (2,0) (6×,4×) "
+/
+"(6×,6×) (2,2) "
+"(6×,6×) (2,2) (4×,4×) "
+"(6×,6×) (2,2) (4×,4×) (4×,4×) "
+"(6×,6×) (2,2) (4×,4×) (4,4) "
+"(6×,6×) (2,2) (4,4) "
+"(6×,6×) (2,2) (4,4) (4×,4×) "
+"(6×,6×) (2,2) (4,4) (4,4) "
+"(6×,6×) (2,2) (6×,4×) (2×,4×) "
+"(6×,6×) (2,2) (6×,4×) (4,2) "
+"(6×,6×) (2,2) (6×,4) (2,4×) "
+"(6×,6×) (2,2) (6×,4) (4,2×) "
+"(6×,6×) (2,2) (6×,6×) (2×,2×) "
+/
+"(6×,6×) (6×,0) (0,4×) (6×,4×) "
+"(6×,6×) (6×,0) (0,6×) (6×,2×) "
+"(6×,6×) (6×,0) (4,0) (4,6×) "
+/
+"(6×,6×) (6×,2×) (4,0) "
+"(6×,6×) (6×,2×) (4,0) (4×,4×) "
+"(6×,6×) (6×,2×) (4,0) (4,4) "
+"(6×,6×) (6×,2×) (6×,0) (2,4×) "
+"(6×,6×) (6×,2×) (6×,0) (4,2×) "
+/
+"(6×,6×) (6×,2) (0,4×) "
+"(6×,6×) (6×,2) (0,4×) (4×,4×) "
+"(6×,6×) (6×,2) (0,4×) (4,4) "
+"(6×,6×) (6×,2) (0,6×) (2,4) "
+"(6×,6×) (6×,2) (0,6×) (4×,2×) "
+/
+"(6×,6×) (6×,6×) (0,0) "
+"(6×,6×) (6×,6×) (0,0) (4×,4×) "
+"(6×,6×) (6×,6×) (0,0) (4,4) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 0) ...]
+/
+
+#skill  = confirmed
+
+"(6,0) (0,4) (6×,4×) (6×,6×) "
+/
+"(6,0) (0,6×) (6×,2) (6×,6×) "
+/
+"(6,0) (2×,4) (4,6×) (4×,6×) "
+"(6,0) (2×,4) (6×,4×) (4,6×) "
+"(6,0) (2×,4) (6×,6×) (2,6×) "
+/
+"(6,0) (2×,6×) (2×,6×) (4×,6×) "
+"(6,0) (2×,6×) (4×,6×) "
+"(6,0) (2×,6×) (6×,2) (4,6×) "
+/
+"(6,0) (2,4) (4,6×) (6×,4) "
+"(6,0) (2,4) (6×,4×) (6×,4×) "
+"(6,0) (2,4) (6×,6×) (6×,2×) "
+/
+"(6,0) (2,6×) (2×,6×) (6×,4) "
+"(6,0) (2,6×) (6×,2) (6×,4×) "
+"(6,0) (2,6×) (6×,4) "
+"(6,0) (2,6×) (6×,6×) (6×,0) "
+/
+"(6,0) (4×,0) (4,6×) (6×,6×) "
+/
+"(6,0) (4×,2×) (4,6×) (6×,4) "
+"(6,0) (4×,2×) (6×,4×) (6×,4×) "
+"(6,0) (4×,2×) (6×,6×) (6×,2×) "
+/
+"(6,0) (4×,2) (4,6×) (4×,6×) "
+"(6,0) (4×,2) (6×,4×) (4,6×) "
+"(6,0) (4×,2) (6×,6×) (2,6×) "
+/
+"(6,0) (4×,6×) "
+"(6,0) (4×,6×) (0,6×) (6×,4) "
+"(6,0) (4×,6×) *"
+"(6,0) (4×,6×) (6×,0) (4,6×) "
+/
+"(6,0) (6×,2×) (6×,4×) "
+/
+"(6,0) (6×,2) (4,6×) "
+/
+"(6,0) (6×,6×) (0,6) "
+/
+"(6,0) (6,0) (2×,6×) (6×,6×) "
+"(6,0) (6,0) (6×,6×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 2×) ...]
+/
+
+#skill  = confirmed
+
+"(6,2×) (2×,4) (4×,4×) (4×,6×) "
+"(6,2×) (2×,4) (4×,6×) "
+"(6,2×) (2×,4) (4,4) (4×,6×) "
+"(6,2×) (2×,4) (6×,4×) (2×,6×) "
+"(6,2×) (2×,4) (6×,4) (2,6×) "
+/
+"(6,2×) (2×,6×) (2×,4) (4×,6×) "
+"(6,2×) (2×,6×) (4×,2) (4×,6×) "
+"(6,2×) (2×,6×) (6×,2) (2×,6×) "
+"(6,2×) (2×,6×) (6×,4) (6,0) "
+/
+"(6,2×) (2,4) (4×,4×) (6×,4) "
+"(6,2×) (2,4) (4,4) (6×,4) "
+"(6,2×) (2,4) (6×,4×) (2×,6) "
+"(6,2×) (2,4) (6×,4×) (6×,2) "
+"(6,2×) (2,4) (6×,4) "
+"(6,2×) (2,4) (6×,4) (6×,2×) "
+/
+"(6,2×) (2,6×) (2×,4) (6×,4) "
+"(6,2×) (2,6×) *"
+"(6,2×) (2,6×) (4×,2) (6×,4) "
+"(6,2×) (2,6×) (6×,2) (2×,6) "
+"(6,2×) (2,6×) (6×,2) (6×,2) "
+"(6,2×) (2,6×) (6×,4) (6×,0) "
+/
+"(6,2×) (4×,0) (4×,4×) (6×,6×) "
+"(6,2×) (4×,0) (4,4) (6×,6×) "
+"(6,2×) (4×,0) (6×,6×) "
+/
+"(6,2×) (4×,2×) (4×,4×) (6×,4) "
+"(6,2×) (4×,2×) (4,4) (6×,4) "
+"(6,2×) (4×,2×) (6×,4×) (2×,6) "
+"(6,2×) (4×,2×) (6×,4×) (6×,2) "
+"(6,2×) (4×,2×) (6×,4) "
+"(6,2×) (4×,2×) (6×,4) (6×,2×) "
+/
+"(6,2×) (4×,2) (4×,4×) (4×,6×) "
+"(6,2×) (4×,2) (4×,6×) "
+"(6,2×) (4×,2) (4,4) (4×,6×) "
+"(6,2×) (4×,2) (6×,4×) (2×,6×) "
+"(6,2×) (4×,2) (6×,4) (2,6×) "
+/
+"(6,2×) (4×,6×) (0,4) (6×,4) "
+"(6,2×) (4×,6×) (0,6) (2×,6) "
+"(6,2×) (4×,6×) (0,6) (6×,2) "
+"(6,2×) (4×,6×) (4×,0) (4×,6×) "
+"(6,2×) (4×,6×) (6×,0) (2×,6×) "
+/
+"(6,2×) (6×,0) (2×,4×) (6×,6×) "
+"(6,2×) (6×,0) (4,2) (6×,6×) "
+/
+"(6,2×) (6×,2×) (2×,4×) (6×,4) "
+"(6,2×) (6×,2×) (2×,6) "
+"(6,2×) (6×,2×) (2×,6) (6×,2×) "
+"(6,2×) (6×,2×) (4,2) (6×,4) "
+"(6,2×) (6×,2×) (6×,2) "
+"(6,2×) (6×,2×) (6×,2) (6×,2×) "
+"(6,2×) (6×,2×) (6×,4×) (6×,0) "
+/
+"(6,2×) (6×,2) (2×,4×) (4×,6×) "
+"(6,2×) (6×,2) (2×,6×) "
+"(6,2×) (6×,2) *"
+"(6,2×) (6×,2) (4,2) (4×,6×) "
+"(6,2×) (6×,2) (6×,2) (2,6×) "
+"(6,2×) (6×,2) (6×,4×) (6,0) "
+/
+"(6,2×) (6×,4) (0,4×) (6×,4) "
+"(6,2×) (6×,4) (0,6) "
+"(6,2×) (6×,4) (0,6) (6×,2×) "
+"(6,2×) (6×,4) (4,0) (4×,6×) "
+"(6,2×) (6×,4) (6×,0) (2,6×) "
+"(6,2×) (6×,4) (6,0) "
+/
+"(6,2×) (6×,6×) (0,2) (6×,4) "
+"(6,2×) (6×,6×) (0,6) (6×,0) "
+"(6,2×) (6×,6×) (2×,0) (4×,6×) "
+"(6,2×) (6×,6×) (6×,0) (6,0) "
+/
+"(6,2×) (6,0) (2×,4) (6×,6×) "
+"(6,2×) (6,0) (4×,2) (6×,6×) "
+/
+"(6,2×) (6,2×) (2×,4) (6×,4) "
+"(6,2×) (6,2×) *"
+"(6,2×) (6,2×) (2×,6) (6×,2) "
+"(6,2×) (6,2×) (4×,2) (6×,4) "
+"(6,2×) (6,2×) (6×,2) (2×,6) "
+"(6,2×) (6,2×) (6×,2) (6×,2) "
+"(6,2×) (6,2×) (6×,4) (6×,0) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 2) ...]
+/
+
+#skill  = confirmed
+
+"(6,2) "
+"(6,2) (0,4) (4×,4×) (6×,6×) "
+"(6,2) (0,4) (4,4) (6×,6×) "
+"(6,2) (0,4) (6×,6×) "
+/
+"(6,2) (0,6×) (2×,4) (6×,6×) "
+"(6,2) (0,6×) (4×,2) (6×,6×) "
+/
+"(6,2) (0,6) (2×,4×) (6×,6×) "
+"(6,2) (0,6) (4,2) (6×,6×) "
+/
+"(6,2) (2×,4) (4×,4×) (4,6×) "
+"(6,2) (2×,4) (4×,6×) (2,6×) "
+"(6,2) (2×,4) (4×,6×) (6,2×) "
+"(6,2) (2×,4) (4,4) (4,6×) "
+"(6,2) (2×,4) (4,6×) "
+"(6,2) (2×,4) (4,6×) (2×,6×) "
+/
+"(6,2) (2×,6×) "
+"(6,2) (2×,6×) (2×,4) (4,6×) "
+"(6,2) (2×,6×) (2×,6×) "
+"(6,2) (2×,6×) (2×,6×) (2×,6×) "
+"(6,2) (2×,6×) (4×,2) (4,6×) "
+"(6,2) (2×,6×) (4×,6×) (6,0) "
+/
+"(6,2) (2×,6) (2×,4×) (4,6×) "
+"(6,2) (2×,6) (2×,6×) (2,6×) "
+"(6,2) (2×,6) (2×,6×) (6,2×) "
+"(6,2) (2×,6) (4,2) (4,6×) "
+"(6,2) (2×,6) (4,6×) (6,0) "
+/
+"(6,2) (2,4) (4×,4×) (6×,4×) "
+"(6,2) (2,4) (4×,6×) (6×,2×) "
+"(6,2) (2,4) (4,4) (6×,4×) "
+"(6,2) (2,4) (4,6×) (2×,6) "
+"(6,2) (2,4) (4,6×) (6×,2) "
+"(6,2) (2,4) (6×,4×) "
+/
+"(6,2) (2,6×) (2×,4) (6×,4×) "
+"(6,2) (2,6×) (2×,6×) (2×,6) "
+"(6,2) (2,6×) (2×,6×) (6×,2) "
+"(6,2) (2,6×) (2×,6) "
+"(6,2) (2,6×) (4×,2) (6×,4×) "
+"(6,2) (2,6×) (4×,6×) (6×,0) "
+"(6,2) (2,6×) (6×,2) "
+"(6,2) (2,6×) (6,2) (2×,6) "
+/
+"(6,2) *"
+"(6,2) (2,6) (4,2) (6×,4×) "
+/
+"(6,2) (4×,2×) (4×,4×) (6×,4×) "
+"(6,2) (4×,2×) (4×,6×) (2,6) "
+"(6,2) (4×,2×) (4×,6×) (6×,2×) "
+"(6,2) (4×,2×) (4,4) (6×,4×) "
+"(6,2) (4×,2×) (4,6×) (2×,6) "
+"(6,2) (4×,2×) (4,6×) (6×,2) "
+"(6,2) (4×,2×) (6×,4×) "
+/
+"(6,2) (4×,2) (4×,4×) (4,6×) "
+"(6,2) (4×,2) (4×,6×) (2,6×) "
+"(6,2) (4×,2) (4×,6×) (6,2×) "
+"(6,2) (4×,2) (4,4) (4,6×) "
+"(6,2) (4×,2) (4,6×) "
+"(6,2) (4×,2) (4,6×) (2×,6×) "
+/
+"(6,2) (4×,6×) (0,4) (6×,4×) "
+"(6,2) (4×,6×) (0,6×) (2×,6) "
+"(6,2) (4×,6×) (0,6×) (6×,2) "
+"(6,2) (4×,6×) (0,6) "
+"(6,2) (4×,6×) (4×,0) (4,6×) "
+"(6,2) (4×,6×) (6,0) "
+"(6,2) (4×,6×) (6,0) (2×,6×) "
+/
+"(6,2) (6×,2×) "
+"(6,2) (6×,2×) (2×,4×) (6×,4×) "
+"(6,2) (6×,2×) (2×,6×) (2,6) "
+"(6,2) (6×,2×) (2×,6×) (6×,2×) "
+"(6,2) (6×,2×) (4,2) (6×,4×) "
+"(6,2) (6×,2×) (4,6×) (6×,0) "
+"(6,2) (6×,2×) (6,2) (2,6) "
+/
+"(6,2) (6×,2) (2×,4×) (4,6×) "
+"(6,2) (6×,2) (2×,6×) (2,6×) "
+"(6,2) (6×,2) (2×,6×) (6,2×) "
+"(6,2) (6×,2) (4,2) (4,6×) "
+"(6,2) (6×,2) (4,6×) (6,0) "
+"(6,2) (6×,2) (6,2) (2,6×) "
+/
+"(6,2) (6×,4) (0,4×) (6×,4×) "
+"(6,2) (6×,4) (0,6×) (2,6) "
+"(6,2) (6×,4) (0,6×) (6×,2×) "
+"(6,2) (6×,4) (4,0) (4,6×) "
+"(6,2) (6×,4) (6,0) (2,6×) "
+"(6,2) (6×,4) (6,0) (6,2×) "
+/
+"(6,2) (6×,6×) (0,2) (6×,4×) "
+"(6,2) (6×,6×) (0,6×) (6×,0) "
+"(6,2) (6×,6×) (2×,0) (4,6×) "
+"(6,2) (6×,6×) (6,0) (6,0) "
+/
+"(6,2) (6,2×) (2×,4) (6×,4×) "
+"(6,2) (6,2×) (2×,6×) (2×,6) "
+"(6,2) (6,2×) (2×,6×) (6×,2) "
+"(6,2) (6,2×) (2×,6) "
+"(6,2) (6,2×) (4×,2) (6×,4×) "
+"(6,2) (6,2×) (4×,6×) (6×,0) "
+"(6,2) (6,2×) (6×,2) "
+"(6,2) (6,2×) (6,2) (2×,6) "
+"(6,2) (6,2×) (6,2) (6×,2) "
+/
+"(6,2) (6,2) (2×,4) (4,6×) "
+"(6,2) (6,2) (2×,6×) "
+"(6,2) (6,2) (2×,6×) (2×,6×) "
+"(6,2) (6,2) (4×,2) (4,6×) "
+"(6,2) (6,2) (4×,6×) (6,0) "
+"(6,2) (6,2) (6,2) (2×,6×) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 4×) ...]
+/
+
+#skill  = confirmed
+
+"(6,4×) (0,4) (4×,4×) (6×,4) "
+"(6,4×) (0,4) (4,4) (6×,4) "
+"(6,4×) (0,4) (6×,4×) (2×,6) "
+"(6,4×) (0,4) (6×,4×) (6×,2) "
+"(6,4×) (0,4) (6×,4) "
+"(6,4×) (0,4) (6×,4) (2,6) "
+"(6,4×) (0,4) (6×,4) (6×,2×) "
+/
+"(6,4×) (0,6×) (2×,4) (6×,4) "
+"(6,4×) (0,6×) (2×,6) (2×,6) "
+"(6,4×) (0,6×) (2×,6) (6×,2) "
+"(6,4×) (0,6×) (4×,2) (6×,4) "
+"(6,4×) (0,6×) *"
+"(6,4×) (0,6×) (6×,2) (2×,6) "
+"(6,4×) (0,6×) (6×,2) (6×,2) "
+"(6,4×) (0,6×) (6×,4) (6×,0) "
+/
+"(6,4×) (0,6) (2×,4×) (6×,4) "
+"(6,4×) (0,6) (2×,6) "
+"(6,4×) (0,6) (2×,6) (2,6) "
+"(6,4×) (0,6) (2×,6) (6×,2×) "
+"(6,4×) (0,6) (4,2) (6×,4) "
+"(6,4×) (0,6) (6×,2) "
+"(6,4×) (0,6) (6×,2) (2,6) "
+"(6,4×) (0,6) (6×,2) (6×,2×) "
+"(6,4×) (0,6) (6×,4×) (6×,0) "
+/
+"(6,4×) (2×,4) "
+"(6,4×) (2×,4) (4×,4×) "
+"(6,4×) (2×,4) (4×,4×) (4×,4×) "
+"(6,4×) (2×,4) (4×,4×) (4,4) "
+"(6,4×) (2×,4) (4×,6×) (2,4) "
+"(6,4×) (2×,4) (4×,6×) (4×,2×) "
+"(6,4×) (2×,4) *"
+"(6,4×) (2×,4) (4,4) "
+"(6,4×) (2×,4) (4,4) (4×,4×) "
+"(6,4×) (2×,4) (4,4) (4,4) "
+"(6,4×) (2×,4) (4,6×) (2×,4) "
+"(6,4×) (2×,4) (4,6×) (4×,2) "
+"(6,4×) (2×,4) (6×,4×) (2×,4×) "
+"(6,4×) (2×,4) (6×,4×) (4,2) "
+"(6,4×) (2×,4) (6×,4) (2,4×) "
+"(6,4×) (2×,4) (6×,4) (4,2×) "
+"(6,4×) (2×,4) (6×,6×) (2×,2×) "
+"(6,4×) (2×,4) (6×,6×) (2,2) "
+/
+"(6,4×) (2×,6×) (2×,4) "
+"(6,4×) (2×,6×) (2×,4) (4×,4×) "
+"(6,4×) (2×,6×) (2×,4) (4,4) "
+"(6,4×) (2×,6×) (2×,6×) (2×,4) "
+"(6,4×) (2×,6×) (2×,6×) (4×,2) "
+"(6,4×) (2×,6×) (2×,6) (2×,4×) "
+"(6,4×) (2×,6×) (2×,6) (4,2) "
+"(6,4×) (2×,6×) (4×,2) "
+"(6,4×) (2×,6×) (4×,2) (4×,4×) "
+"(6,4×) (2×,6×) (4×,2) (4,4) "
+"(6,4×) (2×,6×) (4×,6×) (4×,0) "
+"(6,4×) (2×,6×) (4×,6) (4,0) "
+"(6,4×) (2×,6×) (6×,2) (2×,4×) "
+"(6,4×) (2×,6×) (6×,2) (4,2) "
+"(6,4×) (2×,6×) (6×,4) (4,0) "
+"(6,4×) (2×,6×) (6×,6×) (2×,0) "
+"(6,4×) (2×,6×) (6,2) (2×,4) "
+"(6,4×) (2×,6×) (6,2) (4×,2) "
+/
+"(6,4×) (2×,6) (2×,4×) "
+"(6,4×) (2×,6) (2×,4×) (4×,4×) "
+"(6,4×) (2×,6) (2×,4×) (4,4) "
+"(6,4×) (2×,6) (2×,6×) (2,4) "
+"(6,4×) (2×,6) (2×,6×) (4×,2×) "
+"(6,4×) (2×,6) (2×,6) (2,4×) "
+"(6,4×) (2×,6) (2×,6) (4,2×) "
+"(6,4×) (2×,6) (4,2) "
+"(6,4×) (2×,6) (4,2) (4×,4×) "
+"(6,4×) (2×,6) (4,2) (4,4) "
+"(6,4×) (2×,6) (4,6×) (4×,0) "
+"(6,4×) (2×,6) (6×,2) (2,4×) "
+"(6,4×) (2×,6) (6×,2) (4,2×) "
+"(6,4×) (2×,6) (6×,4×) (4,0) "
+"(6,4×) (2×,6) (6×,6×) (2,0) "
+"(6,4×) (2×,6) (6,2) (2,4) "
+"(6,4×) (2×,6) (6,2) (4×,2×) "
+/
+"(6,4×) (4×,0) (4×,4×) (6×,4×) "
+"(6,4×) (4×,0) (4×,6×) (2,6) "
+"(6,4×) (4×,0) (4×,6×) (6×,2×) "
+"(6,4×) (4×,0) (4,4) (6×,4×) "
+"(6,4×) (4×,0) (4,6×) (2×,6) "
+"(6,4×) (4×,0) (4,6×) (6×,2) "
+"(6,4×) (4×,0) (6×,4×) "
+"(6,4×) (4×,0) (6,4×) (2×,6) "
+/
+"(6,4×) (4×,2) "
+"(6,4×) (4×,2) (4×,4×) "
+"(6,4×) (4×,2) (4×,4×) (4×,4×) "
+"(6,4×) (4×,2) (4×,4×) (4,4) "
+"(6,4×) (4×,2) (4×,6×) (2,4) "
+"(6,4×) (4×,2) (4×,6×) (4×,2×) "
+"(6,4×) (4×,2) *"
+"(6,4×) (4×,2) (4×,6) (4,2×) "
+"(6,4×) (4×,2) (4,4) "
+"(6,4×) (4×,2) (4,4) (4×,4×) "
+"(6,4×) (4×,2) (4,4) (4,4) "
+"(6,4×) (4×,2) (4,6×) (2×,4) "
+"(6,4×) (4×,2) (4,6×) (4×,2) "
+"(6,4×) (4×,2) (6×,4×) (2×,4×) "
+"(6,4×) (4×,2) (6×,4×) (4,2) "
+"(6,4×) (4×,2) (6×,4) (2,4×) "
+"(6,4×) (4×,2) (6×,4) (4,2×) "
+"(6,4×) (4×,2) (6×,6×) (2×,2×) "
+"(6,4×) (4×,2) (6×,6×) (2,2) "
+"(6,4×) (4×,2) (6,4×) (2×,4) "
+/
+"(6,4×) (4×,6×) (4×,0) "
+"(6,4×) (4×,6×) (4×,0) (4×,4×) "
+"(6,4×) (4×,6×) (4×,0) (4,4) "
+"(6,4×) (4×,6×) (6×,0) (2×,4×) "
+"(6,4×) (4×,6×) (6×,0) (4,2) "
+"(6,4×) (4×,6×) (6,0) (2×,4) "
+"(6,4×) (4×,6×) (6,0) (4×,2) "
+/
+"(6,4×) (4×,6) (4,0) "
+"(6,4×) (4×,6) (4,0) (4×,4×) "
+"(6,4×) (4×,6) (4,0) (4,4) "
+"(6,4×) (4×,6) (6×,0) (2,4×) "
+"(6,4×) (4×,6) (6×,0) (4,2×) "
+"(6,4×) (4×,6) (6,0) (2,4) "
+"(6,4×) (4×,6) (6,0) (4×,2×) "
+/
+"(6,4×) (6×,0) "
+"(6,4×) (6×,0) (2×,4×) (6×,4×) "
+"(6,4×) (6×,0) (2×,6×) (2,6) "
+"(6,4×) (6×,0) (2×,6×) (6×,2×) "
+"(6,4×) (6×,0) (4,2) (6×,4×) "
+"(6,4×) (6×,0) (4,6×) (6×,0) "
+"(6,4×) (6×,0) (6,2) (2,6) "
+"(6,4×) (6×,0) (6,2) (6×,2×) "
+/
+"(6,4×) (6×,2) (2×,4×) "
+"(6,4×) (6×,2) (2×,4×) (4×,4×) "
+"(6,4×) (6×,2) (2×,4×) (4,4) "
+"(6,4×) (6×,2) (2×,6×) (2,4) "
+"(6,4×) (6×,2) (2×,6×) (4×,2×) "
+"(6,4×) (6×,2) (2×,6) (2,4×) "
+"(6,4×) (6×,2) (2×,6) (4,2×) "
+"(6,4×) (6×,2) (4,2) "
+"(6,4×) (6×,2) (4,2) (4×,4×) "
+"(6,4×) (6×,2) (4,2) (4,4) "
+"(6,4×) (6×,2) (4,6×) (4×,0) "
+"(6,4×) (6×,2) (6×,2) (2,4×) "
+"(6,4×) (6×,2) (6×,2) (4,2×) "
+"(6,4×) (6×,2) (6×,4×) (4,0) "
+"(6,4×) (6×,2) (6×,6×) (2,0) "
+"(6,4×) (6×,2) (6,2) (2,4) "
+"(6,4×) (6×,2) (6,2) (4×,2×) "
+"(6,4×) (6×,2) (6,4×) (4×,0) "
+/
+"(6,4×) (6×,4) (4,0) "
+"(6,4×) (6×,4) (4,0) (4×,4×) "
+"(6,4×) (6×,4) (4,0) (4,4) "
+"(6,4×) (6×,4) (6×,0) (2,4×) "
+"(6,4×) (6×,4) (6×,0) (4,2×) "
+"(6,4×) (6×,4) (6,0) (2,4) "
+"(6,4×) (6×,4) (6,0) (4×,2×) "
+/
+"(6,4×) (6×,6×) (2×,0) "
+"(6,4×) (6×,6×) (2×,0) (4×,4×) "
+"(6,4×) (6×,6×) (2×,0) (4,4) "
+"(6,4×) (6×,6×) (6×,0) (4,0) "
+"(6,4×) (6×,6×) (6,0) (4×,0) "
+/
+"(6,4×) (6,0) (2×,4) (6×,4×) "
+"(6,4×) (6,0) (2×,6×) (2×,6) "
+"(6,4×) (6,0) (2×,6×) (6×,2) "
+"(6,4×) (6,0) (2×,6) "
+"(6,4×) (6,0) (4×,2) (6×,4×) "
+"(6,4×) (6,0) (4×,6×) (6×,0) "
+"(6,4×) (6,0) (6×,2) "
+"(6,4×) (6,0) (6,2) (2×,6) "
+"(6,4×) (6,0) (6,2) (6×,2) "
+/
+"(6,4×) (6,2) (2×,4) "
+"(6,4×) (6,2) (2×,4) (4×,4×) "
+"(6,4×) (6,2) (2×,4) (4,4) "
+"(6,4×) (6,2) (2×,6×) (2×,4) "
+"(6,4×) (6,2) (2×,6×) (4×,2) "
+"(6,4×) (6,2) (2×,6) (2×,4×) "
+"(6,4×) (6,2) (2×,6) (4,2) "
+"(6,4×) (6,2) (4×,2) "
+"(6,4×) (6,2) (4×,2) (4×,4×) "
+"(6,4×) (6,2) (4×,2) (4,4) "
+"(6,4×) (6,2) (4×,6×) (4×,0) "
+"(6,4×) (6,2) (4×,6) (4,0) "
+"(6,4×) (6,2) (6×,2) (2×,4×) "
+"(6,4×) (6,2) (6×,2) (4,2) "
+"(6,4×) (6,2) (6×,4) (4,0) "
+"(6,4×) (6,2) (6×,6×) (2×,0) "
+"(6,4×) (6,2) (6,2) (2×,4) "
+"(6,4×) (6,2) (6,2) (4×,2) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 4) ...]
+/
+
+#skill  = confirmed
+
+"(6,4) (0,4) (4×,4×) (4×,6×) "
+"(6,4) (0,4) (4×,6×) "
+"(6,4) (0,4) (4×,6) (2,6×) "
+"(6,4) (0,4) (4×,6) (6,2×) "
+"(6,4) (0,4) (4,4) (4×,6×) "
+"(6,4) (0,4) (6×,4×) (2×,6×) "
+"(6,4) (0,4) (6×,4×) (6,2) "
+"(6,4) (0,4) (6×,4) (2,6×) "
+"(6,4) (0,4) (6×,4) (6,2×) "
+/
+"(6,4) (0,6×) (2×,4) (4×,6×) "
+"(6,4) (0,6×) (2×,6) (2×,6×) "
+"(6,4) (0,6×) (2×,6) (6,2) "
+"(6,4) (0,6×) (4×,2) (4×,6×) "
+"(6,4) (0,6×) (4×,6) (6,0) "
+"(6,4) (0,6×) (6×,2) (2×,6×) "
+"(6,4) (0,6×) (6×,2) (6,2) "
+"(6,4) (0,6×) (6×,4) (6,0) "
+/
+"(6,4) (0,6) (2×,4×) (4×,6×) "
+"(6,4) (0,6) (2×,6×) "
+"(6,4) (0,6) (2×,6) (2,6×) "
+"(6,4) (0,6) (2×,6) (6,2×) "
+"(6,4) (0,6) (4,2) (4×,6×) "
+"(6,4) (0,6) *"
+"(6,4) (0,6) (6×,2) (2,6×) "
+"(6,4) (0,6) (6×,2) (6,2×) "
+"(6,4) (0,6) (6×,4×) (6,0) "
+"(6,4) (0,6) (6,2) "
+/
+"(6,4) (2,4) "
+"(6,4) (2,4) (4×,4×) "
+"(6,4) (2,4) (4×,4×) (4×,4×) "
+"(6,4) (2,4) (4×,4×) (4,4) "
+"(6,4) (2,4) (4×,6×) (2,4) "
+"(6,4) (2,4) (4×,6×) (4×,2×) "
+"(6,4) (2,4) (4×,6) (2,4×) "
+"(6,4) (2,4) (4×,6) (4,2×) "
+"(6,4) (2,4) (4,4) "
+"(6,4) (2,4) (4,4) (4×,4×) "
+"(6,4) (2,4) (4,4) (4,4) "
+"(6,4) (2,4) (4,6×) (2×,4) "
+"(6,4) (2,4) (4,6×) (4×,2) "
+"(6,4) (2,4) *"
+"(6,4) (2,4) (6×,4×) (2×,4×) "
+"(6,4) (2,4) (6×,4×) (4,2) "
+"(6,4) (2,4) (6×,4) (2,4×) "
+"(6,4) (2,4) (6×,4) (4,2×) "
+"(6,4) (2,4) (6×,6×) (2×,2×) "
+"(6,4) (2,4) (6×,6×) (2,2) "
+"(6,4) (2,4) (6,4×) (2×,4) "
+"(6,4) (2,4) (6,4×) (4×,2) "
+/
+"(6,4) (2,6×) (2×,4) "
+"(6,4) (2,6×) (2×,4) (4×,4×) "
+"(6,4) (2,6×) (2×,4) (4,4) "
+"(6,4) (2,6×) (2×,6×) (2×,4) "
+"(6,4) (2,6×) (2×,6×) (4×,2) "
+"(6,4) (2,6×) (2×,6) (2×,4×) "
+"(6,4) (2,6×) (2×,6) (4,2) "
+"(6,4) (2,6×) (4×,2) "
+"(6,4) (2,6×) (4×,2) (4×,4×) "
+"(6,4) (2,6×) (4×,2) (4,4) "
+"(6,4) (2,6×) (4×,6×) (4×,0) "
+"(6,4) (2,6×) (4×,6) (4,0) "
+"(6,4) (2,6×) (6×,2) (2×,4×) "
+"(6,4) (2,6×) (6×,2) (4,2) "
+"(6,4) (2,6×) (6×,4) (4,0) "
+"(6,4) (2,6×) (6×,6×) (2×,0) "
+"(6,4) (2,6×) (6,2) (2×,4) "
+"(6,4) (2,6×) (6,2) (4×,2) "
+/
+"(6,4) (2,6) (2×,4×) "
+"(6,4) (2,6) (2×,4×) (4×,4×) "
+"(6,4) (2,6) (2×,4×) (4,4) "
+"(6,4) (2,6) (2×,6×) (2,4) "
+"(6,4) (2,6) (2×,6×) (4×,2×) "
+"(6,4) (2,6) (2×,6) (2,4×) "
+"(6,4) (2,6) (2×,6) (4,2×) "
+"(6,4) (2,6) (4,2) "
+"(6,4) (2,6) (4,2) (4×,4×) "
+"(6,4) (2,6) (4,2) (4,4) "
+"(6,4) (2,6) (4,6×) (4×,0) "
+"(6,4) (2,6) (4,6) (4,0) "
+"(6,4) (2,6) (6×,2) (2,4×) "
+"(6,4) (2,6) (6×,2) (4,2×) "
+"(6,4) (2,6) (6×,4×) (4,0) "
+"(6,4) (2,6) (6×,6×) (2,0) "
+"(6,4) (2,6) (6,2) (2,4) "
+"(6,4) (2,6) (6,2) (4×,2×) "
+"(6,4) (2,6) (6,4×) (4×,0) "
+/
+"(6,4) (4×,0) (4×,4×) (4,6×) "
+"(6,4) (4×,0) (4×,4×) (6,4×) "
+"(6,4) (4×,0) (4×,6×) (2,6×) "
+"(6,4) (4×,0) (4×,6×) (6,2×) "
+"(6,4) (4×,0) (4,4) (4,6×) "
+"(6,4) (4×,0) (4,4) (6,4×) "
+"(6,4) (4×,0) (4,6×) "
+"(6,4) (4×,0) (4,6×) (2×,6×) "
+"(6,4) (4×,0) (4,6×) (6,2) "
+"(6,4) (4×,0) (6,4×) "
+"(6,4) (4×,0) (6,4×) (2×,6×) "
+"(6,4) (4×,0) (6,4×) (6,2) "
+"(6,4) (4×,0) (6,4) (2,6×) "
+/
+"(6,4) (4×,2×) "
+"(6,4) (4×,2×) (4×,4×) "
+"(6,4) (4×,2×) (4×,4×) (4×,4×) "
+"(6,4) (4×,2×) (4×,4×) (4,4) "
+"(6,4) (4×,2×) (4×,6×) (2,4) "
+"(6,4) (4×,2×) (4×,6×) (4×,2×) "
+"(6,4) (4×,2×) (4×,6) (2,4×) "
+"(6,4) (4×,2×) (4×,6) (4,2×) "
+"(6,4) (4×,2×) (4,4) "
+"(6,4) (4×,2×) (4,4) (4×,4×) "
+"(6,4) (4×,2×) (4,4) (4,4) "
+"(6,4) (4×,2×) (4,6×) (2×,4) "
+"(6,4) (4×,2×) (4,6×) (4×,2) "
+"(6,4) (4×,2×) *"
+"(6,4) (4×,2×) (4,6) (4,2) "
+"(6,4) (4×,2×) (6×,4×) (2×,4×) "
+"(6,4) (4×,2×) (6×,4×) (4,2) "
+"(6,4) (4×,2×) (6×,4) (2,4×) "
+"(6,4) (4×,2×) (6×,4) (4,2×) "
+"(6,4) (4×,2×) (6×,6×) (2×,2×) "
+"(6,4) (4×,2×) (6×,6×) (2,2) "
+"(6,4) (4×,2×) (6,4×) (2×,4) "
+"(6,4) (4×,2×) (6,4×) (4×,2) "
+"(6,4) (4×,2×) (6,4) (2,4) "
+/
+"(6,4) (4×,6×) (0,4) "
+"(6,4) (4×,6×) (0,4) (4×,4×) "
+"(6,4) (4×,6×) (0,4) (4,4) "
+"(6,4) (4×,6×) (0,6×) (2×,4) "
+"(6,4) (4×,6×) (0,6×) (4×,2) "
+"(6,4) (4×,6×) (0,6) (2×,4×) "
+"(6,4) (4×,6×) (0,6) (4,2) "
+/
+"(6,4) (4×,6) (0,4×) "
+"(6,4) (4×,6) (0,4×) (4×,4×) "
+"(6,4) (4×,6) (0,4×) (4,4) "
+"(6,4) (4×,6) (0,6×) (2,4) "
+"(6,4) (4×,6) (0,6×) (4×,2×) "
+"(6,4) (4×,6) (0,6) (2,4×) "
+"(6,4) (4×,6) (0,6) (4,2×) "
+/
+"(6,4) (6×,0) (2×,4×) (4,6×) "
+"(6,4) (6×,0) (2×,4×) (6,4×) "
+"(6,4) (6×,0) (2×,6×) (2,6×) "
+"(6,4) (6×,0) (2×,6×) (6,2×) "
+"(6,4) (6×,0) (4,2) (4,6×) "
+"(6,4) (6×,0) (4,2) (6,4×) "
+"(6,4) (6×,0) (4,6×) (6,0) "
+"(6,4) (6×,0) (6,2) (2,6×) "
+"(6,4) (6×,0) (6,2) (6,2×) "
+"(6,4) (6×,0) (6,4×) (6,0) "
+/
+"(6,4) (6×,2×) (2×,4×) "
+"(6,4) (6×,2×) (2×,4×) (4×,4×) "
+"(6,4) (6×,2×) (2×,4×) (4,4) "
+"(6,4) (6×,2×) (2×,6×) (2,4) "
+"(6,4) (6×,2×) (2×,6×) (4×,2×) "
+"(6,4) (6×,2×) (2×,6) (2,4×) "
+"(6,4) (6×,2×) (2×,6) (4,2×) "
+"(6,4) (6×,2×) (4,2) "
+"(6,4) (6×,2×) (4,2) (4×,4×) "
+"(6,4) (6×,2×) (4,2) (4,4) "
+"(6,4) (6×,2×) (4,6×) (4×,0) "
+"(6,4) (6×,2×) (4,6) (4,0) "
+"(6,4) (6×,2×) (6×,2) (2,4×) "
+"(6,4) (6×,2×) (6×,2) (4,2×) "
+"(6,4) (6×,2×) (6×,4×) (4,0) "
+"(6,4) (6×,2×) (6×,6×) (2,0) "
+"(6,4) (6×,2×) (6,2) (2,4) "
+"(6,4) (6×,2×) (6,2) (4×,2×) "
+"(6,4) (6×,2×) (6,4×) (4×,0) "
+/
+"(6,4) (6×,4) (0,4×) "
+"(6,4) (6×,4) (0,4×) (4×,4×) "
+"(6,4) (6×,4) (0,4×) (4,4) "
+"(6,4) (6×,4) (0,6×) (2,4) "
+"(6,4) (6×,4) (0,6×) (4×,2×) "
+"(6,4) (6×,4) (0,6) (2,4×) "
+"(6,4) (6×,4) (0,6) (4,2×) "
+/
+"(6,4) (6×,6×) (0,2) "
+"(6,4) (6×,6×) (0,2) (4×,4×) "
+"(6,4) (6×,6×) (0,2) (4,4) "
+"(6,4) (6×,6×) (0,6×) (4×,0) "
+"(6,4) (6×,6×) (0,6) (4,0) "
+/
+"(6,4) (6,0) "
+"(6,4) (6,0) (2×,4) (4,6×) "
+"(6,4) (6,0) (2×,4) (6,4×) "
+"(6,4) (6,0) (2×,6×) "
+"(6,4) (6,0) (2×,6×) (2×,6×) "
+"(6,4) (6,0) (2×,6×) (6,2) "
+"(6,4) (6,0) (4×,2) (4,6×) "
+"(6,4) (6,0) (4×,2) (6,4×) "
+"(6,4) (6,0) (4×,6×) (6,0) "
+"(6,4) (6,0) (6,2) "
+"(6,4) (6,0) (6,2) (2×,6×) "
+"(6,4) (6,0) (6,2) (6,2) "
+/
+"(6,4) (6,2×) (2×,4) "
+"(6,4) (6,2×) (2×,4) (4×,4×) "
+"(6,4) (6,2×) (2×,4) (4,4) "
+"(6,4) (6,2×) (2×,6×) (2×,4) "
+"(6,4) (6,2×) (2×,6×) (4×,2) "
+"(6,4) (6,2×) (2×,6) (2×,4×) "
+"(6,4) (6,2×) (2×,6) (4,2) "
+"(6,4) (6,2×) (4×,2) "
+"(6,4) (6,2×) (4×,2) (4×,4×) "
+"(6,4) (6,2×) (4×,2) (4,4) "
+"(6,4) (6,2×) (4×,6×) (4×,0) "
+"(6,4) (6,2×) (4×,6) (4,0) "
+"(6,4) (6,2×) (6×,2) (2×,4×) "
+"(6,4) (6,2×) (6×,2) (4,2) "
+"(6,4) (6,2×) (6×,4) (4,0) "
+"(6,4) (6,2×) (6×,6×) (2×,0) "
+"(6,4) (6,2×) (6,2) (2×,4) "
+"(6,4) (6,2×) (6,2) (4×,2) "
+"(6,4) (6,2×) (6,4) (4×,0) "
+/
+"(6,4) (6,4) (0,4) "
+"(6,4) (6,4) (0,4) (4×,4×) "
+"(6,4) (6,4) (0,4) (4,4) "
+"(6,4) (6,4) (0,6×) (2×,4) "
+"(6,4) (6,4) (0,6×) (4×,2) "
+"(6,4) (6,4) (0,6) (2×,4×) "
+"(6,4) (6,4) (0,6) (4,2) "
+
+;===================================================================================================================================================================;
+
+/
+/
+/[(6, 6) ...]
+/
+
+#skill  = confirmed
+
+"(6,6) (0,0) (4×,4×) (6×,6×) "
+"(6,6) (0,0) (4,4) (6×,6×) "
+"(6,6) (0,0) (6×,6×) "
+/
+"(6,6) (2×,0) (4×,4×) (4,6×) "
+"(6,6) (2×,0) (4×,4×) (6,4×) "
+"(6,6) (2×,0) (4×,6×) (2,6×) "
+"(6,6) (2×,0) (4×,6×) (6,2×) "
+"(6,6) (2×,0) (4,4) (4,6×) "
+"(6,6) (2×,0) (4,4) (6,4×) "
+"(6,6) (2×,0) (4,6×) "
+"(6,6) (2×,0) (4,6×) (2×,6×) "
+"(6,6) (2×,0) (4,6×) (6,2) "
+"(6,6) (2×,0) (6,4×) "
+"(6,6) (2×,0) (6,4×) (2×,6×) "
+"(6,6) (2×,0) (6,4×) (6,2) "
+"(6,6) (2×,0) (6,4) (2,6×) "
+"(6,6) (2×,0) (6,4) (6,2×) "
+/
+"(6,6) (2×,2×) "
+"(6,6) (2×,2×) (4×,4×) "
+"(6,6) (2×,2×) (4×,4×) (4×,4×) "
+"(6,6) (2×,2×) (4×,4×) (4,4) "
+"(6,6) (2×,2×) (4,4) "
+"(6,6) (2×,2×) (4,4) (4×,4×) "
+"(6,6) (2×,2×) (4,4) (4,4) "
+"(6,6) (2×,2×) (6×,4×) (2×,4×) "
+"(6,6) (2×,2×) (6×,4×) (4,2) "
+"(6,6) (2×,2×) (6×,4) (2,4×) "
+"(6,6) (2×,2×) (6×,4) (4,2×) "
+"(6,6) (2×,2×) (6×,6×) (2×,2×) "
+"(6,6) (2×,2×) (6×,6×) (2,2) "
+"(6,6) (2×,2×) (6,4×) (2×,4) "
+"(6,6) (2×,2×) (6,4×) (4×,2) "
+"(6,6) (2×,2×) (6,4) (2,4) "
+"(6,6) (2×,2×) (6,4) (4×,2×) "
+/
+"(6,6) (2,0) (4×,4×) (4,6) "
+"(6,6) (2,0) (4×,4×) (6×,4×) "
+"(6,6) (2,0) (4×,6×) (2,6) "
+"(6,6) (2,0) (4×,6×) (6×,2×) "
+"(6,6) (2,0) (4,4) (4,6) "
+"(6,6) (2,0) (4,4) (6×,4×) "
+"(6,6) (2,0) (4,6×) (2×,6) "
+"(6,6) (2,0) (4,6×) (6×,2) "
+"(6,6) (2,0) (4,6) "
+"(6,6) (2,0) (6×,4×) "
+"(6,6) (2,0) (6,4×) (2×,6) "
+"(6,6) (2,0) (6,4×) (6×,2) "
+"(6,6) (2,0) (6,4) (2,6) "
+"(6,6) (2,0) (6,4) (6×,2×) "
+/
+"(6,6) (2,2) "
+"(6,6) (2,2) (4×,4×) "
+"(6,6) (2,2) (4×,4×) (4×,4×) "
+"(6,6) (2,2) (4×,4×) (4,4) "
+"(6,6) (2,2) (4,4) "
+"(6,6) (2,2) (4,4) (4×,4×) "
+"(6,6) (2,2) (4,4) (4,4) "
+"(6,6) (2,2) (6×,4×) (2×,4×) "
+"(6,6) (2,2) (6×,4×) (4,2) "
+"(6,6) (2,2) (6×,4) (2,4×) "
+"(6,6) (2,2) (6×,4) (4,2×) "
+"(6,6) (2,2) (6×,6×) (2×,2×) "
+"(6,6) (2,2) (6×,6×) (2,2) "
+"(6,6) (2,2) (6,4×) (2×,4) "
+"(6,6) (2,2) (6,4×) (4×,2) "
+"(6,6) (2,2) (6,4) (2,4) "
+"(6,6) (2,2) (6,4) (4×,2×) "
+"(6,6) (2,2) (6,6) (2×,2×) "
+/
+"(6,6) (6×,0) (0,4×) (4,6) "
+"(6,6) (6×,0) (0,4×) (6×,4×) "
+"(6,6) (6×,0) (0,6×) (2,6) "
+"(6,6) (6×,0) (0,6×) (6×,2×) "
+"(6,6) (6×,0) (4,0) (4,6×) "
+"(6,6) (6×,0) (4,0) (6,4×) "
+"(6,6) (6×,0) (6,0) (2,6×) "
+"(6,6) (6×,0) (6,0) (6,2×) "
+/
+"(6,6) (6×,2×) (4,0) "
+"(6,6) (6×,2×) (4,0) (4×,4×) "
+"(6,6) (6×,2×) (4,0) (4,4) "
+"(6,6) (6×,2×) (6×,0) (2,4×) "
+"(6,6) (6×,2×) (6×,0) (4,2×) "
+"(6,6) (6×,2×) (6,0) (2,4) "
+"(6,6) (6×,2×) (6,0) (4×,2×) "
+/
+"(6,6) (6×,2) (0,4×) "
+"(6,6) (6×,2) (0,4×) (4×,4×) "
+"(6,6) (6×,2) (0,4×) (4,4) "
+"(6,6) (6×,2) (0,6×) (2,4) "
+"(6,6) (6×,2) (0,6×) (4×,2×) "
+"(6,6) (6×,2) (0,6) (2,4×) "
+"(6,6) (6×,2) (0,6) (4,2×) "
+/
+"(6,6) (6×,6×) (0,0) "
+"(6,6) (6×,6×) (0,0) (4×,4×) "
+"(6,6) (6×,6×) (0,0) (4,4) "
+/
+"(6,6) (6,0) (0,4) (4,6) "
+"(6,6) (6,0) (0,4) (6×,4×) "
+"(6,6) (6,0) (0,6×) (2×,6) "
+"(6,6) (6,0) (0,6×) (6×,2) "
+"(6,6) (6,0) (0,6) "
+"(6,6) (6,0) (4×,0) (4,6×) "
+"(6,6) (6,0) (4×,0) (6,4×) "
+"(6,6) (6,0) (6,0) "
+"(6,6) (6,0) (6,0) (2×,6×) "
+"(6,6) (6,0) (6,0) (6,2) "
+/
+"(6,6) (6,2×) (4×,0) "
+"(6,6) (6,2×) (4×,0) (4×,4×) "
+"(6,6) (6,2×) (4×,0) (4,4) "
+"(6,6) (6,2×) (6×,0) (2×,4×) "
+"(6,6) (6,2×) (6×,0) (4,2) "
+"(6,6) (6,2×) (6,0) (2×,4) "
+"(6,6) (6,2×) (6,0) (4×,2) "
+/
+"(6,6) (6,2) (0,4) "
+"(6,6) (6,2) (0,4) (4×,4×) "
+"(6,6) (6,2) (0,4) (4,4) "
+"(6,6) (6,2) (0,6×) (2×,4) "
+"(6,6) (6,2) (0,6×) (4×,2) "
+"(6,6) (6,2) (0,6) (2×,4×) "
+"(6,6) (6,2) (0,6) (4,2) "
+/
+"(6,6) (6,6) (0,0) "
+"(6,6) (6,6) (0,0) (4×,4×) "
+"(6,6) (6,6) (0,0) (4,4) "
+
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;
+;===================================================================================================================================================================;

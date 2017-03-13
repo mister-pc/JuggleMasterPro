@@ -1,0 +1,45 @@
+
+ JuggleMaster Pro
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+
+
+Command line arguments :
+          <arg>=<value>
+         -<arg>=<value>
+        --<arg>=<value>
+
+
+
+<arg> list :
+                      file="<path>"                            : <path> of a pattern file to start with
+                           pattern="<name>"                    : pattern <name> to start with
+                                   occurrence=<index>          : occurrence <index> of the pattern name to start with
+                      lang={ en | fr | de | es | it }          : language which JuggleMaster Pro starts with
+                   console={ true*| yes | 1 | false | no | 0 } : Java console
+                       log={ true | yes | 1 | false*| no | 0 } : file logging
+                    errors={ true | yes | 1 | false*| no | 0 } : error information
+                     debug={ true | yes | 1 | false*| no | 0 } : debug information
+                  embedded={ true | yes | 1 | false*| no | 0 } : embedding of motion frame in HTML pages
+                      help={ true | yes | 1 | false*| no | 0 } : help
+
+hidden <arg> list :
+                         h={ true | yes | 1 | false*| no | 0 } : help
+                         ?={ true | yes | 1 | false*| no | 0 } : help
+        catchAllExceptions={ true | yes*| 1 | false | no | 0 } : catch of all exceptions
+
+<value>* represents default value
+
+
+ 
+Facilities :
+        for <arg> in ("console", 
+                      "log", 
+                      "errors", 
+                      "debug", 
+                      "embedded", 
+                      "help", 
+                      "h", 
+                      "?", 
+                      "catchAllExceptions"),
+        "<arg>" has the same meaning of "<arg>=true"
+
