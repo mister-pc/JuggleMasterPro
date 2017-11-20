@@ -69,10 +69,10 @@
 ;    #balls            = global*| local | (true | user)*|  false         | <trail length 0*..50>      |  user*                          |      trail                                              ;
 ;    #currentThrows    = global*| local |  true         | (false | user)*                                                                                                                         ;
 ;                                                                                                                                                                                                 ;
-;    #juggler          = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| head                    |   (visible | user)*                                     ;
+;    #juggler          = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
 ;    #jugglerTrail     = global*| local |  true         | (false | user)*                                                                                                                         ;
-;    #dayJuggler       = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| head                    |   (visible | user)*                                     ;
-;    #nightJuggler     = global*| local |  true         | (false | user)*| (phantom | user)*|  hands &| arms &| head                    |   (visible | user)*                                     ;
+;    #dayJuggler       = global*| local | (true | user)*|  false         |  phantom         |  hands &| arms &| body                    |   (visible | user)*                                     ;
+;    #nightJuggler     = global*| local |  true         | (false | user)*| (phantom | user)*|  hands &| arms &| body                    |   (visible | user)*                                     ;
 ;    #juggler          = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF>                                                           ;
 ;    #dayJuggler       = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (444 | user)*                                     ;
 ;    #nightJuggler     = global*| local                                  | <3 hexa-numbers 000..FFF>  | <6 hexa-numbers 000000..FFFFFF> |       (CCC | user)*                                     ;
@@ -86,7 +86,7 @@
 ;    #alternateColors  = global*| local |  true         | (false | user)*| [/]<period 9..1>                                             | (catch | 0 | user)* | (count      | [/]T)               ;
 ;                                                                                                                                                                                                 ;
 ;    #defaults         = global*| local |  true         | (false | user)*|    <number 1..9>                                             |         (1 | user)*                                     ;
-;    #randomDefaults   = global*| local |  true         | (false | user)*                                                                                                                         ;
+;    #relativeDefaults = global*| local |  true         | (false | user)*                                                                                                                         ;
 ;                                                                                                                                                                                                 ;
 ;    #strobe           = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;
 ;    #robot            = global*| local |  true         | (false | user)*| [/]<period 1..9>                                             |         (1 | user)* | (count      | [/]T) | (catch | 0) ;

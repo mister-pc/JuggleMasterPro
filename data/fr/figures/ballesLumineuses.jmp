@@ -55,7 +55,6 @@
 ;                                                                                                                                        ;
 ; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
 ;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
-;    #tooltip            =  global*                                          | <tooltip text>                                            ;
 ;    #startPattern†      =                    true*         |  false                                                                     ;
 ;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
 ;                                                                                                                                        ;
@@ -125,7 +124,6 @@
 ;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
 ;    #errors             =  global*| local | (true | user)* | false                                                                      ;
 ;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
-;    #mark°              =                    1..5 | 3*                                                                                  ;
 ;    #edition            =  global | local*| (true | user)* | false                                                                      ;
 ;                                                                                                                                        ;
 ;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
@@ -273,8 +271,6 @@
 
 #mirror             = false
                   
-#tooltip            = Balles Lumineuses
-
 #siteswap           = local
 #siteswap           = false
 #reverseSiteswap    = local
@@ -460,6 +456,18 @@
 {13,4}{ 4,4}
 {13,4}{-4,4}
 
+%Boa
+{ 12,8}{ 12,8}
+{ -6,5}{ -6,5}
+{   ,8}{   ,8}
+{  6,5}{  6,5}
+{-12,8}{-12,8}
+{-12,5}{-12,5}
+{  6,8}{  6,8}
+{   ,5}{   ,5}
+{ -6,8}{ -6,8}
+{ 12,5}{ 12,5}
+
 %Boite
 { 9, 5}{ 9,12}
 { 3, 7}{ 3, 7}
@@ -553,58 +561,6 @@
 {-2, 8}{-2, 8}
 {-6, 8}{-6, 8}
 { 6,15}{ 6,15}
-
-%Escaliers
-{  6, 3}{  6, 3}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{ -6, 3}{ -6, 3}
-
-{ 12, 6}{ 12, 6}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-12, 6}{-12, 6}
-
-{ 18, 9}{ 18, 9}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-18, 9}{-18, 9}
-
-{ 24,12}{ 24,12}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-24,12}{-24,12}
-
-{ 30,15}{ 27,17}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-30,15}{-30,15}
-
-{ 24,12}{ 24,12}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-24,12}{-24,12}
-
-{ 18, 9}{ 18, 9}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-18, 9}{-18, 9}
-
-{ 12, 6}{ 12, 6}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{-12, 6}{-12, 6}
-
-{  6, 3}{  6, 3}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{ -6, 3}{ -6, 3}
-
-{  0, 0}{  0, 0}
-{   ,  }{   ,  }
-{   ,  }{   ,  }
-{  0, 0}{  0, 0}
-*
 
 %Geyser
 {13}
@@ -840,19 +796,24 @@
 {-10,5}{  1,10}
 
 %S
-{ 7,15}{ 7,15}
-{ 9, 1}{ 9, 1}
-{ 9, 1}{ 9, 1}
-{ 7,15}{ 7,15}
-{-8, 8}{-8, 8}
-{-8, 8}{-8, 8}
-{-8, 8}{-8, 8}
-{-8, 8}{-8, 8}
-{ 9, 1}{ 9, 1}
-{ 7,15}{ 7,15}
+{ 7, 9}{ 7, 9}
+{ 9,-5}{ 9,-5}
+{ 9,-5}{ 9,-5}
+{ 7, 9}{ 7, 9}
+{-8, 2}{-8, 2}
+{-8, 2}{-8, 2}
+{-8, 2}{-8, 2}
+{-8, 2}{-8, 2}
+{ 9,-5}{ 9,-5}
+{ 7, 9}{ 7, 9}
 
 %Saut-Extension
 {29,2}{29,2}
+
+%Serpent
+{12,6}{12,6}
+{-4,6}{-4,6}
+*
 
 %Ski De Fond
 {-13,4}{13,8}
@@ -1061,7 +1022,7 @@ $Y6M3M2M1D
 #dwell           = 55
 #height          = 6
 #defaults        = 5
-#balls           = 2
+#balls           = 0
 #background      = 003
 #nightSiteswapColor   = 003
 #nightJugglerColor    = 003
@@ -1072,13 +1033,13 @@ $W9W8W7W6W5W4W3W2W1
 #height          = 8
 #dwell           = 3
 #defaults        = 1
-#balls           = 6
+#balls           = 4
 #background      = 002
-#nightSiteswapColor = 002
-#nightJugglerColor   = 002
+#nightSiteswapColor   = 002
+#nightJugglerColor    = 002
 #randomColors    = false
 #alternateColors = false
-$I3U3AE9Y3S2R1I3U3AE9Y3S2R1DDDDR1R1S2S2Y3Y3E9E9AAU3U3I3I3
+$DMVROYEDMVROYEBBBBEEYYOORRVVMMDD
 #style           = Papillon
 "([2222222],[2222222]) ([W×U×S×Q×O×M×K×I×],[W×U×S×Q×O×M×K×I×]) (2,2)([22],[22])([222],[222])([2222],[2222])([22222],[22222])([222222],[222222])*" Papillon
 
@@ -1089,6 +1050,28 @@ $I3U3AE9Y3S2R1I3U3AE9Y3S2R1DDDDR1R1S2S2Y3Y3E9E9AAU3U3I3I3
 /
 /[Jungle]
 /¯¯¯¯¯¯¯
+#dwell           = 99
+#height          = 11
+#defaults        = 1
+#balls           = 6
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+#alternateColors = true
+$WYORV
+#style           = Serpent
+"4444 " Serpent
+
+#dwell           = 99
+#height          = 9
+#defaults        = 1
+#balls           = 7
+#background      = 030
+#nightSiteswapColor   = 030
+#nightJugglerColor    = 030
+$WYSORV
+#style           = Boa
+"55555 " Boa
 
 #alternateColors = true
 #alternateColors = /2
@@ -1145,7 +1128,7 @@ $W9R8W7R7W5R6W3R5Y9R4Y7R3Y5R2Y3V9S9V8S7V7S5V6S3V5O9V4O7V3O5V2O3V1R9D1
 #background      = 000
 #nightSiteswapColor   = 000
 #nightJugglerColor    = 000
-$E7W7W7
+$BWWE
 #style           = Ski De Fond
 "(2,4×)(2×,4×) *" Ski De Fond
 
@@ -1167,7 +1150,7 @@ $Y3G1R
 #background      = 000
 #nightSiteswapColor   = 000
 #nightJugglerColor    = 000
-$D4N2N9U5U8B4B9A6A9CC8W9
+$DDVVROOYYEEB
 #style           = Saut-Extension
 "0[222222222]0[2222222222]0[22222222222]0 [ZXVTRPNLJHFD] 000000000000 [2]0[22]0[222]0[2222]0[22222]0[222222]0[2222222]0[22222222]*" Saut-Extension
 #defaults        = true
@@ -1176,10 +1159,10 @@ $D4N2N9U5U8B4B9A6A9CC8W9
 #dwell           = 55
 #defaults        = false
 #balls           = 4
-#background      = FFC
-#nightSiteswapColor   = FFC
-#nightJugglerColor    = FFC
-$GA9O6F6
+#background      = CCF
+#nightSiteswapColor   = CCF
+#nightJugglerColor    = CCF
+$RORY
 #style           = Bourrée
 "(2,4×) ([44×],2)*" Bourrée
 #defaults        = true
@@ -1193,23 +1176,10 @@ $GA9O6F6
 #nightJugglerColor    = AAE
 #alternateColors = true
 #randomColors    = true
-$R1R2R3R4R5R6R7R8R9O1O2O3O4O5O6O7O8O9S1S2S3S4S5S6S7S8S9Y1Y2Y3Y4Y5Y6Y7Y8Y9
+$YRYO
 #style           = Valse
 "(6, 6) (2, 2) " Valse
 #alternateColors = false
-
-#dwell              = 1
-#height             = 3
-#defaults           = false
-#balls              = 2
-#background         = 000
-#nightSiteswapColor = 000
-#nightJugglerColor  = 000
-#alternateColors    = true
-#randomColors       = true
-$W9W8W7W6Y9Y8Y7Y6N3
-#style           = Escaliers
-"(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0) (0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4)(4,0)(0,4×)(4×,0) *" Escaliers
 
 ;========================================================================================================================================; 
 ;========================================================================================================================================; 
@@ -1226,7 +1196,7 @@ $W9W8W7W6Y9Y8Y7Y6N3
 #nightSiteswapColor   = 303
 #nightJugglerColor    = 303
 #randomColors    = false
-$G7T4G7
+$OWO
 #style           = Boite
 "(4, 2) (4×, 2) (4, 2×) (2×, 4×) " Boite
 #defaults = true
@@ -1241,7 +1211,7 @@ $G7T4G7
 #nightSiteswapColor   = 300
 #nightJugglerColor    = 300
 #randomColors    = true
-$Y1Y2Y3Y4Y5Y6Y7Y8Y9W5W4W3W2W1W5W4W3W2W1
+$WYYW
 #style           = Batteur À Oeufs
 "471 471 " Batteur À Oeufs
 #alternateColors = false
@@ -1255,7 +1225,7 @@ $Y1Y2Y3Y4Y5Y6Y7Y8Y9W5W4W3W2W1W5W4W3W2W1
 #nightSiteswapColor   = 6FC
 #nightJugglerColor    = 6FC
 #randomColors    = false
-$Y3B3B3
+$YBB
 #style           = Trampoline
 "([S×2],2) (2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2)(2,2) *" Trampoline
 #defaults        = true
@@ -1267,7 +1237,7 @@ $Y3B3B3
 #background      = 000
 #nightSiteswapColor   = 000
 #nightJugglerColor    = 000
-$O2O2Y2Y2W9W9
+$OOYYWW
 #style           = Balles Rebondissantes
 "(6×,C)(6×,6×)(6×,C) (0,6×)(6×,6×)(0,6×) " Balles Rebondissantes
 
@@ -1279,7 +1249,7 @@ $O2O2Y2Y2W9W9
 #background      = 000
 #nightSiteswapColor   = 000
 #nightJugglerColor    = 000
-$E2E4E6E8G1G3GG7G9W9
+$VVRROOYYWWD
 "Y1 U1 Q1 M1 I1 E1 A1 61 2 " Balance
 #defaults        = true
 
@@ -1304,7 +1274,7 @@ $WWWWDDWDDDDWMBYOEYRVORMBVE
 #alternateColors = true
 #alternateColors = catch
 #randomColors    = true
-$YYYYYYYYYYYYYYYYYYYYYYM2T2
+$YYYYYYYYYYYYYYYYYYYYYYYYM
 #style           = m Comme M....
 "(O×, O×) " m Comme M.... (McShit)
 #defaults        = true
@@ -1326,7 +1296,7 @@ $YYYYYYYYYYYYYYYYYYYYYYM2T2
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$V7Y
+$VY
 #style = A
 "([4×2×], [4×2×]) " A
 
@@ -1337,7 +1307,7 @@ $V7Y
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$W9P2S4
+$WRY
 #style           = B
 "(2×,2×) **" B
 
@@ -1348,7 +1318,7 @@ $W9P2S4
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = false
-$RO7Y3
+$VOY
 #style           = C
 "(2×,2×)(2,4)(2,0)(2×,4)(0,4) (0,2×)(2,4)(2,0) " C
 #alternateColors = catch
@@ -1360,7 +1330,7 @@ $RO7Y3
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = true
-$E6Y2
+$EY
 #style           = D
 "(4×,2)(0,4×)(0,2)(4×,4×)(0,0)" D
 
@@ -1370,7 +1340,7 @@ $E6Y2
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = false
-$E8OR4Y
+$EOVY
 #style           = E
 "(4, 4) " E
 
@@ -1380,7 +1350,7 @@ $E8OR4Y
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$G1Y1
+$EY
 #style           = F
 "(2×,2×) " F
 #alternateColors = false
@@ -1391,7 +1361,7 @@ $G1Y1
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = true
-$P8L3
+$YE
 #style           = H
 "(6,6) (2×,2×) " H
 
@@ -1401,7 +1371,7 @@ $P8L3
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = false
-$S2Y6O1
+$OYR
 #style           = I
 "([4×2],2)(2,2) *" I
 
@@ -1412,7 +1382,7 @@ $S2Y6O1
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = true
-$E8S9B2
+$EYB
 #style           = J
 "(2,6)(2,0)(6,0)(0,2)(0,2) " J
 #alternateColors = false
@@ -1424,7 +1394,7 @@ $E8S9B2
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = false
-$AC8
+$BY
 #style           = K
 "(2×,2×) " K
 #alternateColors = false
@@ -1435,7 +1405,7 @@ $AC8
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$Y3V8
+$YV
 #style           = L
 "(2×, 2×) " L
 #alternateColors = false
@@ -1446,7 +1416,7 @@ $Y3V8
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$IY
+$EY
 #style           = M
 "(2×, 2×) " M
 #alternateColors = false
@@ -1456,7 +1426,7 @@ $IY
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$Y4Y6R6S1
+$YYVO
 #style           = N
 "(2×, 4) (4, [42×]) " N
 
@@ -1507,7 +1477,7 @@ $YWR
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$RUY
+$MWE
 #style           = S
 "(2×,2×)(2×,2×)(2×,2×)(2×,2×)(2×,2×) *" S
 
@@ -1518,7 +1488,7 @@ $RUY
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = true
-$YI6
+$YM
 #style           = T
 "(2×, 2×) " T
 
@@ -1529,7 +1499,7 @@ $YI6
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = false
-$S9U8
+$YB
 #style           = U
 "(4, 4) " U
 #alternateColors = false
@@ -1551,7 +1521,7 @@ $YW
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$S8O
+$YV
 #style           = W
 "(2×, 2×) " W
 #alternateColors = false
@@ -1562,7 +1532,7 @@ $S8O
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$GI8
+$YV
 #style           = X
 "(2×, 2×) " X
 #alternateColors = false
@@ -1573,7 +1543,7 @@ $GI8
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
 #randomColors    = true
-$S1YR7
+$OYV
 #style           = Y
 "([22×],4) (2,2×) " Y
 
@@ -1582,7 +1552,7 @@ $S1YR7
 #background      = 011
 #nightSiteswapColor   = 011
 #nightJugglerColor    = 011
-$GAI
+$VYO
 #style           = Z
 "([22×],2) *" Z
 
@@ -1603,7 +1573,7 @@ $GAI
 #background      = 222
 #nightSiteswapColor   = 222
 #nightJugglerColor    = 222
-$V8S9V8
+$VDV
 #style           = Locomotive
 "42 333 *" Locomotive
 
@@ -1614,7 +1584,7 @@ $V8S9V8
 #background      = 222
 #nightSiteswapColor   = 222
 #nightJugglerColor    = 222
-$W9Y9S9O9R9V9
+$YWORV
 #style           = Mécanique
 "(4×,6)(4,2×) (6,4×)(2×,4) (4×,6)(4,2×) (6,4×)(2×,4) " Mécanique
 #defaults        = true
@@ -1627,7 +1597,7 @@ $W9Y9S9O9R9V9
 #nightSiteswapColor   = 030
 #nightJugglerColor    = 030
 #randomColors    = false
-$ZZZG9G9
+$MMMYY
 #style           = Presse
 "(2,[22])(6×,[26]) *" Presse
 

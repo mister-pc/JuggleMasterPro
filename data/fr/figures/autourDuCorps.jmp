@@ -55,7 +55,6 @@
 ;                                                                                                                                        ;
 ; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
 ;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
-;    #tooltip            =  global*                                          | <tooltip text>                                            ;
 ;    #startPattern†      =                    true*         |  false                                                                     ;
 ;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
 ;                                                                                                                                        ;
@@ -121,7 +120,6 @@
 ;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
 ;    #errors             =  global*| local | (true | user)* | false                                                                      ;
 ;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
-;    #mark°              =                    1..5 | 3*                                                                                  ;
 ;    #edition            =  global | local*| (true | user)* | false                                                                      ;
 ;                                                                                                                                        ;
 ;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
@@ -273,8 +271,6 @@
 #style            = true
 #FX               = false
 #reverseStyle     = false
-#tooltip          = Autour Du Corps
-
 
 #balls            = true
 #balls            = 1
@@ -870,14 +866,6 @@ $BBO
 { 9,-1, 9=-}{ 9,-1,-9  }
 
 %Front-Back-Front
-{ 6,,-1}{ 1,,-2}
-{ 7,, 1}{ 7,, 1}
-{11,, 1}{11,, 1}
-{12,, 1}{ 7,, 1}
-{ 6,,-1}{ 6,,-1}
-{ 2,,-1}{ 2,,-1}
-
-%Front-Back-Front Flashé
 {10,,1  }{ 3,,1  }
 {10,,1  }{ 3,,1  }
 {10,,1  }{ 3,,1  }
@@ -1039,52 +1027,23 @@ $BBO
 {16,  ,20}{-9,1,2+=}
 *
 
-%Porteur Inversé À 4
-{16, 0, 0}{16, -1,  1  }
-{-9, 1, 2}{16,  0, 20  }
-{ 0, 0, 0}{-9,  1,  0  }
-{ 9, 0, 0}{16,  0,  0+=}
-{-9, 1, 2}{16,  0, 20  }
-{16, 0, 0}{16, -1,  1  }
-{ 9, 0, 0}{16,  0,  0+=}
-{ 0, 0, 0}{-9,  1,  0  }
-
-
 %Porteur 423
 { 8,-5,99+}{-9, 1,2+-}
 {15,-1, 1 }{15,-1,   }
 { 5,-1,   }{ 5,-1,   }
 
-%Porteur 423 Inversé
-{ 5, -1, 0+}{ 5, -1,  0+-}
-{15, -1, 0 }{15, -1,  1  }
-{-9,  1, 2 }{ 8, -5, 99  }
-
 %Porteur 2T Mouliné
 { ,-1,2}{14, ,1  }
 {8,  ,6}{-8,1,1+-}
-
-%Porteur 2T Mouliné Inversé
-{-8, 1, 1}{8,  0, 6  }
-{14, 0, 1}{0, -1, 2--}
 
 %Porteur 2T Mouliné Flippé
 { ,-1,2  }{16, ,1==}
 {8,  ,6#+}{-8,1,1+-}
 
-%Porteur 2T Mouliné Flippé Inversé
-{0, -1, 2  }{16, 0, 1==}
-{8,  0, 6++}{-8, 1, 1--}
-
 %Porteur 1T
 {-16,-1,1}{  ,-1,2  }
 {  8,-2,6}{-9, 1,2+-}
 { 22,  ,1}{22,  ,1  }
-
-%Porteur 1T Inversé
-{22,  0, 1}{ 22,  0, 1  }
-{-9,  1, 2}{  8, -2, 6+-}
-{ 0, -1, 2}{-16, -1, 1  }
 
 %Porteur Back-Back Colonnes
 {15,-2,   }{15,-1,   }
@@ -1098,33 +1057,12 @@ $BBO
 {-8,  ,  }{ -8, ,  }
 *
 
-%Porteur Binaire Inversé a
-{17, 0, 0}{17,  0,  0  }
-{-8, 0, 0}{-8,  0,  0+=}
-{17, 0, 0}{15, -1,  1  }
-{-9, 1, 2}{ 0, -4, 99  }
-{-8, 0, 0}{-8,  0,  0+=}
-{17, 0, 0}{17,  0,  0  }
-{-9, 1, 2}{ 0, -4, 99  }
-{17, 0, 0}{15, -1,  1  }
-
 %Porteur Binaire b
 {-8,,  }{ -4, ,1  }
 {17,,  }{ 13, ,   }
 {16,,1 }{ 22, ,   }
 {-9,,99}{-9 ,1,2+=}
 *
-
-%Porteur Binaire Inversé b
-{22, 0, 0}{16, 0,  1  }
-{-9, 1, 2}{-9, 0, 99  }
-{-4, 0, 1}{-8, 0,  0  }
-{13, 0, 0}{17, 0,  0+=}
-{-9, 1, 2}{-9, 0, 99  }
-{22, 0, 0}{16, 0,  1  }
-{13, 0, 0}{17, 0,  0+=}
-{-4, 0, 1}{-8, 0,  0  }
-
 
 %Porteur Binaire c
 {  ,-2,99}{17, ,   }
@@ -1133,25 +1071,10 @@ $BBO
 {-9,  ,  }{-9,1,2+=}
 *
 
-%Porteur Binaire Inversé c
-{15,  0, 0}{15, -1,  1  }
-{-9,  1, 2}{-9,  0,  0  }
-{17,  0, 0}{ 0, -2, 99- }
-{ 0, -2, 0}{17,  0,  0+=}
-{-9,  1, 2}{-9,  0,  0  }
-{15,  0, 0}{15, -1,  1  }
-{ 0, -2, 0}{17,  0,  0+=}
-{17,  0, 0}{ 0, -2, 99- }
-
 %Porteur Pingouin
 { 8,-5,99+}{-9, 1,2+-}
 {15,-1,1+-}{15,-1,1+-}
 { 5,-1,   }{ 5,-1,   }
-
-%Porteur Pingouin Inversé
-{ 5, -1, 0++}{ 5, -1,  0+-}
-{15, -1, 1+-}{15, -1,  1+-}
-{-9,  1, 2  }{ 8, -5, 99  }
 
 %Rebond Sur La Tête
 {,11,#1=}{,12,#1=}
@@ -1545,19 +1468,12 @@ $ROYEB
 #style  = Front-Back 1T Multiplexé À 5
 "([88×],2)(0,2) *" Front-Back 1T Multiplexé ; 5
 
-#height = 20
-#dwell  = 70
-#skill  = confirmed
-$VOY
-#style  = Front-Back-Front
-"333 *" * Front-Back-Front ; 3
-
 #height = 18
 #dwell  = 70
 #skill  = confirmed
 $VOY
-#style  = Front-Back-Front Flashé
-"55500 *" Front-Back-Front Flashé ; 3
+#style  = Front-Back-Front
+"55500 *" Front-Back-Front ; 3
 
 #height = 12
 #dwell  = 70
@@ -2255,7 +2171,7 @@ $RRO
 #style  = Porteur Back-Back Colonnes
 "423 " Porteur Back-Back Colonnes ; 3
 
-#height = 06
+#height = 12
 #dwell  = 70
 #skill  = confirmed
 $RRB
@@ -2286,14 +2202,14 @@ $RREE
 #dwell  = 70
 #height = 12
 #skill  = pro
-$RORO
+$RROO
 #style = Porteur Binaire a
 "(4,2) (4,[42]) *" Porteur Binaire a ; 4
 
 #height = 12
 #dwell  = 70
 #skill  = pro
-$REER
+$RREE
 #style  = Porteur Binaire b
 "(4,2)(4,[42]) *" Porteur Binaire b ; 4
 
@@ -2303,85 +2219,6 @@ $REER
 $OOEE
 #style  = Porteur Binaire c
 "(2,4)([42],4) *" Porteur Binaire c ; 4
-
-;========================================================================================================================================; 
-;========================================================================================================================================; 
-;========================================================================================================================================; 
-
-/
-/
-/[Portés Inversés]
-/¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-
-#height = 17
-#dwell  = 70
-#skill  = confirmed
-$YRO
-#style  = Porteur 2T Mouliné Inversé
-"3 3 " Porteur 2T Mouliné Inversé ; 3
-
-#height = 17
-#dwell  = 70
-#skill  = confirmed
-$YRO
-#style  = Porteur 2T Mouliné Flippé Inversé
-"3 3 " * Porteur 2T Mouliné Flippé Inversé ; 3
-
-#height = 12
-#dwell  = 70
-#skill  = confirmed
-$RRO
-#style  = Porteur 423 Inversé
-"3 42" * Porteur 423 Inversé ; 3
-
-#height = 12
-#dwell  = 70
-#skill  = pro
-$RRO
-#style  = Porteur Pingouin Inversé
-"3 42" * Porteur Pingouin Inversé ; 3
-
-#randomColors = true
-#alternateColors = true
-#height = 11
-#dwell  = 70
-#skill  = pro
-$EEEM
-#style  = Porteur 1T Inversé
-"225 *" * Porteur 1T Inversé ; 3
-#randomColors = false
-#alternateColors = false
-
-;========================================================================================================================================; 
-/
-
-#height = 12
-#dwell  = 70
-#skill  = confirmed
-$RREE
-#style  = Porteur Inversé À 4
-"([22],4)([42],2) *" * Porteur Inversé ; 4
-
-#dwell  = 70
-#height = 12
-#skill  = pro
-$ROOR
-#style = Porteur Binaire Inversé a
-"(4,[42]) (2,4) *" * Porteur Binaire Inversé a ; 4
-
-#height = 12
-#dwell  = 70
-#skill  = pro
-$RREE
-#style  = Porteur Binaire Inversé b
-"(4,[42]) (2,4) *" * Porteur Binaire Inversé b ; 4
-
-#height = 12
-#dwell  = 70
-#skill  = pro
-$OOEE
-#style  = Porteur Binaire Inversé c
-"([42],4) (4,2) *" * Porteur Binaire Inversé c ; 4
 
 ;========================================================================================================================================; 
 ;========================================================================================================================================; 

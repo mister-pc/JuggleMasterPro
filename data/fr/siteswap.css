@@ -1,7 +1,7 @@
 BODY {
   color:#000000;
 	background-attachment:fixed;
-	background-image:url('../../../images/siteswap.jpg');
+	background-image:url('/images/siteswap.jpg');
 	background-repeat:repeat;
 	background-color:inherit;
 }

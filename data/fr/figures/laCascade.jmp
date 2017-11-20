@@ -55,7 +55,6 @@
 ;                                                                                                                                        ;
 ; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
 ;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
-;    #tooltip            =  global*                                          | <tooltip text>                                            ;
 ;    #startPattern†      =                    true*         |  false                                                                     ;
 ;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
 ;                                                                                                                                        ;
@@ -121,7 +120,6 @@
 ;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
 ;    #errors             =  global*| local | (true | user)* | false                                                                      ;
 ;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
-;    #mark°              =                    1..5 | 3*                                                                                  ;
 ;    #edition            =  global | local*| (true | user)* | false                                                                      ;
 ;                                                                                                                                        ;
 ;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
@@ -273,8 +271,6 @@
 
 #balls            = local
 #balls            = true
-#tooltip          = La Cascade
-
 #nightJuggler     = false
 #nightJuggler     = phantom
 #dayJuggler       = true
@@ -1306,15 +1302,6 @@
 {13}{13}
 *
 
-%Croix 1T Colonnes À 4
-{8}{8}
-{8}{8}
-{8}{8}
-{8}{8}
-{8}{8}
-{ }{ }
-*
-
 %Croix 1T Intérieure À 5
 {13}{ 4}
 {10}{10}
@@ -1629,15 +1616,6 @@
 {13,  }{ 4,  }
 *
 
-%Croix Montée 3T Colonnes À 4
-{ 6}{ 6}
-{  }{  }
-{12}{12}
-{ 6}{ 6}
-{ 6}{ 6}
-{12}{12}
-*
-
 %Croix Montée 2T À 3 a
 {11,  }{ 6,  }
 { 6,-2}{ 6,  }
@@ -1689,7 +1667,7 @@
 {13,  }{13,-2}
 *
 
-%Croix Montée 2T Colonnes À 4 b
+%Croix Montée 2T À 4 b'
 { 7, 1}{14, 1}
 { 7,-2}{ 7, 1}
 {  , 1}{  , 1}
@@ -1703,7 +1681,7 @@
 { 3, 1}{ 3,-2}
 *
 
-%Croix Montée 2T Colonnes À 4 c
+%Croix Montée 2T À 4 c'
 {  , 1}{  , 1}
 {14,-2}{14, 1}
 {14, 1}{ 7, 1}
@@ -3698,12 +3676,6 @@ $EYEY
 
 #height = 15
 #dwell  = 75
-$V8S7S7V8
-#style = Croix Montée 3T Colonnes À 4
-"(6×,4)(4,2×)(4,4) *" Croix Montée 3T Colonnes ; 4
-
-#height = 15
-#dwell  = 75
 #skill  = confirmed
 $YBYB
 #style  = Croix Montée 2T À 4 a
@@ -3729,8 +3701,8 @@ $EEEY
 #dwell  = 75
 #skill  = pro
 $YYYE
-#style  = Croix Montée 2T Colonnes À 4 b
-"(4,6)(2×,4×) *" Croix Montée 2T Colonnes b ; 4
+#style  = Croix Montée 2T À 4 b'
+"(4,6)(2×,4×) *" Croix Montée 2T b' ; 4
 
 ;========================================================================================================================================; 
 
@@ -3745,8 +3717,8 @@ $BOBB
 #dwell  = 75
 #skill  = pro
 $OBOO
-#style  = Croix Montée 2T Colonnes À 4 c
-"(6,4×)(2×,4) *" Croix Montée 2T Colonnes c ; 4
+#style  = Croix Montée 2T À 4 c'
+"(6,4×)(2×,4) *" Croix Montée 2T c' ; 4
 
 ;========================================================================================================================================; 
 
@@ -3991,13 +3963,6 @@ $OEEE
 $EOOO
 #style  = Croix 1T Extérieure À 4
 "(2×,6×) *" Croix 1T Extérieure ; 4
-
-#height = 16
-#dwell  = 75
-#skill  = confirmed
-$BRRR
-#style  = Croix 1T Colonnes À 4
-"(2×,6)(6,2)(6×,2×)(2×,6)(6,2×)(2,6×) " Croix 1T Colonnes ; 4
 
 ;========================================================================================================================================; 
 /

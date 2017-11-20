@@ -55,7 +55,6 @@
 ;                                                                                                                                        ;
 ; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
 ;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
-;    #tooltip            =  global*                                          | <tooltip text>                                            ;
 ;    #startPattern†      =                    true*         |  false                                                                     ;
 ;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
 ;                                                                                                                                        ;
@@ -121,7 +120,6 @@
 ;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
 ;    #errors             =  global*| local | (true | user)* | false                                                                      ;
 ;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
-;    #mark°              =                    1..5 | 3*                                                                                  ;
 ;    #edition            =  global | local*| (true | user)* | false                                                                      ;
 ;                                                                                                                                        ;
 ;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
@@ -266,8 +264,6 @@
 ;========================================================================================================================================;
 ;========================================================================================================================================;
 ;========================================================================================================================================;
-
-#tooltip          = Siteswaps synchros à 5
 
 #siteswap         = true
 #reverseSiteswap  = false

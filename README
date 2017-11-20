@@ -1,0 +1,49 @@
+Salut, tous les jongleur(e)s !
+
+Il y a longtemps, ..., très très très très très longtemps, en fait, que s'est opérée une (r-)évolution complète de JuggleMaster : JuggleMaster Pro !
+
+Alors ce programme fonctionne bien mieux que son prédécesseur, puisqu'il devient maintenant possible (entre autres, car sinon la liste serait trop longue) de :
+
+- jouer la figure à l'envers (ou juste le siteswap, ou juste le style),
+- saisir des siteswaps de façon interactive (et il corrige même les fautes d'orthographe),
+- paramétrer des traînées (variables) des balles (du plus bel effet),
+- marquer les lancés courants sur les balles et celles qui viennent de se lancer (pratique),
+- introduire des défauts (variables) dans le jonglage (j'dirais pas que l'effet robot a complètement disparu, puisqu'il ne fait toujours pas tomber ses balles, mais bon, c'est nettement plus humain comme ça !),
+- décider de la couleur de chaque balle (très didactique, en réalité),
+- activer les sons (bing !),
+- décider de la couleur du jongleur et de celle du fond,
+- éteindre la lumière (façon globalls !?!),
+- alterner (de façon variable) les couleurs des balles (façon globalls, mais programmables),
+- donner un effet (variable) de stroboscope (façon globalls aussi, mais là l'effet n'est pas aussi réussi que ça),
+- lancer ou rattraper des balles derrière le dos Wow (hé hé, à vous, maintenant, tous les trucs hyper-tordus !),
+- cacher momentanément certaines parties du jongleur (tête, main(s), bras)
+- filtrer les figures selon une partie de leur nom, leur niveau, leur nombre de balles, ou encore un morceau de siteswap,
+- accéder rapidement aux figures par l'entre-mise de raccourcis (plus simple),
+- faire des captures d'écran (ça, ça ne sert vraiment à rien, mais partant de là, je me demande encore à quoi ça sert de jongler !),
+- accéder à la liste des records de la jongle (wooaaooww... bon, en fait, c'est nul !), à une liste de sites (mais vous en connaissez déjà certainement),
+- bientôt imprimer une séquence complète (en attente),
+- ...
+- etc (car il y en a encore, hein),
+- ...
+- mais surtout, de visionner pas moins de 1200 figures (et non, je ne les fais pas toutes) !
+
+
+Bon, allez, j'm'arrête pour maintenant... (mais ça continue !)
+
+BONNE JONGLE À VOUS TOUS !
+
+
+
+And in English, I'd sum up all of this like :
+
+Fully-editable juggling pattern simulator :
+- pattern : mirror, reverse, editable, fx, strobe, robot, flash, level
+- motion : speed, height, dwell, fluidity, style, reverse, mirror
+- siteswap : day/night colors, on balls, reverse
+- balls : colors (defined, random, alternate), current throws, trail
+- juggler : arms, hands, head, day/night colors, trail, phantom 
+- style : defaults, random, reverse
+- sounds : catchs, throws, metronome
+- background : day/night colors
+- user preferences
+- and many more...

@@ -1,3 +1,0 @@
-Manifest-Version: 4.3.0
-Signature-Version: 4.3.0
-Main-Class: jugglemasterpro.engine.JuggleMasterPro

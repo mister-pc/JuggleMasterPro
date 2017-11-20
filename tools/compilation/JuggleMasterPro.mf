@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Signature-Version: 4.3.0
 Sealed: true
-Main-Class: jugglemasterpro.engine.JuggleMasterPro
+Main-Class: fr.jugglemaster.engine.JuggleMasterPro
 Name: jugglemasterpro/
 Specification-Title: JuggleMaster Pro
 Specification-Version: 4.3.0

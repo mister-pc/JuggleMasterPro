@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 
 rem ------------------------------------------------------------------------------------------------
 rem ------------------------------------------------------------------------------------------------
@@ -60,9 +60,9 @@ rem ----------------------------------------------------------------------------
 :TRAITEMENT_DEVELOPMENT
 
 @echo.
-for /R "%ROOT_FOLDER%\applet\data\" %%p in (.) do (
+for /R "%ROOT_FOLDER%\data\" %%p in (.) do (
    cd "%%p"
-   for %%f in (development.txt) do (
+   for %%f in (development.cfg) do (
       if exist "%%f" (
          @echo - "%%p\%%f" :
          "%ROOT_FOLDER%\tools\compilation\sed.exe" -r -s --text -u "s/(JuggleMaster Pro )([0-9a-zA-Z][0-9a-zA-Z])\.([0-9a-zA-Z][0-9a-zA-Z])\.([0-9a-zA-Z][0-9a-zA-Z])/\1%MAJOR%.%MINOR%.%PATCH%/g" "%%f" >"%%fTmp"
@@ -91,20 +91,20 @@ rem ----------------------------------------------------------------------------
 
 :TRAITEMENT_CONSTANTS
 @echo.
-@echo - "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.java"
+@echo - "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.java"
 
-"%ROOT_FOLDER%\tools\compilation\sed.exe" -r -s --text -u -e "s/(COPYRIGHT_YEAR[ \t]*=[ \t]*)([0-9][0-9][0-9][0-9]);/\1%YEAR%;/gi" -e "s/(lngG_ENGINE_VERSION_NUMBER[ \t]*=[ \t]*)[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]/\1%MAJOR%%MINOR%%PATCH%/gi" "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.java" >"%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.javaTmp"
+"%ROOT_FOLDER%\tools\compilation\sed.exe" -r -s --text -u -e "s/(COPYRIGHT_YEAR[ \t]*=[ \t]*)([0-9][0-9][0-9][0-9]);/\1%YEAR%;/gi" -e "s/(lngG_ENGINE_VERSION_NUMBER[ \t]*=[ \t]*)[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]/\1%MAJOR%%MINOR%%PATCH%/gi" "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.java" >"%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.javaTmp"
 
 :TEST_CONSTANTS
-@del /F /Q "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.java"
-if exist "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.java" (
-   @echo Unable to delete file "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.java"...
+@del /F /Q "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.java"
+if exist "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.java" (
+   @echo Unable to delete file "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.java"...
    @echo Unlock it !
    @pause
    goto TEST_CONSTANTS
 )
 
-@ren "%ROOT_FOLDER%\applet\sources\jugglemasterpro\util\Constants.javaTmp" "*.java" >nul 2>nul
+@ren "%ROOT_FOLDER%\src\jugglemasterpro\util\Constants.javaTmp" "*.java" >nul 2>nul
 
 rem ------------------------------------------------------------------------------------------------
 rem ------------------------------------------------------------------------------------------------
@@ -114,22 +114,18 @@ rem ----------------------------------------------------------------------------
 
 @echo.
 @echo - "*.java" :
-for /R "%ROOT_FOLDER%\applet\sources\jugglemasterpro\" %%f in (*.java) do (
+for /R "%ROOT_FOLDER%\src\jugglemasterpro\" %%f in (*.java) do (
    @echo    - "%%f"
 
    "%ROOT_FOLDER%\tools\compilation\sed.exe" -r -s --text -u -e "s/^( *\*  *\@\(\#\).*.java  *)([0-9a-zA-Z])\.([0-9a-zA-Z])\.([0-9a-zA-Z])$/\1%MAJOR%.%MINOR%.%PATCH%/gi" -e "s/^( *\*  *Copyleft  *\(c\) *)([0-9][0-9][0-9][0-9])( *Arnaud BeLO.)$/\1%YEAR%\3/gi" -e "s/^([ \t]*\* .version *)([0-9a-zA-Z])\.([0-9a-zA-Z])\.([0-9a-zA-Z])$/\1%MAJOR%.%MINOR%.%PATCH%/gi" "%%f" >"%%fTmp"
-   "%ROOT_FOLDER%\tools\compilation\grep.exe" "serialVersionUID" "%%fTmp" | "%ROOT_FOLDER%\tools\compilation\wc.exe" -l >"%ROOT_FOLDER%\tools\createVersion.tmp" 
-   for /f "usebackq" %%r in (%ROOT_FOLDER%\tools\createVersion.tmp) do (
-      if "%%r"=="0" @echo      !!! Absence de serialVersionUID dans ce fichier !!!
-   )
 
-   del /F /Q "%%f" "%ROOT_FOLDER%\tools\createVersion.tmp" >nul 2>nul
+   del /F /Q "%%f" >nul 2>nul
    if exist "%%f" (
       @echo Unable to delete file "%%f"...
       @echo Unlock it !
       @pause
    )
-   @del /F /Q "%%f" "%ROOT_FOLDER%\tools\createVersion.tmp" >nul 2>nul
+   @del /F /Q "%%f" >nul 2>nul
    if exist "%%f" (
       @echo Unable to delete file "%%f" !!!
       @echo Delete it absolutely !!!
@@ -137,7 +133,7 @@ for /R "%ROOT_FOLDER%\applet\sources\jugglemasterpro\" %%f in (*.java) do (
    )
 )
 
-for /R "%ROOT_FOLDER%\applet\sources\jugglemasterpro\" %%f in (*.javaTmp) do (
+for /R "%ROOT_FOLDER%\src\jugglemasterpro\" %%f in (*.javaTmp) do (
    @ren "%%f" "*.java"
 )
 
@@ -167,7 +163,7 @@ rem ----------------------------------------------------------------------------
 rem ------------------------------------------------------------------------------------------------
 
 :FIN
-@echo JuggleMaster Pro %MAJOR%.%MINOR%.%PATCH% >%ROOT_FOLDER%\applet\version.txt
+@echo JuggleMaster Pro %MAJOR%.%MINOR%.%PATCH% >%ROOT_FOLDER%\version.txt
 @cd %INIT_FOLDER%
 @echo.
 @title Invite de Commandes

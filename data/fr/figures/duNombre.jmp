@@ -55,7 +55,6 @@
 ;                                                                                                                                        ;
 ; 5. Les paramètres sont insensibles à la casse et aux espaces. Ils prennent les valeurs suivantes :                                     ;
 ;    ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯                                     ;
-;    #tooltip            =  global*                                          | <tooltip text>                                            ;
 ;    #startPattern†      =                    true*         |  false                                                                     ;
 ;    #mirror             =  global*| local |  true          | (false | user)*                                                            ;
 ;                                                                                                                                        ;
@@ -122,7 +121,6 @@
 ;    #warnings           =  global*| local | (true | user)* | false                                                                      ;
 ;    #errors             =  global*| local | (true | user)* | false                                                                      ;
 ;    #skill°             = (beginner | 0)  | (1    | user   | amateur)*      | (confirmed | 2) | (pro | 3)    |         (impossible | 4) ;
-;    #mark°              =                    1..5 | 3*                                                                                  ;
 ;    #edition            =  global | local*| (true | user)* | false                                                                      ;
 ;                                                                                                                                        ;
 ;    Les valeurs par défaut sont indiquées par un '*'.                                                                                   ;
@@ -273,8 +271,6 @@
 #reverseSiteswap = false
 
 #style           = true
-#tooltip         = Du Nombre
-
 #reverseStyle    = false
 
 #balls           = true
@@ -1723,17 +1719,6 @@
 {  4,  , }{  4, ,   }
 { 28,  , }{ 22, , - }
 {-17,-2,2}{-19,2,2#+}
-{ 28,  ,-}{ 24, , - }
-{-15,-4,2}{-19,4,2#+}
-{ 30,  ,-}{ 27, , - }
-{  5,  , }{  5, ,   }
-
-%Flash Soleil Ping-Pong À 7
-{  4,  , }{  4, ,   }
-{ 28,  , }{ 22, , - }
-{-17,-2,2}{-19,2,2#+}
-{ 28,  ,-}{ 24, , - }
-{-15,-4,2}{-19,4,2#+}
 { 28,  ,-}{ 24, , - }
 {-15,-4,2}{-19,4,2#+}
 { 30,  ,-}{ 27, , - }
@@ -4243,13 +4228,6 @@ $EEYEEEE
 $BYBBBBB
 #style = Centre Inversé
 "77777 96857 96857 96857 96857 96857 96857 96857 777777777" Descente 96857 ; 7
-
-#height = 30
-#dwell  = 70
-#skill  = impossible
-$HTHTHTHT
-#style = Flash Soleil Ping-Pong À 7
-" 0 99999990*" Flash Soleil Ping-Pong ; 7
 
 ;========================================================================================================================================; 
 /
