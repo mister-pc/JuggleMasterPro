@@ -1,12 +1,28 @@
-*.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+#####################
+## JMP
+#####################
+.settings/
+dev/
+prog/
+tools/
+.classpath
+.gitignore
+.gitattributes
+.project
+avatar.psd
+build.properties
+build.xml
+JuggleMasterPro.log
 
-# Package Files #
-*.jar
-*.war
-*.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+#####################
+## Windows detritus
+#####################
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.Trash
