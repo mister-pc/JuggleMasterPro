@@ -202,7 +202,7 @@ final public class MenusTools {
 																								objLnewJMenuItem,
 																								strLlinkReference,
 																								intPmenuType == Constants.intS_FILE_TEXT_VIDEO));
-							objLnewJMenuItem.setToolTipText(strLlinkReference.replace("%20", Strings.strS_SPACE).replace("%e9", "È"));
+							objLnewJMenuItem.setToolTipText(strLlinkReference.replace("%20", Strings.strS_SPACE).replace("%e9", "ÔøΩ"));
 							break;
 						case Constants.intS_FILE_TEXT_RECORDS:
 							objLnewJMenuItem.setEnabled(false);
@@ -368,40 +368,40 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_AMPERSAND;
 						break;
 					case 'A':
-					case '·':
-					case '¡':
-					case '‡':
-					case '¿':
-					case '‚':
-					case '¬':
-					case '„':
-					case '√':
-					case '‰':
-					case 'ƒ':
-					case 'Ê':
-					case '∆':
+					case '√°':
+					case '√Å':
+					case '√†':
+					case '√Ä':
+					case '√¢':
+					case '√Ç':
+					case '√£':
+					case '√É':
+					case '√§':
+					case '√Ñ':
+					case '√¶':
+					case '√Ü':
 						intLmnemonic = KeyEvent.VK_A;
 						break;
 					case 'B':
 						intLmnemonic = KeyEvent.VK_B;
 						break;
 					case 'C':
-					case 'Á':
-					case '«':
+					case '√ß':
+					case '√á':
 						intLmnemonic = KeyEvent.VK_C;
 						break;
 					case 'D':
 						intLmnemonic = KeyEvent.VK_D;
 						break;
 					case 'E':
-					case 'È':
+					case '√©':
 					case '\u00c9':
-					case 'Ë':
-					case '»':
-					case 'Í':
-					case ' ':
-					case 'Î':
-					case 'À':
+					case '√®':
+					case '√à':
+					case '√™':
+					case '√ä':
+					case '√´':
+					case '√ã':
 						intLmnemonic = KeyEvent.VK_E;
 						break;
 					case 'F':
@@ -414,12 +414,12 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_H;
 						break;
 					case 'I':
-					case 'Ì':
-					case 'Õ':
-					case 'Ï':
-					case 'Ã':
-					case 'Ó':
-					case 'Œ':
+					case '√≠':
+					case '√ç':
+					case '√¨':
+					case '√å':
+					case '√Æ':
+					case '√é':
 						intLmnemonic = KeyEvent.VK_I;
 						break;
 					case 'J':
@@ -435,21 +435,21 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_M;
 						break;
 					case 'N':
-					case 'Ò':
-					case '—':
+					case '√±':
+					case '√ë':
 						intLmnemonic = KeyEvent.VK_N;
 						break;
 					case 'O':
-					case 'Û':
-					case '”':
-					case 'Ù':
-					case 'Ú':
-					case '“':
-					case '‘':
-					case 'ˆ':
-					case '÷':
-					case 'ı':
-					case '’':
+					case '√≥':
+					case '√ì':
+					case '√¥':
+					case '√≤':
+					case '√í':
+					case '√î':
+					case '√∂':
+					case '√ñ':
+					case '√µ':
+					case '√ï':
 						intLmnemonic = KeyEvent.VK_O;
 						break;
 					case 'P':
@@ -462,21 +462,21 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_R;
 						break;
 					case 'S':
-					case 'ﬂ':
+					case '√ü':
 						intLmnemonic = KeyEvent.VK_S;
 						break;
 					case 'T':
 						intLmnemonic = KeyEvent.VK_T;
 						break;
 					case 'U':
-					case '˘':
-					case 'Ÿ':
-					case '˙':
-					case '⁄':
-					case '˚':
-					case '€':
-					case '¸':
-					case '‹':
+					case '√π':
+					case '√ô':
+					case '√∫':
+					case '√ö':
+					case '√ª':
+					case '√õ':
+					case '√º':
+					case '√ú':
 						intLmnemonic = KeyEvent.VK_U;
 						break;
 					case 'V':
@@ -489,8 +489,8 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_X;
 						break;
 					case 'Y':
-					case '˝':
-					case '›':
+					case '√Ω':
+					case '√ù':
 						intLmnemonic = KeyEvent.VK_Y;
 						break;
 					case 'Z':
