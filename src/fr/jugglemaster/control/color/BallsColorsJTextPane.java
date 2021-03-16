@@ -6,6 +6,7 @@
 package fr.jugglemaster.control.color;
 
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import javax.swing.JTextPane;
 import javax.swing.JToolTip;
@@ -54,7 +55,7 @@ final public class BallsColorsJTextPane extends JTextPane implements /* Document
 	@Override final public void caretUpdate(CaretEvent objPcaretEvent) {
 		try {
 			// TODO : c'est bon, mais ça ne déplace rien... Peut-être un scroll à rajouter ?
-			this.scrollRectToVisible(this.modelToView(this.getCaretPosition()));
+			this.scrollRectToVisible((Rectangle) this.modelToView2D(this.getCaretPosition()));
 		} catch (final Throwable objPthrowable) {
 			Tools.err("Error while scrolling ball color field visible part");
 		}

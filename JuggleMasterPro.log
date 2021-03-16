@@ -1,7 +1,7 @@
 JuggleMaster Pro 4.3.0 - © 1998-2017 Arnaud BeLO. (jugglemaster@free.fr)
-21/08/2017 -- 24:03.667
+16/03/2021 -- 23:39.002
 
-01:00:00.342 -- JugglePreferences (ROM, RAM) :
+01:00:03.365 -- JugglePreferences (ROM, RAM) :
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
 bolGtooltips               = (true , true )
@@ -16,8 +16,8 @@ bolGballsNumber            = (false, false)
 bolGskill                  = (false, false)
 bolGmark                   = (false, false)
 bolGinvalidPatterns        = (true , true )
-bolGclipboardInformation   = (false, false)
-bolGnavigatorConfiguration = (false, false)
+bolGclipboardInformation   = (true , true )
+bolGnavigatorConfiguration = (true , true )
 bolLedition                = (true , true )
 bolLmirror                 = (false, false)
 bolLsiteswap               = (false, false)
@@ -47,15 +47,15 @@ bolLfluidity               = (true , true )
 bolLinfo                   = (true , true )
 bolLwarnings               = (true , true )
 bolLerrors                 = (true , true )
-bytGlowBallsNumber         = (03, 03)
-bytGhighBallsNumber        = (05, 05)
-bytGlowSkill               = (02, 02)
-bytGhighSkill              = (03, 03)
-bytGlowMark                = (02, 02)
+bytGlowBallsNumber         = (01, 01)
+bytGhighBallsNumber        = (09, 09)
+bytGlowSkill               = (00, 00)
+bytGhighSkill              = (04, 04)
+bytGlowMark                = (00, 00)
 bytGhighMark               = (04, 04)
 bytGgammaCorrection        = (10, 10)
 bytLballsTrail             = (00, 00)
-bytLdayJuggler             = (03, 03)
+bytLdayJuggler             = (07, 07)
 bytLnightJuggler           = (00, 00)
 bytLalternateColors        = (00, 00)
 bytLdefaults               = (01, 01)
@@ -82,14 +82,14 @@ strLnightSiteswapColor     = ("F22", "F22")
 strLtooltip                = ("", "")
 strLnightBackground        = ("000", "000")
 
-01:00:05.905 -- Largeur composant : -4
-01:00:05.906 -- Texte (0) = 
-01:00:05.907 -- Animation paused... Refreshing ball colors
-01:00:05.907 -- Largeur composant : -4
-01:00:05.908 -- Texte (7) = R
-01:00:05.908 -- Largeur composant : -4
-01:00:05.911 -- Texte (7) = R
-01:00:06.656 -- 
+01:00:10.092 -- Largeur composant : -4
+01:00:10.093 -- Texte (0) = 
+01:00:10.097 -- Animation paused... Refreshing ball colors
+01:00:10.101 -- Largeur composant : -4
+01:00:10.103 -- Texte (7) = R
+01:00:10.104 -- Largeur composant : -4
+01:00:10.106 -- Texte (7) = R
+01:00:10.945 -- 
 
 Pattern              : ()
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯

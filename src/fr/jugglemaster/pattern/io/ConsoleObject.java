@@ -54,7 +54,7 @@ final public class ConsoleObject {
 
 		this.intGlanguageIndex = intPlanguageIndex;
 		this.bolGlocal = bolPlocal;
-		this.strGfile = strPfile;
+		//this.strGfile = strPfile;
 		this.strGfileLine = strPfileLine;
 		this.intGfileLineIndex = intPfileLineIndex;
 		this.intGfileLineCursorIndex = intPfileLineCursorIndex;
@@ -187,7 +187,7 @@ final public class ConsoleObject {
 
 	private final long			lngGtimestamp;
 
-	private final String		strGfile;
+	// private final String		strGfile;
 
 	private final String		strGfileLine;
 

@@ -69,7 +69,7 @@ final public class StyleJComboBox extends JComboBox<Style> implements Comparator
 		objLactionMap.put(KeyEvent.VK_ENTER, new KeysAction(objPcontrolJFrame, KeysAction.bytS_STYLE_J_COMBO_BOX, KeyEvent.VK_ENTER));
 		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), KeyEvent.VK_SPACE);
 		objLactionMap.put(KeyEvent.VK_SPACE, new KeysAction(objPcontrolJFrame, KeysAction.bytS_STYLE_J_COMBO_BOX, KeyEvent.VK_SPACE));
-		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK), KeyEvent.VK_COPY);
+		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), KeyEvent.VK_COPY);
 		objLactionMap.put(KeyEvent.VK_COPY, new KeysAction(objPcontrolJFrame, KeysAction.bytS_STYLE_J_COMBO_BOX, KeyEvent.VK_COPY));
 		this.addKeyListener(this);
 		this.setRenderer(new StylesJComboBoxRenderer(this.objGcontrolJFrame));

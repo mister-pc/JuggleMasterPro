@@ -43,11 +43,10 @@ final public class PatternsFileJCheckBoxMenuItem extends JCheckBoxMenuItem imple
 	}
 
 	final private static void setKeysModifiers(int intPkeysModifiers) {
-		PatternsFileJCheckBoxMenuItem.bolScontrolDown = Tools.intersects(intPkeysModifiers, InputEvent.CTRL_DOWN_MASK | InputEvent.CTRL_MASK);
-		PatternsFileJCheckBoxMenuItem.bolSshiftDown = Tools.intersects(intPkeysModifiers, InputEvent.SHIFT_DOWN_MASK | InputEvent.SHIFT_MASK);
+		PatternsFileJCheckBoxMenuItem.bolScontrolDown = Tools.intersects(intPkeysModifiers, InputEvent.CTRL_DOWN_MASK);
+		PatternsFileJCheckBoxMenuItem.bolSshiftDown = Tools.intersects(intPkeysModifiers, InputEvent.SHIFT_DOWN_MASK);
 		PatternsFileJCheckBoxMenuItem.bolSaltDown =
-													Tools.intersects(intPkeysModifiers, InputEvent.ALT_DOWN_MASK | InputEvent.ALT_MASK
-																						| InputEvent.ALT_GRAPH_MASK | InputEvent.ALT_GRAPH_DOWN_MASK);
+													Tools.intersects(intPkeysModifiers, InputEvent.ALT_DOWN_MASK | InputEvent.ALT_GRAPH_DOWN_MASK);
 		// Tools.debug(PatternsFileJCheckBoxMenuItem.getModifiersKeysInfo());
 	}
 
@@ -228,9 +227,10 @@ final public class PatternsFileJCheckBoxMenuItem extends JCheckBoxMenuItem imple
 	 * (non-Javadoc)
 	 * @see javax.swing.event.MenuKeyListener#menuKeyPressed(javax.swing.event.MenuKeyEvent)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override final public void menuKeyPressed(MenuKeyEvent objPmenuKeyEvent) {
 		int intLkeysModifiers = objPmenuKeyEvent.getModifiers();
-		final int intLaltMask = InputEvent.ALT_DOWN_MASK | InputEvent.ALT_MASK | InputEvent.ALT_GRAPH_MASK | InputEvent.ALT_GRAPH_DOWN_MASK;
+		final int intLaltMask = InputEvent.ALT_DOWN_MASK | InputEvent.ALT_GRAPH_DOWN_MASK;
 		if (Tools.intersects(intLkeysModifiers, intLaltMask)) {
 			// Tools.debug("Yep !");
 			intLkeysModifiers ^= intLaltMask;
@@ -244,9 +244,10 @@ final public class PatternsFileJCheckBoxMenuItem extends JCheckBoxMenuItem imple
 	 * (non-Javadoc)
 	 * @see javax.swing.event.MenuKeyListener#menuKeyReleased(javax.swing.event.MenuKeyEvent)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override final public void menuKeyReleased(MenuKeyEvent objPmenuKeyEvent) {
 		int intLkeysModifiers = objPmenuKeyEvent.getModifiers();
-		final int intLaltMask = InputEvent.ALT_DOWN_MASK | InputEvent.ALT_MASK | InputEvent.ALT_GRAPH_MASK | InputEvent.ALT_GRAPH_DOWN_MASK;
+		final int intLaltMask = InputEvent.ALT_DOWN_MASK | InputEvent.ALT_GRAPH_DOWN_MASK;
 		if (Tools.intersects(intLkeysModifiers, intLaltMask)) {
 			Tools.debug("Yep !");
 			intLkeysModifiers ^= intLaltMask;

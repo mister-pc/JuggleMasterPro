@@ -281,8 +281,8 @@ public final class BallsColors {
 					break;
 			}
 		}
-		return 0 <= bytPcolorLetterValue && bytPcolorLetterValue < BallsColors.bytS_BALLS_COLORS_LETTERS_NUMBER && 0 <= bytPcolorShadeValue
-				&& bytPcolorShadeValue <= BallsColors.bytS_BALLS_COLORS_SHADE_MAXIMUM_VALUE ? 256 * bytPcolorLetterValue + bytPcolorShadeValue
+		return 0 <= bytPcolorLetterValue && bytPcolorLetterValue < BallsColors.bytS_BALLS_COLORS_LETTERS_NUMBER && 0 <= bytLcolorShadeValue
+				&& bytPcolorShadeValue <= BallsColors.bytS_BALLS_COLORS_SHADE_MAXIMUM_VALUE ? 256 * bytPcolorLetterValue + bytLcolorShadeValue
 																							: Constants.bytS_UNCLASS_NO_VALUE;
 	}
 

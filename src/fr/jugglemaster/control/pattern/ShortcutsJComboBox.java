@@ -55,11 +55,14 @@ final public class ShortcutsJComboBox extends JComboBox<String> implements Popup
 		this.addActionListener(this);
 		final InputMap objLinputMap = this.getInputMap();
 		final ActionMap objLactionMap = this.getActionMap();
+		
 		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), KeyEvent.VK_ENTER);
 		objLactionMap.put(KeyEvent.VK_ENTER, new KeysAction(objPcontrolJFrame, KeysAction.bytS_SHORTCUTS_J_COMBO_BOX));
+		
 		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), KeyEvent.VK_SPACE);
 		objLactionMap.put(KeyEvent.VK_SPACE, new KeysAction(objPcontrolJFrame, KeysAction.bytS_SHORTCUTS_J_COMBO_BOX, KeyEvent.VK_SPACE));
-		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK), KeyEvent.VK_COPY);
+		
+		objLinputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK), KeyEvent.VK_COPY);
 		objLactionMap.put(KeyEvent.VK_COPY, new KeysAction(objPcontrolJFrame, KeysAction.bytS_SHORTCUTS_J_COMBO_BOX, KeyEvent.VK_COPY));
 	}
 

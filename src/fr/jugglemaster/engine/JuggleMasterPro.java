@@ -5,19 +5,15 @@
 
 package fr.jugglemaster.engine;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.io.File;
 import java.io.FileWriter;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import fr.jugglemaster.control.ControlJFrame;
 import fr.jugglemaster.control.data.DataJFrame;
 import fr.jugglemaster.control.io.FileActions;
@@ -2314,8 +2310,6 @@ final public class JuggleMasterPro implements Runnable, Thread.UncaughtException
 
 	public AnimatedGIFEncoder		objGanimatedGIFEncoder;
 
-	public AudioClip[]				objGappletAudioClipA;
-
 	public ExtendedClip[][]			objGapplicationClipAA;
 
 	public Color[]					objGbackgroundColorA;
@@ -2367,6 +2361,7 @@ final public class JuggleMasterPro implements Runnable, Thread.UncaughtException
 
 	public String					strS_CODE_BASE;
 
+	@SuppressWarnings("unused")
 	final private static long		serialVersionUID	= Constants.lngS_ENGINE_VERSION_NUMBER;
 }
 

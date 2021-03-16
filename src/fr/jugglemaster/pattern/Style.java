@@ -19,6 +19,7 @@ import fr.jugglemaster.util.Tools;
  * @version 4.3.0
  * @author Arnaud BeLO.
  */
+@SuppressWarnings("unused")
 final public class Style {
 
 	final public static Style								objS_DEFAULT_JUGGLE_STYLE;

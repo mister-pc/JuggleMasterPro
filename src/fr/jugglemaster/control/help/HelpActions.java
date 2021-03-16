@@ -3,7 +3,6 @@ package fr.jugglemaster.control.help;
 import java.awt.Desktop;
 import java.io.File;
 import java.net.URI;
-import java.net.URL;
 import fr.jugglemaster.control.ControlJFrame;
 import fr.jugglemaster.control.io.FileActions;
 import fr.jugglemaster.control.window.PopUpJDialog;
