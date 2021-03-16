@@ -692,9 +692,6 @@ public class Constants {
 	final public static byte								bytS_STATE_ANIMATION_STOPPED						= 0;
 	final public static byte								bytS_STATE_ANIMATION_STOPPING						= 1;
 	final public static byte								bytS_STATE_ANIMATION_UNPLAYABLE						= 2;
-	final public static byte								bytS_STATE_PROGRAM_LOCAL_APPLET						= 1;
-	final public static byte								bytS_STATE_PROGRAM_LOCAL_APPLICATION				= 2;
-	final public static byte								bytS_STATE_PROGRAM_WEB_APPLET						= 0;
 	final public static byte								bytS_STATE_SITESWAP_ASYNCHRO						= 0;
 
 	final public static byte								bytS_STATE_SITESWAP_EMPTY							= -3;
@@ -1019,8 +1016,6 @@ public class Constants {
 	final public static KeyStroke							keyS_PREFERENCES									=
 																				KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.CTRL_MASK);
 
-	final public static KeyStroke							keyS_PRINT											=
-																		KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK);
 	final public static KeyStroke							keyS_QUIT											=
 																		KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK);
 	final public static KeyStroke							keyS_RELOAD_FILE									=

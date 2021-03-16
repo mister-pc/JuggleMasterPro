@@ -47,17 +47,17 @@ final public class Pattern {
 		this.bolGlocalValueAA = new Boolean[Constants.bytS_BOOLEAN_LOCAL_CONTROLS_NUMBER][2];
 		for (byte bytLbooleanControlIndex = 0; bytLbooleanControlIndex < Constants.bytS_BOOLEAN_LOCAL_CONTROLS_NUMBER; ++bytLbooleanControlIndex) {
 			this.bolGlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_CURRENT] =
-																								new Boolean(bolPlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_INITIAL]);
+																								Boolean.valueOf(bolPlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_INITIAL]);
 			this.bolGlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_INITIAL] =
-																								new Boolean(bolPlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_INITIAL]);
+																								Boolean.valueOf(bolPlocalValueAA[bytLbooleanControlIndex][Constants.bytS_UNCLASS_INITIAL]);
 		}
 
 		this.bytGlocalValueAA = new Byte[Constants.bytS_BYTE_LOCAL_CONTROLS_NUMBER][2];
 		for (byte bytLbyteControlIndex = 0; bytLbyteControlIndex < Constants.bytS_BYTE_LOCAL_CONTROLS_NUMBER; ++bytLbyteControlIndex) {
 			this.bytGlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_CURRENT] =
-																							new Byte(bytPlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_INITIAL]);
+																							Byte.valueOf(bytPlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_INITIAL]);
 			this.bytGlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_INITIAL] =
-																							new Byte(bytPlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_INITIAL]);
+																							Byte.valueOf(bytPlocalValueAA[bytLbyteControlIndex][Constants.bytS_UNCLASS_INITIAL]);
 		}
 
 		this.strGlocalAA = new String[Constants.bytS_STRING_LOCAL_CONTROLS_NUMBER][2];

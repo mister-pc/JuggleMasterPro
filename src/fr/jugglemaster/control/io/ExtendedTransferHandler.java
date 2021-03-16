@@ -62,8 +62,7 @@ final public class ExtendedTransferHandler extends TransferHandler {
 	 */
 	@Override final public boolean canImport(TransferHandler.TransferSupport objPtransferSupport) {
 
-		if (this.objGcontrolJFrame.getJuggleMasterPro().bolGprogramTrusted
-			|| this.objGcontrolJFrame.getJuggleMasterPro().bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLET) {
+		if (this.objGcontrolJFrame.getJuggleMasterPro().bolGprogramTrusted) {
 			final DataFlavor[] objLdataFlavorA = objPtransferSupport.getDataFlavors();
 			if (objLdataFlavorA.length > 0) {
 				if (objLdataFlavorA.length == 1) {

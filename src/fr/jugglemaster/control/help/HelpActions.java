@@ -64,25 +64,17 @@ final public class HelpActions {
 					if (bolLmailTo) {
 						Desktop.getDesktop().mail(new URI(strPhyperlink));
 					} else {
-						if (objPcontrolJFrame.getJuggleMasterPro().bolGprogramTrusted
-							|| objPcontrolJFrame.getJuggleMasterPro().bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLET) {
+						if (objPcontrolJFrame.getJuggleMasterPro().bolGprogramTrusted) {
 							try {
 								Desktop.getDesktop().browse(new File(strPhyperlink).getAbsoluteFile().toURI());
 							} catch (final Throwable objPinnerThrowable) {
 								Desktop.getDesktop().browse(new URI(strPhyperlink));
 							}
-						} else {
-							objPcontrolJFrame.getJuggleMasterPro().getAppletContext().showDocument(new URL(strPhyperlink), "_blank");
 						}
 					}
 				}
 			} else {
-				if (objPcontrolJFrame.getJuggleMasterPro().bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLET
-					|| objPcontrolJFrame.getJuggleMasterPro().bytGprogramType == Constants.bytS_STATE_PROGRAM_WEB_APPLET) {
-					objPcontrolJFrame.getJuggleMasterPro().getAppletContext().showDocument(new URL(strPhyperlink), "_blank");
-				} else {
 					new Throwable();
-				}
 			}
 		} catch (final Throwable objPthrowable) {
 			FileActions.doDisplayFileLoadFailurePopUp(objPcontrolJFrame, strPhyperlink);

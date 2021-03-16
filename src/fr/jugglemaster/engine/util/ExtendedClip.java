@@ -21,7 +21,7 @@ final public class ExtendedClip {
 			final AudioInputStream objLaudioInputStream =
 															AudioSystem.getAudioInputStream(new File(Strings.doConcat(	objPjuggleMasterPro.strS_CODE_BASE,
 																														Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_SOUNDS],
-																														objPjuggleMasterPro.chrGpathSeparator,
+																														File.separatorChar,
 																														Constants.strS_FILE_SOUND_NAME_A[bytPsoundFileIndex])));
 			final AudioFormat objLaudioFormat = objLaudioInputStream.getFormat();
 			final DataLine.Info objLdataLineInfo =

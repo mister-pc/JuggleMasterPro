@@ -7,6 +7,8 @@ package fr.jugglemaster.control.help;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButtonMenuItem;
 import fr.jugglemaster.control.ControlJFrame;
@@ -44,7 +46,7 @@ final public class LanguageJRadioButtonMenuItem extends JRadioButtonMenuItem imp
 									this.objGcontrolJFrame	.getJuggleMasterPro()
 															.getImageIcon(	Strings.doConcat(	this.objGcontrolJFrame.getJuggleMasterPro().strS_CODE_BASE,
 																								Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-																								this.objGcontrolJFrame.getJuggleMasterPro().chrGpathSeparator,
+																								File.separatorChar,
 																								this.objGcontrolJFrame.objGlanguageA[this.intGlanguageIndex].getPropertyValueString(Language.intS_LANGUAGE_ISO_639_1_CODE)),
 																			Constants.intS_FILE_ICON_LANGUAGE,
 																			0);

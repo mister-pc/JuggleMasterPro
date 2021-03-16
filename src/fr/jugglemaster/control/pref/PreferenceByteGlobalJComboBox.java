@@ -45,7 +45,7 @@ final public class PreferenceByteGlobalJComboBox extends JComboBox<Object> imple
 			case Constants.bytS_BYTE_GLOBAL_LOW_BALLS_NUMBER:
 			case Constants.bytS_BYTE_GLOBAL_HIGH_BALLS_NUMBER:
 				for (byte bytLindex = Constants.bytS_BYTE_GLOBAL_BALLS_NUMBER_MINIMUM_VALUE; bytLindex < Constants.bytS_BYTE_GLOBAL_BALLS_NUMBER_MAXIMUM_VALUE; ++bytLindex) {
-					this.addItem(new Byte(bytLindex).toString());
+					this.addItem(Byte.valueOf(bytLindex).toString());
 				}
 				this.addItem(Strings.doConcat(Constants.bytS_BYTE_GLOBAL_BALLS_NUMBER_MAXIMUM_VALUE, '+'));
 				this.selectIndex(this.objGpreferencesJDialog.bytGbyteGlobalAA[this.bytGfilterType][Constants.bytS_UNCLASS_CURRENT] - 1);
@@ -53,7 +53,7 @@ final public class PreferenceByteGlobalJComboBox extends JComboBox<Object> imple
 			case Constants.bytS_BYTE_GLOBAL_LOW_MARK:
 			case Constants.bytS_BYTE_GLOBAL_HIGH_MARK:
 				for (byte bytLindex = Constants.bytS_BYTE_LOCAL_MARK_MINIMUM_VALUE; bytLindex < Constants.bytS_BYTE_LOCAL_MARK_MAXIMUM_VALUE + 1; ++bytLindex) {
-					this.addItem(new Byte((byte) (bytLindex + 1)).toString());
+					this.addItem(Byte.valueOf((byte) (bytLindex + 1)).toString());
 				}
 				this.selectIndex(this.objGpreferencesJDialog.bytGbyteGlobalAA[this.bytGfilterType][Constants.bytS_UNCLASS_CURRENT]);
 				break;

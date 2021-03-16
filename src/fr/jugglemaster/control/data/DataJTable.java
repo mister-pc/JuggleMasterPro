@@ -89,7 +89,7 @@ final public class DataJTable extends JTable {
 		final TableColumnModel objLtableColumnModel = this.getColumnModel();
 		for (int intLcolumnIndex = 0; intLcolumnIndex < intPcolumnsNumber; ++intLcolumnIndex) {
 			final TableColumn objLtableColumn = objLtableColumnModel.getColumn(intLcolumnIndex);
-			objLtableColumn.setIdentifier(new Integer(intLcolumnIndex));
+			objLtableColumn.setIdentifier(Integer.valueOf(intLcolumnIndex));
 			// objLtableColumn.setHeaderValue(strPheaderA[intLcolumnIndex]);
 		}
 
@@ -194,7 +194,7 @@ final public class DataJTable extends JTable {
 				intLnextCommaIndex = strLcomponent.length() - intLidentifierIndex;
 			}
 			try {
-				intLidentifier = new Integer(strLcomponent.substring(intLidentifierIndex, intLidentifierIndex + intLnextCommaIndex));
+				intLidentifier = Integer.valueOf(strLcomponent.substring(intLidentifierIndex, intLidentifierIndex + intLnextCommaIndex));
 				if (intLidentifier >= 0 && intLidentifier < this.getColumnCount()) {
 					return intLidentifier;
 				}

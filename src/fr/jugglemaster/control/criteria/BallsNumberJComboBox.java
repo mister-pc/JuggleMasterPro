@@ -50,7 +50,7 @@ final public class BallsNumberJComboBox extends JComboBox<Object> implements Pop
 		this.setBackground(Constants.objS_PEN_COLORS_LIGHT_YELLOW_COLOR);
 		this.setRenderer(Constants.objS_GRAPHICS_DEFAULT_RENDERER);
 		for (byte bytLindex = 1; bytLindex < 9; ++bytLindex) {
-			this.addItem(new Byte(bytLindex).toString());
+			this.addItem(Byte.valueOf(bytLindex).toString());
 		}
 		this.addItem("9 +");
 		this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), KeyEvent.VK_ENTER);

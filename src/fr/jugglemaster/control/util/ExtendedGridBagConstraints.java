@@ -748,9 +748,9 @@ final public class ExtendedGridBagConstraints extends GridBagConstraints {
 		}
 
 		return Strings.doConcat("gridPosition      = (",
-								this.gridx == GridBagConstraints.RELATIVE ? "relative" : new Integer(this.gridx).toString(),
+								this.gridx == GridBagConstraints.RELATIVE ? "relative" : Integer.valueOf(this.gridx).toString(),
 								", ",
-								this.gridy == GridBagConstraints.RELATIVE ? "relative" : new Integer(this.gridy).toString(),
+								this.gridy == GridBagConstraints.RELATIVE ? "relative" : Integer.valueOf(this.gridy).toString(),
 								')',
 								Strings.strS_LINE_SEPARATOR,
 								"gridSize          = (",

@@ -13,6 +13,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
@@ -143,9 +145,9 @@ final public class DevelopmentJMenuItem extends JMenuItem implements ActionListe
 		final BufferedReader objLdevelopmentBufferedReader =
 																Tools.getBufferedReader(Strings.doConcat(	this.objGcontrolJFrame.getJuggleMasterPro().strS_CODE_BASE,
 																											Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-																											this.objGcontrolJFrame.getJuggleMasterPro().chrGpathSeparator,
+																											File.separatorChar,
 																											this.objGcontrolJFrame.getLanguageString(Language.intS_LANGUAGE_ISO_639_1_CODE),
-																											this.objGcontrolJFrame.getJuggleMasterPro().chrGpathSeparator,
+																											File.separatorChar,
 																											Constants.strS_FILE_NAME_A[Constants.intS_FILE_TEXT_DEVELOPMENT]));
 		final StringBuilder objLdevelopmentStringBuilder = new StringBuilder(2048);
 		while (true) {

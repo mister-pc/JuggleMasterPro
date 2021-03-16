@@ -245,7 +245,7 @@ final public class DataJFrame extends JFrame implements Runnable, WindowListener
 													this,
 													1,
 													DataJFrame.bytS_ANIMATION_TABLE_COLUMNS_NUMBER,
-													new Integer(0),
+													Integer.valueOf(0),
 													DataJFrame.intS_ANIMATION_TABLE_HEADER_LANGUAGE_INDEX_A,
 													DataJFrame.intS_ANIMATION_TABLE_HEADER_TOOLTIP_LANGUAGE_INDEX_A);
 		this.objGhandsAndBallsJTable =

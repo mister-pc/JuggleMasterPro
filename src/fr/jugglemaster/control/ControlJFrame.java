@@ -115,7 +115,6 @@ import fr.jugglemaster.control.pattern.ReversePatternJButton;
 import fr.jugglemaster.control.pattern.ShortcutsJComboBox;
 import fr.jugglemaster.control.pref.PreferencesJDialog;
 import fr.jugglemaster.control.pref.PreferencesJMenuItem;
-import fr.jugglemaster.control.print.PrintJMenuItem;
 import fr.jugglemaster.control.siteswap.ImportSiteswapsJButton;
 import fr.jugglemaster.control.siteswap.RefreshSiteswapJButton;
 import fr.jugglemaster.control.siteswap.ReverseSiteswapJCheckBox;
@@ -984,7 +983,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			this.objGscreenPlayExtendedJMenu = new ExtendedJMenu(this, ExtendedJMenu.bytS_SCREEN_PLAY, Constants.intS_FILE_ICON_SCREEN_PLAY);
 			this.objGstartScreenPlayJMenuItem = new ScreenPlayJMenuItem(this, true);
 			this.objGstopScreenPlayJMenuItem = new ScreenPlayJMenuItem(this, false);
-			this.objGprintJMenuItem = new PrintJMenuItem(this);
 		}
 
 		// Console menu item :
@@ -1018,7 +1016,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			this.objGeditionExtendedJMenu.addSeparator();
 			this.objGeditionExtendedJMenu.add(this.objGscreenShotJMenuItem);
 			this.objGeditionExtendedJMenu.add(this.objGscreenPlayExtendedJMenu);
-			this.objGeditionExtendedJMenu.add(this.objGprintJMenuItem);
 		}
 		this.objGeditionExtendedJMenu.addSeparator();
 		this.objGeditionExtendedJMenu.add(this.objGdataJCheckBoxMenuItem);
@@ -1102,9 +1099,9 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 
 		final String strLdataFolder = Strings.doConcat(	this.objGjuggleMasterPro.strS_CODE_BASE,
 														Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-														this.objGjuggleMasterPro.chrGpathSeparator,
+														File.separatorChar,
 														this.getLanguageString(Language.intS_LANGUAGE_ISO_639_1_CODE),
-														this.objGjuggleMasterPro.chrGpathSeparator);
+														File.separatorChar);
 
 		// Help menu item :
 		String strLlink = Strings.doConcat(strLdataFolder, Constants.strS_FILE_NAME_A[Constants.intS_FILE_TEXT_HELP]);
@@ -1218,9 +1215,9 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 																					this.objGpatternsExtendedJMenu,
 																					Strings.doConcat(	this.objGjuggleMasterPro.strS_CODE_BASE,
 																										Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-																										this.objGjuggleMasterPro.chrGpathSeparator,
+																										File.separatorChar,
 																										this.getLanguageString(Language.intS_LANGUAGE_ISO_639_1_CODE),
-																										this.objGjuggleMasterPro.chrGpathSeparator),
+																										File.separatorChar),
 																					Constants.intS_FILE_TEXT_PATTERNS,
 																					true));
 	}
@@ -1496,7 +1493,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			this.objGstartScreenPlayJMenuItem.doLoadImages();
 			this.objGstopScreenPlayJMenuItem.doLoadImages();
 			this.objGimportExtendedJMenu.doLoadImages();
-			this.objGprintJMenuItem.doLoadImages();
 		}
 		for (int intLmenuItemIndex = 0; intLmenuItemIndex < this.objGlanguageJRadioButtonMenuItemA.length; ++intLmenuItemIndex) {
 			this.objGlanguageJRadioButtonMenuItemA[intLmenuItemIndex].doLoadImages();
@@ -1531,7 +1527,7 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 		// Build lang.ini buffered reader :
 		final BufferedReader objLlanguagesConfigBufferedReader = Tools.getBufferedReader(Strings.doConcat(	this.objGjuggleMasterPro.strS_CODE_BASE,
 																											Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-																											this.objGjuggleMasterPro.chrGpathSeparator,
+																											File.separatorChar,
 																											Constants.strS_FILE_NAME_A[Constants.intS_FILE_TEXT_LANGUAGES]));
 
 		// Get language configuration :
@@ -1583,9 +1579,9 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			for (int intLlanguageIndex = 0; intLlanguageIndex < intLlanguagesNumber; ++intLlanguageIndex) {
 				final String strLfilePath = Strings.doConcat(	this.objGjuggleMasterPro.strS_CODE_BASE,
 																Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_DATA],
-																this.objGjuggleMasterPro.chrGpathSeparator,
+																File.separatorChar,
 																strLlanguageAL.get(intLlanguageIndex),
-																this.objGjuggleMasterPro.chrGpathSeparator);
+																File.separatorChar);
 
 				final BufferedReader objLlanguageBufferedReader = Tools.getBufferedReader(Strings.doConcat(	strLfilePath,
 																											Constants.strS_FILE_NAME_A[Constants.intS_FILE_TEXT_LANGUAGE]));
@@ -3073,7 +3069,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			this.objGscreenShotJMenuItem.setEnabled(bolLplayable && !this.objGjuggleMasterPro.bolGscreenPlay);
 			this.objGscreenPlayExtendedJMenu.setEnabled(bolLplayable);
 			this.objGstartScreenPlayJMenuItem.setEnabled(bolLplayable);
-			this.objGprintJMenuItem.setEnabled(bolLplayable && this.isControlSelected(Constants.bytS_BOOLEAN_LOCAL_EDITION));
 			this.objGstopScreenPlayJMenuItem.setEnabled(bolLplayable && this.objGjuggleMasterPro.bolGscreenPlay);
 		}
 		this.objGdataJCheckBoxMenuItem.setEnabled(bolLeditionAndPatternOrStyleFound);
@@ -3147,7 +3142,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 			this.objGscreenPlayExtendedJMenu.setLabel();
 			this.objGstartScreenPlayJMenuItem.setLabel(this.objGjuggleMasterPro.bolGscreenPlay);
 			this.objGstopScreenPlayJMenuItem.setLabel(this.objGjuggleMasterPro.bolGscreenPlay);
-			this.objGprintJMenuItem.setLabel();
 		}
 		this.objGdataJCheckBoxMenuItem.setLabels();
 
@@ -3974,7 +3968,6 @@ final public class ControlJFrame extends JFrame implements Runnable, Comparator<
 
 	public PreferencesJMenuItem				objGpreferencesJMenuItem;
 
-	public PrintJMenuItem					objGprintJMenuItem;
 
 	public QuitJMenuItem					objGquitJMenuItem;
 

@@ -45,7 +45,7 @@ import fr.jugglemaster.util.Tools;
  * @version 4.3.0
  * @author Arnaud BeLO.
  */
-final public class JuggleMasterPro extends JApplet implements Runnable, Thread.UncaughtExceptionHandler {
+final public class JuggleMasterPro implements Runnable, Thread.UncaughtExceptionHandler {
 
 	/**
 	 * Method description
@@ -57,8 +57,8 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	public static void main(String[] objPparametersStringsA) {
 
 		final JuggleMasterPro objLjuggleMasterPro = new JuggleMasterPro();
-		objLjuggleMasterPro.initProgramProperties(true);
-		objLjuggleMasterPro.initCommandLineParameters(true, objPparametersStringsA);
+		objLjuggleMasterPro.initProgramProperties();
+		objLjuggleMasterPro.initCommandLineParameters(objPparametersStringsA);
 		objLjuggleMasterPro.initFrames();
 	}
 
@@ -67,7 +67,7 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	 * 
 	 * @see
 	 */
-	@Override final public void destroy() {
+	final public void destroy() {
 		this.doStopPattern();
 
 		// Dispose frame :
@@ -314,33 +314,12 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	 * @see
 	 */
 	final private void doLoadSounds() {
-		switch (this.bytGprogramType) {
-			case Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION:
 				this.objGapplicationClipAA = new ExtendedClip[Constants.bytS_FILES_SOUNDS_NUMBER][Constants.bytS_ENGINE_SOUNDS_BUFFERING];
 				for (byte bytLsoundFileIndex = 0; bytLsoundFileIndex < Constants.bytS_FILES_SOUNDS_NUMBER; ++bytLsoundFileIndex) {
 					for (byte bytLbufferingIndex = 0; bytLbufferingIndex < Constants.bytS_ENGINE_SOUNDS_BUFFERING; ++bytLbufferingIndex) {
 						this.objGapplicationClipAA[bytLsoundFileIndex][bytLbufferingIndex] = new ExtendedClip(this, bytLsoundFileIndex);
 					}
 				}
-				break;
-
-			case Constants.bytS_STATE_PROGRAM_LOCAL_APPLET:
-			case Constants.bytS_STATE_PROGRAM_WEB_APPLET:
-				this.objGappletAudioClipA = new AudioClip[Constants.bytS_FILES_SOUNDS_NUMBER];
-				for (byte bytLsoundFileIndex = 0; bytLsoundFileIndex < Constants.bytS_FILES_SOUNDS_NUMBER; ++bytLsoundFileIndex) {
-					try {
-						this.objGappletAudioClipA[bytLsoundFileIndex] =
-																		Applet.newAudioClip(new URL(Strings.doConcat(	this.strS_CODE_BASE,
-																														Constants.strS_FILE_NAME_A[Constants.intS_FILE_FOLDER_SOUNDS],
-																														this.chrGpathSeparator,
-																														Constants.strS_FILE_SOUND_NAME_A[bytLsoundFileIndex])));
-					} catch (final Throwable objPthrowable) {
-						Tools.err("Error while initializing sound");
-						this.objGappletAudioClipA[bytLsoundFileIndex] = null;
-					}
-				}
-				break;
-		}
 	}
 
 	final public void doPausePattern() {
@@ -356,8 +335,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 
 	final private void doPlaySound(byte bytPsoundFileIndex, byte bytPvolumePercentage, byte bytPbalancePercentage) {
 
-		switch (this.bytGprogramType) {
-			case Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION:
 				this.objGapplicationClipAA[bytPsoundFileIndex][this.bytGbufferedSoundIndex].setBalance(bytPbalancePercentage);
 				if (bytPvolumePercentage != Constants.bytS_UNCLASS_NO_VALUE) {
 					this.objGapplicationClipAA[bytPsoundFileIndex][this.bytGbufferedSoundIndex].setVolume(bytPvolumePercentage);
@@ -385,20 +362,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 													'%'));
 					} catch (final Throwable objPthrowable) {};
 				}
-				break;
-
-			case Constants.bytS_STATE_PROGRAM_LOCAL_APPLET:
-			case Constants.bytS_STATE_PROGRAM_WEB_APPLET:
-				if (this.objGappletAudioClipA[bytPsoundFileIndex] != null) {
-					try {
-						this.objGappletAudioClipA[bytPsoundFileIndex].play();
-					} catch (final Throwable objPthrowable) {
-						Tools.err("Error while playing sound : ", Constants.strS_FILE_SOUND_NAME_A[bytPsoundFileIndex]);
-						this.objGappletAudioClipA[bytPsoundFileIndex] = null;
-					}
-				}
-				break;
-		}
 	}
 
 	// public boolean bolGdataJFrame;
@@ -658,10 +621,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	 * @see
 	 * @return
 	 */
-	@Override final public String getAppletInfo() {
-		return Tools.getJuggleMasterProInfo();
-	}
-
 	final private String getCommandLineHelp(ArrayList<String> strPbadParameterAL) {
 
 		// Set parameter descriptions :
@@ -704,7 +663,7 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 		strLparameterDescriptionA[Constants.bytS_COMMAND_LINE_PARAMETER_CATCH_ALL_EXCEPTIONS] = Strings.strS_EMPTY;
 
 		final StringBuilder objLstringBuilder = new StringBuilder(512);
-		objLstringBuilder.append(Strings.doConcat(this.getAppletInfo(), Strings.strS_LINE_SEPARATOR, Strings.strS_LINE_SEPARATOR));
+		objLstringBuilder.append(Strings.doConcat(Tools.getJuggleMasterProInfo(), Strings.strS_LINE_SEPARATOR, Strings.strS_LINE_SEPARATOR));
 
 		String strLbadParameters = Strings.strS_EMPTY;
 		final int intLbadParametersNumber = strPbadParameterAL.size();
@@ -722,7 +681,7 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 		}
 
 		if (!Constants.bolS_UNCLASS_CONSOLE) {
-			objLstringBuilder.append(Strings.doConcat(this.getAppletInfo(), Strings.strS_LINE_SEPARATOR, Strings.strS_LINE_SEPARATOR));
+			objLstringBuilder.append(Strings.doConcat(Tools.getJuggleMasterProInfo(), Strings.strS_LINE_SEPARATOR, Strings.strS_LINE_SEPARATOR));
 		}
 
 		objLstringBuilder.append(Strings.doConcat(strLbadParameters, "   Parameters :", Strings.strS_LINE_SEPARATOR));
@@ -818,14 +777,12 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 
 	final public Image getImage(String strPimageFilePath, String strPimageFileName, int intPpriority) {
 
-		final String strLimageFileName = Strings.doConcat(strPimageFilePath, this.chrGpathSeparator, strPimageFileName);
+		final String strLimageFileName = Strings.doConcat(strPimageFilePath, File.separatorChar, strPimageFileName);
 
 		// Load image file :
 		try {
 			final Image imgL =
-								this.bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION
-																										? Constants.objS_GRAPHICS_TOOLKIT.getImage(strLimageFileName)
-																										: this.getImage(new URL(strLimageFileName));
+								Constants.objS_GRAPHICS_TOOLKIT.getImage(strLimageFileName);
 			if (intPpriority >= 0) {
 				try {
 					this.objGmediaTracker.addImage(imgL, intPpriority);
@@ -881,7 +838,7 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 
 	final public ImageIcon getImageIcon(String strPimageFilePath, String strPimageFileName, int intPpriority, String strPreplacement) {
 
-		final String strLimageFileName = Strings.doConcat(strPimageFilePath, this.chrGpathSeparator, strPimageFileName);
+		final String strLimageFileName = Strings.doConcat(strPimageFilePath, File.separatorChar, strPimageFileName);
 
 		// Load image file :
 		try {
@@ -891,9 +848,7 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 				objLimage = ImageIO.read(this.getClass().getClassLoader().getResource(strLimageFileName));
 			} catch (final Throwable objPthrowable) {
 				objLimage =
-							this.bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION
-																									? Constants.objS_GRAPHICS_TOOLKIT.getImage(strLimageFileName)
-																									: this.getImage(new URL(strLimageFileName));
+							Constants.objS_GRAPHICS_TOOLKIT.getImage(strLimageFileName);
 			}
 			if (objLimage == null) {
 				return null;
@@ -1155,15 +1110,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	 * 
 	 * @see
 	 */
-	@Override final public void init() {
-
-	}
-
-	/**
-	 * Method description
-	 * 
-	 * @see
-	 */
 	final public void initAnimationProperties() {
 
 		this.bolGnewSiteswapThrow = false;
@@ -1335,16 +1281,13 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 		}
 	}
 
-	final private void initCommandLineParameters(boolean bolPapplication, String... strPparameterA) {
+	final private void initCommandLineParameters(String... strPparameterA) {
 
 		// Init default parameter values :
 		this.bolGcommandLineHelp = false;
 		this.strGcommandLineFileParameter = this.strGcommandLinePatternParameter = this.strGcommandLineLanguageParameter = null;
 		this.intGcommandLineOccurrenceParameter = 0;
 
-		if (bolPapplication) {
-
-			// Application mode :
 			if (strPparameterA.length > 0) {
 				final ArrayList<String> strLbadParameterAL = new ArrayList<String>(strPparameterA.length);
 				Parameter: for (final String strLcommandLineParameter : strPparameterA) {
@@ -1400,16 +1343,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 					System.exit(0);
 				}
 			}
-
-		} else {
-			// Applet mode :
-			for (byte bytLparameterIndex = 0; bytLparameterIndex < Constants.bytS_COMMAND_LINE_PARAMETERS_NUMBER; ++bytLparameterIndex) {
-				final String strLcommandLineParameterValue = this.getParameter(Constants.strS_COMMAND_LINE_PARAMETER_A[bytLparameterIndex]);
-				if (strLcommandLineParameterValue != null) {
-					this.setCommandLineParameter(bytLparameterIndex, strLcommandLineParameterValue);
-				}
-			}
-		}
 
 		// Reset unusable parameter values :
 		if (this.strGcommandLineFileParameter == null) {
@@ -1582,21 +1515,10 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	/**
 	 * @param bolPapplication
 	 */
-	final public void initProgramProperties(boolean bolPapplication) {
+	final public void initProgramProperties() {
 
 		// Applet properties :
-		// new JuggleJavaVersion();
-		if (bolPapplication) {
-			this.bytGprogramType = Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION;
 			this.strS_CODE_BASE = null;
-		} else {
-			this.bytGprogramType = Constants.bytS_STATE_PROGRAM_WEB_APPLET;
-			this.strS_CODE_BASE = this.getCodeBase().toString();
-			if (this.strS_CODE_BASE.toLowerCase().startsWith("file:/")) {
-				this.bytGprogramType = Constants.bytS_STATE_PROGRAM_LOCAL_APPLET;
-			}
-			this.getAppletContext().showStatus("\370 JuggleMaster Pro");
-		}
 
 		// Console properties :
 		// try {
@@ -1623,11 +1545,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 		} catch (final Throwable objPthrowable) {
 			this.bolGprogramTrusted = false;
 		}
-
-		// File separator :
-		this.chrGpathSeparator =
-									(this.bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLICATION
-										|| this.bytGprogramType == Constants.bytS_STATE_PROGRAM_LOCAL_APPLET ? File.separatorChar : '/');
 
 		// Screen captures :
 		this.bolGcoloredBorder = false;
@@ -2271,19 +2188,6 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 	 * Method description
 	 * 
 	 * @see
-	 */
-	@Override final public void start() {
-
-		// Applet properties :
-		this.initProgramProperties(false);
-		this.initCommandLineParameters(false, new String[] { null });
-		this.initFrames();
-	}
-
-	/**
-	 * Method description
-	 * 
-	 * @see
 	 * @param objPthread
 	 * @param objPthrowable
 	 */
@@ -2346,13 +2250,9 @@ final public class JuggleMasterPro extends JApplet implements Runnable, Thread.U
 
 	public byte						bytGlight;
 
-	public byte						bytGprogramType;
-
 	public byte[][]					bytGsiteswapValueAA;
 
 	public byte						bytGstrobeRatio;
-
-	public char						chrGpathSeparator;
 
 	private float					fltGdwell;
 

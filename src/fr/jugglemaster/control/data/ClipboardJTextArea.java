@@ -218,14 +218,6 @@ final public class ClipboardJTextArea extends JTextArea implements InputMethodLi
 			return;
 		}
 
-		if (objLkeyStroke.equals(Constants.keyS_PRINT)) {
-			if (this.objGcontrolJFrame.objGprintJMenuItem.isEnabled()) {
-				this.objGcontrolJFrame.objGprintJMenuItem.actionPerformed(null);
-			}
-			objPkeyEvent.consume();
-			return;
-		}
-
 		if (objLkeyStroke.equals(Constants.keyS_PREFERENCES)) {
 			if (this.objGcontrolJFrame.getJuggleMasterPro().bolGprogramTrusted) {
 				this.objGcontrolJFrame.objGpreferencesJMenuItem.actionPerformed(null);
