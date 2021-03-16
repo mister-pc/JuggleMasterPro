@@ -348,7 +348,7 @@ final public class MenusTools {
 	 * @return
 	 */
 	final public static void setMenuMnemonic(JMenuItem objPjMenuItem, String strPmenuLabel) {
-
+// TODO : refaire les mn�moniques des caract�res alpha sp�ciaux
 		if (strPmenuLabel != null) {
 			final String strLlanguage = strPmenuLabel.replace("&&", Strings.strS_EMPTY);
 			if (strLlanguage.length() > 0) {
@@ -368,10 +368,10 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_AMPERSAND;
 						break;
 					case 'A':
-					case 'á':
-					case 'Á':
-					case 'à':
-					case 'À':
+					case '�':
+//					case '�':
+//					case '�':
+/*					case 'À':
 					case 'â':
 					case 'Â':
 					case 'ã':
@@ -379,29 +379,29 @@ final public class MenusTools {
 					case 'ä':
 					case 'Ä':
 					case 'æ':
-					case 'Æ':
+					case 'Æ':*/
 						intLmnemonic = KeyEvent.VK_A;
 						break;
 					case 'B':
 						intLmnemonic = KeyEvent.VK_B;
 						break;
 					case 'C':
-					case 'ç':
-					case 'Ç':
+/*					case 'ç':
+					case 'Ç':*/
 						intLmnemonic = KeyEvent.VK_C;
 						break;
 					case 'D':
 						intLmnemonic = KeyEvent.VK_D;
 						break;
 					case 'E':
-					case 'é':
+/*					case 'é':*/
 					case '\u00c9':
-					case 'è':
-					case 'È':
-					case 'ê':
-					case 'Ê':
-					case 'ë':
-					case 'Ë':
+/*					case 'è':*/
+//					case 'È':
+//					case 'ê':
+//					case 'Ê':
+//					case 'ë':
+//					case 'Ë':
 						intLmnemonic = KeyEvent.VK_E;
 						break;
 					case 'F':
@@ -414,12 +414,11 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_H;
 						break;
 					case 'I':
-					case 'í':
-					case 'Í':
-					case 'ì':
-					case 'Ì':
-					case 'î':
-					case 'Î':
+//					case 'í':
+//					case 'ì':
+//					case 'Ì':
+//					case 'î':
+//					case 'Î':
 						intLmnemonic = KeyEvent.VK_I;
 						break;
 					case 'J':
@@ -435,21 +434,21 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_M;
 						break;
 					case 'N':
-					case 'ñ':
-					case 'Ñ':
+//					case 'ñ':
+//					case 'Ñ':
 						intLmnemonic = KeyEvent.VK_N;
 						break;
 					case 'O':
-					case 'ó':
-					case 'Ó':
-					case 'ô':
-					case 'ò':
-					case 'Ò':
-					case 'Ô':
-					case 'ö':
-					case 'Ö':
-					case 'õ':
-					case 'Õ':
+//					case 'ó':
+//					case 'Ó':
+//					case 'ô':
+//					case 'ò':
+//					case 'Ò':
+//					case 'Ô':
+//					case 'ö':
+//					case 'Ö':
+//					case 'õ':
+//					case 'Õ':
 						intLmnemonic = KeyEvent.VK_O;
 						break;
 					case 'P':
@@ -462,21 +461,21 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_R;
 						break;
 					case 'S':
-					case 'ß':
+//					case 'ß':
 						intLmnemonic = KeyEvent.VK_S;
 						break;
 					case 'T':
 						intLmnemonic = KeyEvent.VK_T;
 						break;
 					case 'U':
-					case 'ù':
-					case 'Ù':
-					case 'ú':
-					case 'Ú':
-					case 'û':
-					case 'Û':
-					case 'ü':
-					case 'Ü':
+//					case 'ù':
+//					case 'Ù':
+//					case 'ú':
+//					case 'Ú':
+//					case 'û':
+//					case 'Û':
+//					case 'ü':
+//					case 'Ü':
 						intLmnemonic = KeyEvent.VK_U;
 						break;
 					case 'V':
@@ -489,8 +488,7 @@ final public class MenusTools {
 						intLmnemonic = KeyEvent.VK_X;
 						break;
 					case 'Y':
-					case 'ý':
-					case 'Ý':
+//					case 'ý':
 						intLmnemonic = KeyEvent.VK_Y;
 						break;
 					case 'Z':
