@@ -483,10 +483,10 @@ public class Constants {
 
 	public static boolean									bolS_UNCLASS_CATCH_ALL_EXCEPTIONS					= true;
 
-	public static boolean									bolS_UNCLASS_CONSOLE								= false;
-	public static boolean									bolS_UNCLASS_DEBUG									= false;
-	public static boolean									bolS_UNCLASS_EMBEDDED								= false;
-	public static boolean									bolS_UNCLASS_ERRORS									= false;
+	public static boolean									bolS_UNCLASS_CONSOLE								= true;
+	public static boolean									bolS_UNCLASS_DEBUG									= true;
+	public static boolean									bolS_UNCLASS_EMBEDDED								= true;
+	public static boolean									bolS_UNCLASS_ERRORS									= true;
 
 	public static boolean									bolS_UNCLASS_LOG									= true;
 	final public static byte								bytS_BIT_0											= 1;

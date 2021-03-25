@@ -1,7 +1,84 @@
 JuggleMaster Pro 4.3.0 - © 1998-2017 Arnaud BeLO. (jugglemaster@free.fr)
-16/03/2021 -- 23:39.002
+17/03/2021 -- 24:38.981
 
-01:00:03.365 -- JugglePreferences (ROM, RAM) :
+01:00:02.360 -- Error while writing preference edition               
+01:00:02.367 -- Error while writing preference mirror                
+01:00:02.375 -- Error while writing preference siteswap              
+01:00:02.383 -- Error while writing preference siteswapThrows        
+01:00:02.395 -- Error while writing preference reverseSiteswap       
+01:00:02.403 -- Error while writing preference style                 
+01:00:02.410 -- Error while writing preference fX                    
+01:00:02.415 -- Error while writing preference reverseStyle          
+01:00:02.419 -- Error while writing preference balls                 
+01:00:02.424 -- Error while writing preference currentThrows         
+01:00:02.431 -- Error while writing preference juggler               
+01:00:02.438 -- Error while writing preference jugglerTrail          
+01:00:02.444 -- Error while writing preference colors                
+01:00:02.449 -- Error while writing preference randomColors          
+01:00:02.454 -- Error while writing preference alternateColors       
+01:00:02.462 -- Error while writing preference defaults              
+01:00:02.468 -- Error while writing preference randomDefaults        
+01:00:02.473 -- Error while writing preference flash                 
+01:00:02.477 -- Error while writing preference robot                 
+01:00:02.485 -- Error while writing preference sounds                
+01:00:02.491 -- Error while writing preference catchSounds           
+01:00:02.499 -- Error while writing preference throwSounds           
+01:00:02.506 -- Error while writing preference metronome             
+01:00:02.516 -- Error while writing preference light                 
+01:00:02.528 -- Error while writing preference speed                 
+01:00:02.538 -- Error while writing preference fluidity              
+01:00:02.547 -- Error while writing preference info                  
+01:00:02.556 -- Error while writing preference warnings              
+01:00:02.565 -- Error while writing preference errors                
+01:00:02.582 -- Error while writing preference tooltips              
+01:00:02.600 -- Error while writing preference menusTooltips         
+01:00:02.606 -- Error while writing preference buttonsToolTips       
+01:00:02.615 -- Error while writing preference fieldsToolTips        
+01:00:02.625 -- Error while writing preference newFileInformation    
+01:00:02.634 -- Error while writing preference fileExportInformation 
+01:00:02.639 -- Error while writing preference fileAccessErrors      
+01:00:02.650 -- Error while writing preference screenPlayInformation 
+01:00:02.657 -- Error while writing preference ballsNumber           
+01:00:02.664 -- Error while writing preference skill                 
+01:00:02.671 -- Error while writing preference mark                  
+01:00:02.687 -- Error while writing preference invalidPatterns       
+01:00:02.702 -- Error while writing preference clipboardInformation  
+01:00:02.718 -- Error while writing preference navigatorConfiguration
+01:00:02.725 -- Error while writing preference lowBallsNumber        
+01:00:02.733 -- Error while writing preference highBallsNumber       
+01:00:02.737 -- Error while writing preference lowSkill              
+01:00:02.746 -- Error while writing preference highSkill             
+01:00:02.753 -- Error while writing preference lowMark               
+01:00:02.759 -- Error while writing preference highMark              
+01:00:02.769 -- Error while writing preference gammaCorrection       
+01:00:02.774 -- Error while writing preference ballsTrail            
+01:00:02.781 -- Error while writing preference dayJuggler            
+01:00:02.786 -- Error while writing preference nightJuggler          
+01:00:02.792 -- Error while writing preference alternateColors       
+01:00:02.798 -- Error while writing preference defaults              
+01:00:02.807 -- Error while writing preference strobe                
+01:00:02.815 -- Error while writing preference height                
+01:00:02.825 -- Error while writing preference dwell                 
+01:00:02.833 -- Error while writing preference speed                 
+01:00:02.842 -- Error while writing preference skill                 
+01:00:02.852 -- Error while writing preference mark                  
+01:00:02.859 -- Error while writing preference relativeSpeed         
+01:00:02.870 -- Error while writing preference fluidity              
+01:00:02.876 -- Error while writing preference pattern               
+01:00:02.884 -- Error while writing preference pattern               
+01:00:02.890 -- Error while writing preference style                 
+01:00:02.901 -- Error while writing preference colors                
+01:00:02.909 -- Error while writing preference reverseColors         
+01:00:02.917 -- Error while writing preference dayJugglerColor       
+01:00:02.924 -- Error while writing preference nightJugglerColor     
+01:00:02.930 -- Error while writing preference dayBackground         
+01:00:02.937 -- Error while writing preference siteswap              
+01:00:02.944 -- Error while writing preference reverseSiteswap       
+01:00:02.954 -- Error while writing preference daySiteswapColor      
+01:00:02.960 -- Error while writing preference nightSiteswapColor    
+01:00:02.966 -- Error while writing preference tooltip               
+01:00:02.974 -- Error while writing preference nightBackground       
+01:00:03.391 -- JugglePreferences (ROM, RAM) :
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
 bolGtooltips               = (true , true )
@@ -82,14 +159,339 @@ strLnightSiteswapColor     = ("F22", "F22")
 strLtooltip                = ("", "")
 strLnightBackground        = ("000", "000")
 
-01:00:10.092 -- Largeur composant : -4
-01:00:10.093 -- Texte (0) = 
-01:00:10.097 -- Animation paused... Refreshing ball colors
-01:00:10.101 -- Largeur composant : -4
-01:00:10.103 -- Texte (7) = R
-01:00:10.104 -- Largeur composant : -4
-01:00:10.106 -- Texte (7) = R
-01:00:10.945 -- 
+01:00:03.496 -- Error while trying to open 'data\en\patternsHeader.jm'
+01:00:03.499 -- Error while trying to open 'data\en\patternsHeader.jmp'
+01:00:03.501 -- Error while trying to open 'data\en\patternsHeader.jap'
+01:00:03.545 -- Unknown property 'ExportFiles'                                   [section Menus     ] in language file 'data/en/lang.ini'
+01:00:03.546 -- Unknown property 'NewPatternFile'                                [section Menus     ] in language file 'data/en/lang.ini'
+01:00:03.549 -- Unknown property 'PatternsFileModel'                             [section Menus     ] in language file 'data/en/lang.ini'
+01:00:03.551 -- Unknown property 'PatternsFileModel'                             [section Titles    ] in language file 'data/en/lang.ini'
+01:00:03.552 -- Unknown property 'CatchSound'                                    [section Checkboxes] in language file 'data/en/lang.ini'
+01:00:03.554 -- Unknown property 'ThrowSound'                                    [section Checkboxes] in language file 'data/en/lang.ini'
+01:00:03.559 -- Unknown property 'ImportPatterns'                                [section Tooltips  ] in language file 'data/en/lang.ini'
+01:00:03.563 -- Unknown property 'ColorUnknownValue'                             [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.564 -- Unknown property 'DwellUnknownValue'                             [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.566 -- Unknown property 'EmptyStyleDuplication'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.567 -- Unknown property 'HeightUnknownValue'                            [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.568 -- Unknown property 'NoSense'                                       [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.570 -- Unknown property 'NoStyleName'                                   [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.570 -- Unknown property 'ParameterExpectedEqualsSymbol'                 [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.572 -- Unknown property 'ParameterExpectedName'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.573 -- Unknown property 'ParameterExpectedNumberSymbol'                 [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.574 -- Unknown property 'ParameterInvalidValue'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.576 -- Unknown property 'ParameterMissingValue'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.577 -- Unknown property 'ParameterName'                                 [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.578 -- Unknown property 'ParameterUnexpectedCharacter'                  [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.579 -- Unknown property 'SiteswapForbiddenChar'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.580 -- Unknown property 'SiteswapInvalidSyntax'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.582 -- Unknown property 'SiteswapOddThrowValue'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.584 -- Unknown property 'SiteswapUnexpectedChar'                        [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.585 -- Unknown property 'SiteswapUnknownBallsNumber'                    [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.587 -- Unknown property 'SkillUnknownValue'                             [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.588 -- Unknown property 'StyleDefinition'                               [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.589 -- Unknown property 'StyleDefinitionMissingName'                    [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.590 -- Unknown property 'StyleMissingDefinition'                        [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.590 -- Unknown property 'StyleOddLinesNumberDuplication'                [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.591 -- Unknown property 'StyleValuesDefinition'                         [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.592 -- Unknown property 'UnplayableSiteswap'                            [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.593 -- Unknown property 'ColorMalformedValue'                           [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.594 -- Unknown property 'ParameterDeprecation'                          [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.594 -- Unknown property 'SiteswapEmpty'                                 [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.595 -- Unknown property 'SiteswapWithoutStyle'                          [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.596 -- Unknown property 'StyleRedefinition'                             [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.597 -- Unknown property 'WrongStyleRedefinition'                        [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.599 -- Unknown property 'WrongStyleReference'                           [section Messages  ] in language file 'data/en/lang.ini'
+01:00:03.601 -- Missing language property default value 'CatchSounds'                                   [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.603 -- Missing language property default value 'NewPattern'                                    [section Menus     ] in language file './applet/data/en/lang.ini'
+01:00:03.605 -- Missing language property default value 'NewPatternsFile'                               [section Menus     ] in language file './applet/data/en/lang.ini'
+01:00:03.606 -- Missing language property default value 'SaveFiles'                                     [section Menus     ] in language file './applet/data/en/lang.ini'
+01:00:03.608 -- Missing language property default value 'StyleValuesDefinition'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.609 -- Missing language property default value 'StyleRedefinition'                             [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.611 -- Missing language property default value 'StyleMissingDefinition'                        [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.615 -- Missing language property default value 'StyleDefinitionMissingName'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.617 -- Missing language property default value 'StyleWrongDefinition'                          [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.618 -- Missing language property default value 'SiteswapWithoutStyle'                          [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.619 -- Missing language property default value 'SiteswapUnplayableSequence'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.620 -- Missing language property default value 'SiteswapInvalidSyntax'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.622 -- Missing language property default value 'SiteswapForbiddenChar'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.623 -- Missing language property default value 'ParameterUnexpectedCharacter'                  [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.623 -- Missing language property default value 'ParameterUnknownName'                          [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.625 -- Missing language property default value 'ParameterMissingValue'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.626 -- Missing language property default value 'ParameterInvalidValue'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.627 -- Missing language property default value 'ParameterExpectedNumberSymbol'                 [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.628 -- Missing language property default value 'ParameterExpectedName'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.629 -- Missing language property default value 'ParameterExpectedEqualsSymbol'                 [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.630 -- Missing language property default value 'ParameterDeprecation'                          [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.632 -- Missing language property default value 'StyleNoName'                                   [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.633 -- Missing language property default value 'NoSenseError'                                  [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.634 -- Missing language property default value 'ParameterColorUnknownValue'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.636 -- Missing language property default value 'PatternsJMPFileHeader'                         [section Messages  ] in language file './applet/data/en/lang.ini'
+01:00:03.637 -- Missing language property default value 'ThrowSounds'                                   [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.638 -- Missing language property default value 'ImportPatternsFilesMenu'                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.640 -- Missing language property default value 'NewPatternsFile'                               [section Titles    ] in language file './applet/data/en/lang.ini'
+01:00:03.641 -- Missing language property default value 'StyleWrongRedefinition'                        [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.642 -- Missing language property default value 'PatternsJMFileHeader'                          [section Messages  ] in language file './applet/data/en/lang.ini'
+01:00:03.643 -- Missing language property default value 'SiteswapUnexpectedChar'                        [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.645 -- Missing language property default value 'SiteswapOddThrowValue'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.646 -- Missing language property default value 'SiteswapEmpty'                                 [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.647 -- Missing language property default value 'SiteswapUnknownBallsNumber'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.649 -- Missing language property default value 'StyleOddLinesNumberDuplication'                [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.653 -- Missing language property default value 'StyleEmptyDuplication'                         [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.658 -- Missing language property default value 'ParameterHeightUnknownValue'                   [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.664 -- Missing language property default value 'ParameterSkillUnknownValue'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.670 -- Missing language property default value 'ParameterDwellUnknownValue'                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.671 -- Missing language property default value 'ParameterColorMalformedValue'                  [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.673 -- Missing language property default value 'SetFilters'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.674 -- Missing language property default value 'LoadingJMPattern'                              [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.676 -- Missing language property default value 'CreatingPatternComponents'                     [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.677 -- Missing language property default value 'CreatingSisteswapComponents'                   [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.679 -- Missing language property default value 'CreatingStyleComponents'                       [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.682 -- Missing language property default value 'CreatingBallsComponents'                       [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.684 -- Missing language property default value 'CreatingJugglerComponents'                     [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.685 -- Missing language property default value 'CreatingColorsComponents'                      [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.686 -- Missing language property default value 'CreatingDefaultsComponents'                    [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.688 -- Missing language property default value 'CreatingStrobeComponents'                      [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.689 -- Missing language property default value 'CreatingLightAndSoundComponents'               [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.690 -- Missing language property default value 'CreatingMotionControlComponents'               [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.691 -- Missing language property default value 'CreatingFiltersComponents'                     [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.693 -- Missing language property default value 'CreatingPatternsListComponents'                [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.695 -- Missing language property default value 'DataWidths'                                    [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.697 -- Missing language property default value 'ParameterSingleValue'                          [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.698 -- Missing language property default value 'ParameterMultipleValues'                       [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.699 -- Missing language property default value 'ReplayPattern'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.701 -- Missing language property default value 'Colors'                                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.702 -- Missing language property default value 'ActivateColors'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.704 -- Missing language property default value 'MixColors'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.706 -- Missing language property default value 'DeactivateColors'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.708 -- Missing language property default value 'ActivateDefaults'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.709 -- Missing language property default value 'ActivateRelativeDefauts'                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.716 -- Missing language property default value 'DeactivateDefaults'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.719 -- Missing language property default value 'Defaults'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.721 -- Missing language property default value 'FlashRatio'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.722 -- Missing language property default value 'AlternateColorsRatio'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.723 -- Missing language property default value 'AlternColors'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.725 -- Missing language property default value 'DoNotAlternColors'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.726 -- Missing language property default value 'DisplaySiteswap'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.727 -- Missing language property default value 'DisplayThrows'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.728 -- Missing language property default value 'DoNotDisplaySiteswap'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.730 -- Missing language property default value 'ActivateStyle'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.732 -- Missing language property default value 'DeactivateStyle'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.733 -- Missing language property default value 'ActivateBallsNumberFilter'                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.734 -- Missing language property default value 'DeactivateBallsNumberFilter'                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.735 -- Missing language property default value 'BallsMinimumNumber'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.736 -- Missing language property default value 'BallsMaximumNumber'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.737 -- Missing language property default value 'ActivateSkillFilter'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.738 -- Missing language property default value 'DeactivateSkillFilter'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.739 -- Missing language property default value 'MinimumSkill'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.740 -- Missing language property default value 'MaximumSkill'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.741 -- Missing language property default value 'Shortcuts'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.742 -- Missing language property default value 'DisplayInvalidPatterns'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.743 -- Missing language property default value 'DoNotDisplayInvalidPatterns'                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.743 -- Missing language property default value 'ActivateSounds'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.744 -- Missing language property default value 'DeactivateSounds'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.746 -- Missing language property default value 'ActivateCatchsSound'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.747 -- Missing language property default value 'DeactivateCatchsSound'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.749 -- Missing language property default value 'ActivateThrowsSound'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.750 -- Missing language property default value 'DeactivateThrowsSound'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.752 -- Missing language property default value 'ActivateMetromeSound'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.753 -- Missing language property default value 'DeactivateMetronomeSound'                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.754 -- Missing language property default value 'ActivateLight'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.755 -- Missing language property default value 'DeactivateLight'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.756 -- Missing language property default value 'ActivateRobot'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.757 -- Missing language property default value 'BackgroundColor'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.758 -- Missing language property default value 'Height'                                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.760 -- Missing language property default value 'Speed'                                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.763 -- Missing language property default value 'DwellRatio'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.764 -- Missing language property default value 'CloseFilters'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.767 -- Missing language property default value 'ActivateStrobe'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.769 -- Missing language property default value 'DeactivateFlash'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.770 -- Missing language property default value 'ActivateFX'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.772 -- Missing language property default value 'DeactivateFX'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.773 -- Missing language property default value 'DisplayBalls'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.774 -- Missing language property default value 'DisplayActiveThrows'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.775 -- Missing language property default value 'DoNotDisplayBalls'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.777 -- Missing language property default value 'BallsTrace'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.778 -- Missing language property default value 'JugglerBody'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.779 -- Missing language property default value 'DisplayJuggler'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.780 -- Missing language property default value 'TraceJuggler'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.781 -- Missing language property default value 'DoNotDisplayJuggler'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.783 -- Missing language property default value 'JugglerColor'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.785 -- Missing language property default value 'ReverseStyle'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.786 -- Missing language property default value 'DoNotReverseStyle'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.787 -- Missing language property default value 'ReverseSiteswap'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.788 -- Missing language property default value 'DoNotReverseSiteswap'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.789 -- Missing language property default value 'SiteswapColor'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.790 -- Missing language property default value 'Mirror'                                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.792 -- Missing language property default value 'Skill'                                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.794 -- Missing language property default value 'Styles'                                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.796 -- Missing language property default value 'Siteswap'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.797 -- Missing language property default value 'ResetFilters'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.800 -- Missing language property default value 'Fluidity'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.801 -- Missing language property default value 'SimpleCopy'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.803 -- Missing language property default value 'DetailedCopy'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.805 -- Missing language property default value 'ClipboardCopy'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.806 -- Missing language property default value 'FreeClipboard'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.809 -- Missing language property default value 'CloseClipboard'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.810 -- Missing language property default value 'PermissiveCriters'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.812 -- Missing language property default value 'RestrictiveCriters'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.814 -- Missing language property default value 'PatternNamePart'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.817 -- Missing language property default value 'SynchroSiteswapPart'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.819 -- Missing language property default value 'AsynchroSiteswapPart'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.821 -- Missing language property default value 'StyleNamePart'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.823 -- Missing language property default value 'Reset'                                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.824 -- Missing language property default value 'FindNext'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.825 -- Missing language property default value 'FindPrevious'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.826 -- Missing language property default value 'CloseSearch'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.827 -- Missing language property default value 'CancelSearch'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.828 -- Missing language property default value 'PatternName'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.829 -- Missing language property default value 'ActivateMarkFilter'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.830 -- Missing language property default value 'DeactivateMarkFilter'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.830 -- Missing language property default value 'MinMark'                                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.831 -- Missing language property default value 'MaxMark'                                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.833 -- Missing language property default value 'Mark'                                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.833 -- Missing language property default value 'Mark'                                          [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.834 -- Missing language property default value 'LoadingIcons'                                  [section Splash    ] in language file './applet/data/en/lang.ini'
+01:00:03.835 -- Missing language property default value 'Sounds'                                        [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.836 -- Missing language property default value 'DataHeights'                                   [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.839 -- Missing language property default value 'DataZoom'                                      [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.840 -- Missing language property default value 'ReloadPattern'                                 [section Menus     ] in language file './applet/data/en/lang.ini'
+01:00:03.841 -- Missing language property default value 'PatternsMenu'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.842 -- Missing language property default value 'NewPatternMenu'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.843 -- Missing language property default value 'OpenPatternsFilesMenu'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.845 -- Missing language property default value 'DisplayTooltips'                               [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.846 -- Missing language property default value 'DisplayMenusTooltips'                          [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.847 -- Missing language property default value 'ClipboardMenu'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.848 -- Missing language property default value 'ScreenPlayMenu'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.850 -- Missing language property default value 'HelpMenu'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.852 -- Missing language property default value 'EditionMenu'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.853 -- Missing language property default value 'FileMenu'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.854 -- Missing language property default value 'RecentFilesMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.855 -- Missing language property default value 'ImportFilesMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.857 -- Missing language property default value 'SaveFilesMenu'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.867 -- Missing language property default value 'LanguageMenu'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.872 -- Missing language property default value 'RecordsMenu'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.874 -- Missing language property default value 'VideoLinksMenu'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.876 -- Missing language property default value 'StyleWrongReference'                           [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.878 -- Missing language property default value 'ImportStylesFilesMenu'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.880 -- Missing language property default value 'AboutMenu'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.884 -- Missing language property default value 'DisplayConsoleMenu'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.885 -- Missing language property default value 'DisplayData'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.887 -- Missing language property default value 'LicenceMenu'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.889 -- Missing language property default value 'DevelopmentMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.891 -- Missing language property default value 'PreferencesMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.893 -- Missing language property default value 'PrintMenu'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.895 -- Missing language property default value 'ScreenShotMenu'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.899 -- Missing language property default value 'QuitMenu'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.902 -- Missing language property default value 'FiltersMenu'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.904 -- Missing language property default value 'FindMenu'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.905 -- Missing language property default value 'FindNextMenu'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.906 -- Missing language property default value 'FindPreviousMenu'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.907 -- Missing language property default value 'ReloadFilesMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.908 -- Missing language property default value 'DoNotDisplayClipboardMenu'                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.909 -- Missing language property default value 'DisplayClipboardMenu'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.910 -- Missing language property default value 'ReloadPatternMenu'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.911 -- Missing language property default value 'DetailedCopyMenu'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.913 -- Missing language property default value 'FreeClipboardMenu'                             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.914 -- Missing language property default value 'SimpleCopyMenu'                                [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.915 -- Missing language property default value 'JuggleMasterProMenu'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.916 -- Missing language property default value 'SiteswapTheroyMenu'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.918 -- Missing language property default value 'DoNotDisplayConsoleMenu'                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.918 -- Missing language property default value 'ExportPatternsFilesMenu'                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.919 -- Missing language property default value 'ExportSiteswapsFilesMenu'                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.920 -- Missing language property default value 'ExportStylesFilesMenu'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.921 -- Missing language property default value 'NewPatternsFileMenu'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.923 -- Missing language property default value 'NewLanguageFileMenu'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.924 -- Missing language property default value 'NewEmptyLanguageFileMenu'                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.925 -- Missing language property default value 'NewDefaultLanguageFileMenu'                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.926 -- Missing language property default value 'ExportLanguageFileMenu'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.926 -- Missing language property default value 'ImportSiteswapsFilesMenu'                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.927 -- Missing language property default value 'SetLanguageMenu'                               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.928 -- Missing language property default value 'NewDefaultLanguageMenu'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.928 -- Missing language property default value 'NewEmptyLanguageMenu'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.929 -- Missing language property default value 'RestartScreenPlayMenu'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.930 -- Missing language property default value 'StopScreenPlayMenu'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.932 -- Missing language property default value 'StartScreenPlayMenu'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.933 -- Missing language property default value 'CloseDevelopmentDialog'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.934 -- Missing language property default value 'FreeConsole'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.935 -- Missing language property default value 'ConsoleCopy'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.936 -- Missing language property default value 'DoNotDisplayData'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.937 -- Missing language property default value 'DataContentAdjustment'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.938 -- Missing language property default value 'DataWindowAdjustment'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.939 -- Missing language property default value 'DataNoWindowAdjustment'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.939 -- Missing language property default value 'DataNoContentAdjustment'                       [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.940 -- Missing language property default value 'DataThrows'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.941 -- Missing language property default value 'DataFrames'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.942 -- Missing language property default value 'DataFramesTheoricalRefresh'                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.943 -- Missing language property default value 'DataFramesRealRefresh'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.944 -- Missing language property default value 'DataWidths'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.945 -- Missing language property default value 'DataHeights'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.946 -- Missing language property default value 'DataZoom'                                      [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.947 -- Missing language property default value 'DataThickness'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.948 -- Missing language property default value 'DataState'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.950 -- Missing language property default value 'DataBallColor'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.952 -- Missing language property default value 'DataThrow'                                     [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.953 -- Missing language property default value 'DataTheoricDestination'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.953 -- Missing language property default value 'DataLastAndNextCatches'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.954 -- Missing language property default value 'DataThrowingAndCatchingHands'                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.955 -- Missing language property default value 'DataGraphicPosition'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.956 -- Missing language property default value 'DataZOrder'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.957 -- Missing language property default value 'DataHandColor'                                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.957 -- Missing language property default value 'CriteriaCombination'                           [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.958 -- Missing language property default value 'SiteswapPart'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.958 -- Missing language property default value 'PatternNamePartApplied'                        [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.959 -- Missing language property default value 'SynchroSiteswapPartApplied'                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.960 -- Missing language property default value 'AsynchroSiteswapPartApplied'                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.960 -- Missing language property default value 'StyleNamePartApplied'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.961 -- Missing language property default value 'ReplaceFile'                                   [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.962 -- Missing language property default value 'DoNotReplaceFile'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.963 -- Missing language property default value 'ExportFileInJMFormat'                          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.964 -- Missing language property default value 'ExportFileInJMPFormat'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.965 -- Missing language property default value 'FinishScreenPlay'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.966 -- Missing language property default value 'ContinueScreenPlay'                            [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.966 -- Missing language property default value 'ResetPreferences'                              [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.967 -- Missing language property default value 'DoNotResetPreferences'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.969 -- Missing language property default value 'ContinueSearchingFromTheListEnd'               [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.970 -- Missing language property default value 'ContinueSearchingFromTheTopOfTheList'          [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.971 -- Missing language property default value 'AbortSearchingFromTheListEnd'                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.972 -- Missing language property default value 'AbortSearchingFromTheTopOfTheList'             [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.973 -- Missing language property default value 'ClosePopUp'                                    [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.974 -- Missing language property default value 'ConfigurePopUpDisplayProperty'                 [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.975 -- Missing language property default value 'DisplayButtonsTooltips'                        [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.976 -- Missing language property default value 'DisplayFieldsTooltips'                         [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.977 -- Missing language property default value 'JAPFiles'                                      [section Comboboxes] in language file './applet/data/en/lang.ini'
+01:00:03.978 -- Missing language property default value 'JAPFormat'                                     [section Buttons   ] in language file './applet/data/en/lang.ini'
+01:00:03.979 -- Missing language property default value 'PatternsJAPFileHeader'                         [section Messages  ] in language file './applet/data/en/lang.ini'
+01:00:03.980 -- Missing language property default value 'ExportFileInJAPFormat'                         [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.981 -- Missing language property default value 'DateFormat'                                    [section Console   ] in language file './applet/data/en/lang.ini'
+01:00:03.984 -- Missing language property default value 'Info'                                          [section Labels    ] in language file './applet/data/en/lang.ini'
+01:00:03.986 -- Missing language property default value 'FileSyntaxInfos'                               [section Checkboxes] in language file './applet/data/en/lang.ini'
+01:00:03.988 -- Missing language property default value 'WebLinksMenu'                                  [section Tooltips  ] in language file './applet/data/en/lang.ini'
+01:00:03.990 -- Error while trying to open 'data\fr\lang.ini'
+01:00:03.992 -- Error while trying to open 'data\fr\patternsHeader.jap'
+01:00:04.010 -- Error while writing preference language              
+01:00:04.610 -- Error while tracking image 'img\jmp.png'
+01:00:09.452 -- PatternsManager.initInitialValues(true , 0)
+01:00:10.343 -- Open sound at volume 100% (6.0206 dB) and balance 0%
+01:00:10.659 -- ColorsStyledDocument.insertString(RW)
+01:00:10.663 -- Error while scrolling ball color field visible part
+01:00:10.665 -- Error while scrolling ball color field visible part
+01:00:10.954 -- PatternsManager.initInitialValues(true , 0)
+01:00:11.049 -- Error while scrolling ball color field visible part
+01:00:11.051 -- BallsColorsJTextPane.setToolTipText()
+01:00:11.052 -- Largeur composant : -4
+01:00:11.053 -- Texte (0) = 
+01:00:11.059 -- ColorsStyledDocument.insertString(R)
+01:00:11.061 -- Error while scrolling ball color field visible part
+01:00:11.062 -- Animation paused... Refreshing ball colors
+01:00:11.065 -- BallsColorsJTextPane.setToolTipText()
+01:00:11.065 -- Largeur composant : -4
+01:00:11.066 -- Texte (7) = R
+01:00:11.068 -- BallsColorsJTextPane.setToolTipText()
+01:00:11.070 -- Largeur composant : -4
+01:00:11.071 -- Texte (7) = R
+01:00:11.258 -- ColorsStyledDocument.insertString(RW)
+01:00:12.036 -- AnimationJFrame.doActions(): AnimationJFrame.doDrawSiteswap()
+01:00:12.087 -- 
 
 Pattern              : ()
 ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
@@ -170,3 +572,6 @@ bytLmark                   = (4  , 4     ) Local
 bytLrelativeSpeed          = (10 , 10    ) Local    
 bytLfluidity               = (99 , 99    ) Global   
 
+01:00:12.088 -- AnimationJFrame.doActions(): AnimationJFrame.doDrawSiteswap()
+01:00:12.234 -- ColorsStyledDocument.insertString(RW)
+01:06:52.532 -- Close sound at volume 100% (6.0206 dB) and balance 0%
